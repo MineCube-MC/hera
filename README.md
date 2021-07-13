@@ -19,5 +19,5 @@
 - [ ] Welcoming system
 - [ ] Server profile customization (reaction roles)
 - [ ] Partnership system
-- [ ] Making the bot public\n
-      *This means the bot will be able to be invited in other servers, however this will be done only when people will be actually interested in the bot, otherwise the bot will still be private*
+- [ ] Making the bot public
+      (*This means the bot will be able to be invited in other servers, however this will be done only when people will be actually interested in the bot, otherwise the bot will still be private*)

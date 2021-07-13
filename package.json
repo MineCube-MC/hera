@@ -2,7 +2,7 @@
   "name": "apexie-services",
   "version": "1.0.0-alpha",
   "description": "Makes Apexie's World (the Discord server) functional with features such as welcoming new users and more...",
-  "main": "src/index",
+  "main": "src/ApexieClient",
   "authors": [
     "ItzLightyHD",
     "LukeBTW",
@@ -15,6 +15,7 @@
     "chalk": "^4.1.1",
     "discord.js": "^13.0.0-dev.1dcad05.1626134620",
     "glob": "^7.1.7",
+    "mongoose": "^5.13.2",
     "util": "^0.12.4"
   }
 }

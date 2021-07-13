@@ -9,7 +9,8 @@
 
 ## What is left to do?
 - [X] Project setup
-- [ ] Basic bot structure
+- [X] Basic bot structure
+- [X] Commands and Events handler
 - [ ] Slash Commands handler
 - [ ] Commands:
   - [ ] Moderation commands

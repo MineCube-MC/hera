@@ -1,0 +1,21 @@
+{
+  "name": "apexie-services",
+  "version": "1.0.0-alpha",
+  "description": "Makes Apexie's World (the Discord server) functional with features such as welcoming new users and more...",
+  "main": "src/index",
+  "authors": [
+    "ItzLightyHD",
+    "LukeBTW",
+    "Kawi"
+  ],
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "@discordjs/opus": "^0.5.3",
+    "chalk": "^4.1.1",
+    "discord.js": "^13.0.0-dev.1dcad05.1626134620",
+    "glob": "^7.1.7",
+    "util": "^0.12.4"
+  }
+}

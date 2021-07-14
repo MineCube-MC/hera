@@ -1,6 +1,10 @@
 const chalk = require('chalk');
 const fs = require('fs');
+const { Client } = require('discord.js');
 
+/**
+ * @param {Client} client 
+ */
 function loadCommands(client) {
     fs.readdir('src/commands/', (err, files) => {
 

@@ -1,5 +1,9 @@
 const fs = require('fs');
+const { Client } = require('discord.js');
 
+/**
+ * @param {Client} client 
+ */
 module.exports = client => {
     fs.readdir("src/events/", (_err, files) => {
         files.forEach((file) => {

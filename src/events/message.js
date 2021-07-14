@@ -21,7 +21,7 @@ module.exports = async (client, message) => {
 
     const commandfile = client.commands.get(cmd.slice(prefix.length).toString().toLowerCase()) || client.commands.get(client.aliases.get(cmd.slice(prefix.length).toString().toLowerCase()));;
     if (commandfile) {
-        console.log(`[ApexieClient] ${chalk.italic(chalk.cyanBright(message.author.tag))} issued the ${chalk.underline(commandfile.config.name)} command`);
+        console.log(`[ApexieClient] ${chalk.italic(chalk.cyanBright(message.author.tag))} issued the ${chalk.underline(commandfile.name)} command`);
         commandfile.run(client, message, args);
     }
 }

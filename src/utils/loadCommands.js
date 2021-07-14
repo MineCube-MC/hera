@@ -21,10 +21,10 @@ function loadCommands(client) {
 
         jsfile.forEach((f, i) => {
             const pull = require(`../commands/${f}`);
-            client.commands.set(pull.config.name, pull);
-            console.log(`[ApexieClient] ${chalk.underline(capitalize(pull.config.name))} command => ${chalk.yellowBright('Loaded!')}`);
-            pull.config.aliases.forEach(alias => {
-                client.aliases.set(alias, pull.config.name);
+            client.commands.set(pull.name, pull);
+            console.log(`[ApexieClient] ${chalk.underline(capitalize(pull.name))} command => ${chalk.yellowBright('Loaded!')}`);
+            pull.aliases.forEach(alias => {
+                client.aliases.set(alias, pull.name);
             });
         });
     });

@@ -15,5 +15,5 @@ module.exports = (client, member) => {
     **Created at:** ${member.user.createdAt}
     **Joined at:** ${new Date().toLocaleString("en-US", { timeZone: "America/New_York", timeZoneName: "short", weekday: "short", month: "long", day: "2-digit", year: "numeric", hour: '2-digit', minute: '2-digit' })}`)
     .setFooter(client.user.username, client.user.avatarURL());
-    client.channels.cache.get(config.joinChannelId).send(welcomeEmbed);
+    client.channels.cache.get(config.features.joinChannelId).send(welcomeEmbed);
 }

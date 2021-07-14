@@ -6,7 +6,8 @@
   "authors": [
     "ItzLightyHD",
     "LukeBTW",
-    "Kawi"
+    "Kawi",
+    "Abdy"
   ],
   "private": true,
   "devDependencies": {},
@@ -19,5 +20,8 @@
     "glob": "^7.1.7",
     "mongoose": "^5.13.2",
     "util": "^0.12.4"
+  },
+  "scripts": {
+    "start": "node src/ApexieClient.js"
   }
 }

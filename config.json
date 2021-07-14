@@ -1,3 +1,10 @@
 {
-    "token": "ODU2NTg5NTUxNjA1MzgzMTk5.YNDPLw.vkOeTj9nTJXtRGLm6QjmNHl7bpA"
+    "prefix": "/",
+    "token": "ODU2NTg5NTUxNjA1MzgzMTk5.YNDPLw.vkOeTj9nTJXtRGLm6QjmNHl7bpA",
+    "messages": [
+        "Helping the server",
+        "Moderating the server",
+        "Hey, I'm busy now!",
+        "I'm here to help ;)"
+    ]
 }

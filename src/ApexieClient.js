@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 const { Client, Intents, Collection } = require('discord.js');
-const Config = require('../config.json');
+const config = require('../config.json');
 
 const client = new Client({
     intents: [
@@ -16,4 +16,4 @@ require('./utils/loadEvents')(client);
 client.commands = new Collection();
 client.aliases = new Collection();
 
-client.login(Config.token);
+client.login(config.token);

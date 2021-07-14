@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@discordjs/builders@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@discordjs/builders/-/builders-0.2.0.tgz#832c8d894aad13362db7a99f11a7826b21e4cd94"
-  integrity sha512-TVq7NZBCJrrTRc3CfxOr3IdgY5nrtqVxZ7qDUF1mN6LgxIiOldmFxsSwMrQBzLFVmOwqFyNLKCeblley8UpEuw==
+"@discordjs/builders@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@discordjs/builders/-/builders-0.1.1.tgz#d1e888ee8ef273cce639c79cb24abac7169cfb88"
+  integrity sha512-9eBC22bX2HBsob5ixMwZ6quy/vewU5GHuSJhpmSZ3cDGg8XPnrYdzbwI54U+V9kQBTa7M+aMu1lYVqMEPojj8A==
   dependencies:
     discord-api-types "^0.18.1"
     tslib "^2.3.0"
@@ -68,9 +68,9 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "16.3.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.1.tgz#24691fa2b0c3ec8c0d34bfcfd495edac5593ebb4"
-  integrity sha512-N87VuQi7HEeRJkhzovao/JviiqKjDKMVKxKMfUvSKw+MbkbW8R0nA3fi/MQhhlxV2fQ+2ReM+/Nt4efdrJx3zA==
+  version "16.3.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.2.tgz#655432817f83b51ac869c2d51dd8305fb8342e16"
+  integrity sha512-jJs9ErFLP403I+hMLGnqDRWT0RYKSvArxuBVh2veudHV7ifEC1WAmjJADacZ7mRbA2nWgHtn8xyECMAot0SkAw==
 
 "@types/node@14.x || 15.x":
   version "15.14.2"
@@ -291,11 +291,11 @@ discord-api-types@^0.19.0-next.f393ba520d7d6d2aacaca7b3ca5d355fab614f6e:
   integrity sha512-ttRA/8e/WKHDbGFfED5WlS7gID+kalmNr6iMiWBCvkphQ7kFHiTOVbnj/zX9ksaRaYXp/I38SCQ+qZvLu8DJZg==
 
 discord.js@^13.0.0-dev.1dcad05.1626134620:
-  version "13.0.0-dev.1dcad05.1626134620"
-  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-13.0.0-dev.1dcad05.1626134620.tgz#28cb9526298af69d1f412e4699a54ad94b65702d"
-  integrity sha512-2pbZRe77sgk4wYBANEAhzIIXFCIeNlezP/nApBjkxV2ffX5pKSxhSmDQ7rOtFKkIDyOEawOJcNA5SJsMYCi9HQ==
+  version "13.0.0-dev.fe6cc0c.1625227356"
+  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-13.0.0-dev.fe6cc0c.1625227356.tgz#1fafefe671758898afd3c092cef6447286d2ca27"
+  integrity sha512-m9oY7nlAX6RhZYxTzg9s5JHGdkm6Fk+XKCHj2qeD7pG+GOmFV9mrqVBt5xZq4NZME81BmPASLhn0q6us4uDfJA==
   dependencies:
-    "@discordjs/builders" "^0.2.0"
+    "@discordjs/builders" "^0.1.1"
     "@discordjs/collection" "^0.1.6"
     "@discordjs/form-data" "^3.0.1"
     "@sapphire/async-queue" "^1.1.4"

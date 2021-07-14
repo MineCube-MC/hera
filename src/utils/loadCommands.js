@@ -16,7 +16,7 @@ function loadCommands(client) {
 
         const jsfile = files.filter(f => f.split('.').pop() === 'js');
         if (jsfile.length <= 0) {
-            return console.log(chalk.redBright('[ApexieClient] Client couldn\'t find any commands.'));
+            return console.log(`[ApexieClient] ${chalk.redBright('Client couldn\'t find any commands.')}`);
         }
 
         jsfile.forEach((f, i) => {

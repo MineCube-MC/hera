@@ -3,7 +3,8 @@
     "token": "ODU2NTg5NTUxNjA1MzgzMTk5.YNDPLw.vkOeTj9nTJXtRGLm6QjmNHl7bpA",
     "features": {
         "invite": false,
-        "joinChannelId": "864874042833502218"
+        "joinChannelId": "864874042833502218",
+        "modChannelId": "864959773437853696"
     },
     "colors": {
         "main": "#23abeb",

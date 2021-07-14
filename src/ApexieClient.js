@@ -1,4 +1,6 @@
 const chalk = require('chalk');
+const figlet = require('figlet');
+const clear = require('clear');
 const { Client, Intents, Collection } = require('discord.js');
 const config = require('../config.json');
 
@@ -9,9 +11,12 @@ const client = new Client({
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
 
-const { loadCommands } = require('./utils/loadCommands');
-loadCommands(client)
+clear();
+console.log(chalk.cyanBright(figlet.textSync('Apexie', { horizontalLayout: 'full' })));
+
 require('./utils/loadEvents')(client);
+const { loadCommands } = require('./utils/loadCommands');
+loadCommands(client);
 
 client.commands = new Collection();
 client.aliases = new Collection();

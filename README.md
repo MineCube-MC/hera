@@ -17,7 +17,7 @@
   - [ ] Fun commands (memes, small games and more...)
   - [ ] Music commands
   - [ ] Activity commands (YouTube Together and more...)
-- [ ] Welcoming system
+- [X] Welcoming system (thanks @AbdYy0)
 - [ ] Server profile customization (reaction roles)
 - [ ] Partnership system
 - [ ] Making the bot public

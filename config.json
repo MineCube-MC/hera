@@ -1,6 +1,7 @@
 {
     "prefix": ".",
     "token": "ODU2NTg5NTUxNjA1MzgzMTk5.YNDPLw.vkOeTj9nTJXtRGLm6QjmNHl7bpA",
+    "mongodb_srv": "mongodb+srv://DiscordClient:pgtVkd5gdb926TJF@apexieservices.83gni.mongodb.net/DiscordClientDB?retryWrites=true&w=majority",
     "features": {
         "invite": false,
         "joinChannelId": "864874042833502218",

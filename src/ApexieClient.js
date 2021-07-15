@@ -1,6 +1,7 @@
 const chalk = require('chalk');
 const figlet = require('figlet');
 const clear = require('clear');
+const mongoose = require('mongoose');
 const { Client, Intents, Collection } = require('discord.js');
 const config = require('../config.json');
 
@@ -21,10 +22,18 @@ loadCommands(client);
 client.commands = new Collection();
 client.aliases = new Collection();
 
-client.db = require("quick.db");
-client.request = new (require("rss-parser"))();
+mongoose.connect(config.mongodb_srv, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+}).then(() => {
+    console.log(`[ApexieClient] Database => ${chalk.greenBright('Connected!')}`);
+}).catch((err) => {
+    console.log(err);
+});
 
-//notifiche yt sotto
+/* client.db = require("quick.db");
+client.request = new (require("rss-parser"))();
 
 function handleUploads() {
     if (client.db.fetch(`postedVideos`) === null) client.db.set(`postedVideos`, []);
@@ -46,6 +55,6 @@ function handleUploads() {
             }
         });
     }, client.config.watchInterval);
-}
+} */
 
 client.login(config.token);

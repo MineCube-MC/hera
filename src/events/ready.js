@@ -18,13 +18,13 @@ module.exports = client => {
             'help',
             'command',
             'language',
-            'prefix',
             'requiredrole'
         ],
         showWarns: false
     })
     .setDefaultPrefix(config.prefix)
-    .setColor(config.colors.main);
+    .setColor(config.colors.main)
+    .setMongoPath(config.mongodb_srv);
 
     const randomMessage = Math.floor(Math.random() * config.messages.length);
     client.setInterval(() => {

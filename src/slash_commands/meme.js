@@ -7,13 +7,14 @@ const fetch = require('node-fetch');
  * @param {Message} message
  */
 module.exports = {
-    slash: true,
+    slash: "both",
     testOnly: true,
     description: 'Summon some funny memes from the most popular subreddits.',
-    callback: ({message, args}) => {
-        fetch('https://meme-api.herokuapp.com/gimme')
-        .then(res => res.json())
-        .then(async json => {
+    callback: async ({message, args}) => {
+        const json = await fetch('https://meme-api.herokuapp.com/gimme')
+        .then(res => res.json());
+
+        if(!json.nsfw === true) {
             const memeEmbed = new MessageEmbed()
             .setColor(config.colors.main)
             .setTitle(json.title)
@@ -21,7 +22,15 @@ module.exports = {
             .setImage(json.url)
             .setFooter(`r/${json.subreddit}`);
 
+            if(message) message.reply(memeEmbed);
+
             return memeEmbed;
-        });
+        } else {
+            const reply = `Unfortunately, the meme contains NSFW content, so I won't show it for obvious reasons.`;
+
+            if(message) message.reply(reply);
+
+            return reply;
+        }
     }
 }

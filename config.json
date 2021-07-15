@@ -24,9 +24,8 @@
         "467338019830104064",
         "721395864572264519"
     ],
-    "channel": "ItzLightyHD",
+    "channel": "865231369704964097",
     "messageTemplate": "Hello @everyone, **{author}** just now uploaded a video **{title}**!\n{url}",
     "channel_id": "UCYUKJQmOxeCs9kSMSeYnCyw",
     "watchInterval": "30000"
-
 }

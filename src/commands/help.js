@@ -35,8 +35,14 @@ module.exports = {
             if (!cmd) return message.channel.send(`Invalid Command named. \`${args[0]}\``);
 
 		    helpEmbed.setAuthor(`${capitalise(cmd.name)} Command Help`, client.user.displayAvatarURL());
+            let cmdAliases;
+            if (cmd.aliases) {
+                cmdAliases = `**❯ Aliases:** ${cmd.aliases.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No aliases'}`;
+            } else {
+                cmdAliases = `**❯ Aliases:** No aliases`;
+            };
 		    helpEmbed.setDescription([
-		    	`**❯ Aliases:** ${cmd.aliases.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No aliases'}`,
+                cmdAliases,
 		    	`**❯ Description:** ${cmd.description}`,
 		    	`**❯ Category:** ${cmd.category ? cmd.category : 'General'}` /*,
 		    	`**» Usage:** ${cmd.usage}` */

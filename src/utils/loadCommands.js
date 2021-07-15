@@ -23,9 +23,11 @@ function loadCommands(client) {
             const pull = require(`../commands/${f}`);
             client.commands.set(pull.name, pull);
             console.log(`[ApexieClient] ${chalk.underline(capitalize(pull.name))} command => ${chalk.yellowBright('Loaded!')}`);
-            pull.aliases.forEach(alias => {
-                client.aliases.set(alias, pull.name);
-            });
+            if(pull.aliases) {
+                pull.aliases.forEach(alias => {
+                    client.aliases.set(alias, pull.name);
+                });
+            }
         });
     });
 }

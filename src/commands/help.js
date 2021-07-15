@@ -36,7 +36,7 @@ module.exports = {
 
 		    helpEmbed.setAuthor(`${capitalise(cmd.name)} Command Help`, client.user.displayAvatarURL());
 		    helpEmbed.setDescription([
-		    	`**❯ Aliases:** ${cmd.config.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No aliases'}`,
+		    	`**❯ Aliases:** ${cmd.aliases.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No aliases'}`,
 		    	`**❯ Description:** ${cmd.description}`,
 		    	`**❯ Category:** ${cmd.category ? cmd.category : 'General'}` /*,
 		    	`**» Usage:** ${cmd.usage}` */

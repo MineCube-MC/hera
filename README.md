@@ -18,6 +18,7 @@
   - [ ] Music commands
   - [ ] Activity commands (YouTube Together and more...)
 - [X] Welcoming system (thanks @AbdYy0)
+- [ ] Log System
 - [ ] Server profile customization (reaction roles)
 - [ ] Partnership system
 - [ ] Making the bot public

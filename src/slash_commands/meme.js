@@ -9,6 +9,7 @@ const fetch = require('node-fetch');
 module.exports = {
     slash: "both",
     testOnly: true,
+    category: 'Fun',
     description: 'Summon some funny memes from the most popular subreddits.',
     callback: async ({message, args}) => {
         const json = await fetch('https://meme-api.herokuapp.com/gimme')

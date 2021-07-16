@@ -9,7 +9,10 @@ module.exports = {
     slash: "both",
     testOnly: true,
     description: 'Get a list of commands or some other infos about a command.',
+    expectedArgs: "[command]",
     callback: async ({client, message, args}) => {
+        const [command] = args;
+
         const helpEmbed = new MessageEmbed()
         .setColor(config.colors.main)
         .setAuthor(`${client.user.username} Help Menu`)
@@ -26,10 +29,10 @@ module.exports = {
             return string.split(' ').map(str => str.slice(0, 1).toUpperCase() + str.slice(1)).join(' ');
         }
 
-        if(args[0]) {
-            const cmd = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]));
+        if(command) {
+            const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
 
-            if (!cmd) return message.channel.send(`Invalid Command named. \`${args[0]}\``);
+            if (!cmd) return message.channel.send(`Invalid Command named. \`${command}\``);
 
 		    helpEmbed.setAuthor(`${capitalise(cmd.name)} Command Help`, client.user.displayAvatarURL());
             let cmdAliases;

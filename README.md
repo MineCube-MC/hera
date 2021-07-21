@@ -17,7 +17,7 @@
   - [ ] Fun commands (memes, small games and more...)
   - [ ] Music commands
   - [ ] Activity commands (YouTube Together and more...)
-- [X] Welcoming system (thanks @AbdYy0)
+- [ ] Welcoming system
 - [ ] Log System
 - [ ] Server profile customization (reaction roles)
 - [ ] Partnership system

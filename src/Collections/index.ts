@@ -1,0 +1,1 @@
+export { blacklistedWordsCollection } from './blacklistedWords';

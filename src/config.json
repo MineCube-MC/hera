@@ -1,0 +1,16 @@
+{
+    "token": "ODU2NTg5NTUxNjA1MzgzMTk5.YNDPLw.vkOeTj9nTJXtRGLm6QjmNHl7bpA",
+    "mongoURI": "mongodb+srv://DiscordClient:pgtVkd5gdb926TJF@apexieservices.83gni.mongodb.net/DiscordClientDB?retryWrites=true&w=majority",
+    "prefix": ".",
+    "owners": [
+        "480987124405895168",
+        "832967911206944788",
+        "503533501099016203",
+        "467338019830104064",
+        "721395864572264519"
+    ],
+    "colors": {
+        "main": "#23abeb",
+        "secondary": ""
+    }
+}

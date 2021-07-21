@@ -1,15 +1,12 @@
-const { Client, Message, MessageEmbed } = require('discord.js');
+import { MessageEmbed } from 'discord.js';
+import { Command } from '../../Interfaces';
 
-module.exports = {
+export const command: Command = {
     name: 'poll',
-    category: 'Utilities',
-    description: 'Make a quick poll with the desired options.',
-
-    /**
-     * @param {Client} client 
-     * @param {Message} message 
-     */
-    async run (client, message, args) {
+    category: 'General',
+    description: 'Start a poll where you choose between yes and no.',
+    aliases: [],
+    run: async(client, message, args) => {
         if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply(`You don't have enough permissions to use this command.`);
 
         let channelID = message.mentions.channels.first();
@@ -19,10 +16,10 @@ module.exports = {
         if(!theDescription) return message.reply("Please specify a description/question for the poll.");
 
         const embed = new MessageEmbed()
-        .setColor("YELLOW")
+        .setColor(client.config.colors.main)
         .setTitle("POLL TIME")
         .setDescription(theDescription)
-        .setFooter("Poll started by "+ message.author.tag, message.author.displayAvatarURL({ dynamic: true }));
+        .setFooter("Poll started by "+ message.author.username, message.author.displayAvatarURL({ dynamic: true }));
 
         let msgEmbed = await channelID.send(embed);
         await msgEmbed.react('✅');

@@ -6,6 +6,7 @@ export const command: Command = {
     category: 'General',
     description: 'Get a list of commands or some other infos about a command.',
     aliases: [''],
+    usage: '[command]',
     run: async(client, message, args) => {
         const command = args[0]?.toLowerCase();
 
@@ -24,7 +25,8 @@ export const command: Command = {
                 .setDescription([
                     `**» Aliases:** ${cmd.aliases.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No aliases'}`,
 				    `**» Description:** ${cmd.description}`,
-				    `**» Category:** ${cmd.category}`
+				    `**» Category:** ${cmd.category}`,
+                    `**» Usage:** \`${client.config.prefix}${cmd.name} ${cmd.usage ? cmd.usage : ''}\``
                 ]);
             
             return message.reply(helpEmbed);
@@ -39,12 +41,12 @@ export const command: Command = {
 
             if(message) {
                 if (!client.config.owners.includes(message.author.id)) {
-                    categories = client.removeDuplicates(client.commands.filter(cmd => cmd.category !== 'Developer Only').map(cmd => cmd.category));
+                    categories = client.removeDuplicates(client.commands.filter(cmd => cmd.category !== 'Administration').map(cmd => cmd.category));
                 } else {
                     categories = client.removeDuplicates(client.commands.map(cmd => cmd.category));
                 }
             } else {
-                categories = client.removeDuplicates(client.commands.filter(cmd => cmd.category !== 'Developer Only').map(cmd => cmd.category));
+                categories = client.removeDuplicates(client.commands.filter(cmd => cmd.category !== 'Administration').map(cmd => cmd.category));
             }
 
             for (const category of categories) {

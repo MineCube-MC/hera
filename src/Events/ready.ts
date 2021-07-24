@@ -7,7 +7,7 @@ export const event: Event = {
     name: 'ready',
     run: (client) => {
         console.log('[ApexieClient] Logged in as ' + chalk.italic(client.user.tag));
-        console.log('[ApexieClient] Status => ' + chalk.greenBright('Ready!'));
+        console.log('[ApexieClient] Client => ' + chalk.greenBright('Ready!'));
         console.log('[ApexieClient] Type ' + chalk.italic(`"${client.config.prefix}help"`) + ' for a list of commands.');
 
         blacklistedWordsSchema.find().then((data) => {

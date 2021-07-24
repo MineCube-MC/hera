@@ -8,6 +8,7 @@ export const command: Command = {
     category: 'Configurations',
     description: 'Change the blacklist options',
     aliases: ['bl'],
+    usage: '<add|remove|display|collection> [word]',
     run: async(client, message, args) => {
         if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply(`You don't have enough permissions to use this command.`);
 

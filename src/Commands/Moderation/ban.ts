@@ -6,6 +6,7 @@ export const command: Command = {
     category: 'Moderation',
     aliases: ['banhammer'],
     description: 'Bans a user from the guild.',
+    usage: '<@user> [reason]',
     run: async(client, message, args) => {
         if(message.channel.type === 'dm') return message.reply('This command is only available in servers.');
         if(!message.member.permissions.has('BAN_MEMBERS')) return message.reply(`You don't have enough permissions to use this command`);
@@ -25,12 +26,19 @@ export const command: Command = {
 
         if(punishedUser === message.author) return message.reply(`I don't think you can use the ban hammer on yourself.`);
 
+        punishedUser.send(
+            new MessageEmbed()
+                .setColor('#0099ff')
+                .setAuthor(message.guild.name)
+                .setDescription(`You got banned from **${message.guild.name}**!\nReason: __${banReason}__`)
+        );
+
         message.guild.members.ban(punishedUser, { reason: banReason });
 
         message.reply(
             new MessageEmbed()
                 .setColor('#0099ff')
-                .setDescription(`✅ ${punishedUser.tag} has been successfully banned!\nReason: __${banReason}__`)
+                .setDescription(`✅ **${punishedUser.tag}** has been successfully banned!\nReason: __${banReason}__`)
         );
     }
 }

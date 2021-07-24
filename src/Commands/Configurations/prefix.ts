@@ -7,6 +7,7 @@ export const command: Command = {
     category: 'Configurations',
     description: 'Change the server prefix',
     aliases: ['changeprefix', 'prefixchange'],
+    usage: '<prefix>',
     run: async(client, message, args) => {
         if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply(`You don't have enough permissions to use this command.`);
 

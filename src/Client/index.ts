@@ -1,5 +1,5 @@
 import { Client, Collection } from 'discord.js';
-import { connect } from 'mongoose';
+import { connect, disconnect } from 'mongoose';
 import path from 'path';
 import { readdirSync } from 'fs';
 import { Command, Event, Config } from '../Interfaces';
@@ -53,6 +53,20 @@ class ExtendedClient extends Client {
             console.log(`[ApexieClient] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.magentaBright('Loaded!')}`);
             this.on(event.name, event.run.bind(null, this));
         });
+    }
+
+    public shutdown() {
+        console.log(`[ApexieClient] Database => ${chalk.redBright('Disconnecting...')}`);
+        disconnect();
+        console.log(`[ApexieClient] Client => ${chalk.redBright('Shutting down...')}`);
+        process.exit();
+    }
+
+    public restart() {
+        console.log(`[ApexieClient] Client => ${chalk.yellowBright('Restarting...')}`);
+        this.destroy();
+        this.login(this.config.token);
+        console.log(`[ApexieClient] Client => ${chalk.greenBright('Ready!')}`);
     }
     
     public capitalize(string) {

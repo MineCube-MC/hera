@@ -11,18 +11,6 @@ export const event: Event = {
             !message.guild
         ) return;
 
-        const prefixSchema = await mongoPrefixSchema.findOne({ Guild: message.guild.id }, async(err, data) => {
-            if(!data) {
-                const newGuild = new mongoPrefixSchema({
-                    Guild: message.guild.id,
-                    Prefix: client.config.prefix
-                });
-
-                newGuild.save();
-                prefixCollection.set(message.guild.id, client.config.prefix);
-            }
-        });
-
         const prefix = prefixCollection.get(message.guild.id) || client.config.prefix;
 
         if(!message.content.startsWith(prefix)) return;

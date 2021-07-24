@@ -10,5 +10,6 @@ export interface Command {
     description?: string;
     category: string;
     aliases?: string[];
+    usage?: string;
     run: Run;
 }

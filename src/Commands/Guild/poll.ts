@@ -6,6 +6,7 @@ export const command: Command = {
     category: 'General',
     description: 'Start a poll where you choose between yes and no.',
     aliases: [],
+    usage: '<#channel> [description]',
     run: async(client, message, args) => {
         if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply(`You don't have enough permissions to use this command.`);
 

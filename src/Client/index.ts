@@ -1,4 +1,4 @@
-import { Client, Collection, GuildMember } from 'discord.js';
+import { Client, Collection, GuildMember, MessageEmbed, TextChannel } from 'discord.js';
 import { connect, disconnect } from 'mongoose';
 import path from 'path';
 import { readdirSync } from 'fs';
@@ -7,6 +7,9 @@ import ConfigJson from '../config.json';
 import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet';
+import DisTube, { DisTubeOptions } from 'distube';
+import SoundCloudPlugin from '@distube/soundcloud';
+import SpotifyPlugin from '@distube/spotify';
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
@@ -14,12 +17,41 @@ class ExtendedClient extends Client {
     public events: Collection<string, Event> = new Collection();
     public config: Config = ConfigJson;
     public executedCooldown = new Set();
+    public distube = new DisTube(this, {
+        searchSongs: true
+    });
 
     public async init() {
         clear();
         console.log(chalk.cyanBright(figlet.textSync('Apexie', { horizontalLayout: 'full' })));
 
         this.login(this.config.token);
+
+        /* Distube (Music) */
+        const status = queue =>
+	    `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ')
+		    || 'Off'}\` | Loop: \`${
+		    queue.repeatMode
+			    ? queue.repeatMode === 2
+				    ? 'All Queue'
+				    : 'This Song'
+			    : 'Off'
+	    }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
+
+        this.distube.on('playSong', (message, queue, song) => {
+            message.channel.send(
+                new MessageEmbed()
+                    .setTitle('Music player')
+                    .setColor(this.config.colors.main)
+                    .setThumbnail(song.thumbnail)
+                    .setDescription(`Playing \`${song.name}\` - \`${
+                        song.formattedDuration
+                    }\``)
+                    .setFooter(`Requested by ${song.user.username}`, song.user.displayAvatarURL({ dynamic: true }))
+            )
+        });
+
+        /* MongoDB */
         connect(this.config.mongoURI, {
             "useUnifiedTopology": true,
             "useFindAndModify": false,

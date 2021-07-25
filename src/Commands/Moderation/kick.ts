@@ -17,15 +17,6 @@ export const command: Command = {
         if(!punishedUser.kickable) return message.reply("I haven't the permission to kick this user. Does he have a higher role? Have I got the permission to kick him?");
 
 	    try {
-            try {
-                punishedUser.send(
-                    new MessageEmbed()
-                        .setColor('#0099ff')
-                        .setAuthor(message.guild.name)
-                        .setDescription(`You got kicked from **${message.guild.name}**!`)
-                );
-            } catch (e) {}
-
 		    punishedUser.kick();
 
             message.reply(

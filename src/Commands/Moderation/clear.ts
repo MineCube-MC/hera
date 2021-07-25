@@ -1,0 +1,22 @@
+import { TextChannel } from 'discord.js';
+import { Command } from '../../Interfaces';
+
+export const command: Command = {
+    name: 'clear',
+    category: 'Moderation',
+    aliases: ['purge', 'delete'],
+    description: 'Delete up to 100 messages at once',
+    run: async(clear, message, args) => {
+        if (!args[0]) return message.reply('You haven\'t given an amount of messages which should be deleted!');
+        const intArgs = parseInt(args[0]);
+        if (isNaN(intArgs)) return message.reply("The amount parameter isn't a number!");
+        if (intArgs > 100) return message.reply("You can't delete more than 100 messages at once!");
+        if (intArgs < 1) return message.reply('You have to delete at least 1 message!');
+
+        if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply("You haven't the permission to execute this command!");
+    
+        await message.channel.messages.fetch({ limit: intArgs }).then(messages => {
+            (<TextChannel> message.channel).bulkDelete(messages);
+        });
+    }
+}

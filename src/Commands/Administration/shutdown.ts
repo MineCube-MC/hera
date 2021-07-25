@@ -7,6 +7,7 @@ export const command: Command = {
     aliases: ['logout', 'explode'],
     description: 'Shuts down the client and all the database connections.',
     run: async(client, message, args) => {
+        if (!client.config.owners.includes(message.author.id)) return message.reply("You are not allowed to execute this command.");
         message.channel.send(
             new MessageEmbed()
                 .setTitle('Shutting down')

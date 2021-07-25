@@ -1,4 +1,4 @@
-import { Client, Collection } from 'discord.js';
+import { Client, Collection, GuildMember } from 'discord.js';
 import { connect, disconnect } from 'mongoose';
 import path from 'path';
 import { readdirSync } from 'fs';

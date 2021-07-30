@@ -13,8 +13,8 @@
 - [X] Commands and Events handler
 - [ ] Slash Commands handler
 - [ ] Commands:
-  - [ ] Moderation commands
-  - [ ] Fun commands (memes, small games and more...)
+  - [X] Moderation commands
+  - [X] Fun commands (memes, small games and more...)
   - [ ] Music commands
   - [ ] Activity commands (YouTube Together and more...)
 - [ ] Welcoming system

@@ -385,6 +385,14 @@ discord-buttons@^4.0.0:
   resolved "https://registry.yarnpkg.com/discord-buttons/-/discord-buttons-4.0.0.tgz#0068ae5cc18cdd30112fca19b4b4c453ccc2ac73"
   integrity sha512-E/eQX4Ktj7nKwNDsTfCezBNCu73FtPWJfQcpKohfl0jct/ucMUO+7uhL2MhGsZr4SCfojk7OzccAznuntB564w==
 
+discord-together@^1.1.53:
+  version "1.1.53"
+  resolved "https://registry.yarnpkg.com/discord-together/-/discord-together-1.1.53.tgz#1d8a8543196c4b71cc13006157ef5a2a176c823b"
+  integrity sha512-LE41SNTQbxoGGySl/AueZltwDOMDVRybGawBiMmdsWRyUeQTcvYkuO6VfFee+6FJ6AX8ihdHnRV6Js6IRpsepg==
+  dependencies:
+    discord.js "^12.5.3"
+    node-fetch "^2.6.1"
+
 discord.js@^12.5.3:
   version "12.5.3"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-12.5.3.tgz#56820d473c24320871df9ea0bbc6b462f21cf85c"

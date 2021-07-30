@@ -8,11 +8,14 @@ import ConfigJson from '../config.json';
 import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet';
+import Nuggies from 'nuggies';
+import { DiscordTogether } from 'discord-together';
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
     public aliases: Collection<string, Command> = new Collection();
     public events: Collection<string, Event> = new Collection();
+    public discordTogether = new DiscordTogether(this);
     public config: Config = ConfigJson;
     public executedCooldown = new Set();
 
@@ -22,6 +25,10 @@ class ExtendedClient extends Client {
 
         this.login(this.config.token);
         discordButtons(this);
+        
+        this.on('clickMenu', menu => {
+            Nuggies.dropclick(this, menu);
+        });
 
         /* MongoDB */
         connect(this.config.mongoURI, {

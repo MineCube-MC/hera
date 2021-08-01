@@ -3,12 +3,12 @@ import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
     name: 'ban',
+    type: 'bot',
     category: 'Moderation',
     aliases: ['banhammer'],
     description: 'Bans a user from the guild.',
     usage: '<@user> [reason]',
-    run: async(client, message, args) => {
-        if(message.channel.type === 'dm') return message.reply('This command is only available in servers.');
+    run: async(client, args, message) => {
         if(!message.member.permissions.has('BAN_MEMBERS')) return message.reply(`You don't have enough permissions to use this command`);
         if(!args[0]) return message.reply('You must mention a user to use the ban hammer on.');
 
@@ -30,10 +30,12 @@ export const command: Command = {
 
         message.guild.members.ban(punishedUser, { reason: banReason });
 
-        message.reply(
-            new MessageEmbed()
+        message.reply({
+            embeds: [
+                new MessageEmbed()
                 .setColor('#0099ff')
                 .setDescription(`✅ **${punishedUser.user.tag}** has been successfully banned!\nReason: __${banReason}__`)
-        );
+            ]
+        });
     }
 }

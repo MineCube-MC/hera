@@ -3,12 +3,13 @@ import { Command } from '../../Interfaces';
 
 export const command: Command = {
     name: 'nickname',
+    type: 'bot',
     category: 'Moderation',
     aliases: ['nick'],
     description: `Change your/others' server nickname`,
-    run: async(client, message, args) => {
-        if (!message.guild.me.hasPermission('MANAGE_NICKNAMES')) return message.channel.send('I don\'t have permission to change nicknames!');
-        if(!message.member.hasPermission('MANAGE_NICKNAMES')) return message.reply("You haven't the permission to execute this command!");
+    run: async(client, args, message) => {
+        if (!message.guild.me.permissions.has('MANAGE_NICKNAMES')) return message.channel.send('I don\'t have permission to change nicknames!');
+        if(!message.member.permissions.has('MANAGE_NICKNAMES')) return message.reply("You haven't the permission to execute this command!");
         let mentionMember = message.mentions.members.first();
         let newNickname = args.slice(1).join(' ');
         if(!mentionMember) return message.reply("Mention the user you want to change the nickname");

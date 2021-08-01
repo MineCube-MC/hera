@@ -7,7 +7,7 @@ export const command: Command = {
     category: 'Fun',
     aliases: [],
     description: 'Replies to your questions',
-    run: async(client, message, args) => {
+    run: async(client, args, message) => {
         const question = args.slice(0).join(' ');
         if(!question) return message.channel.send("You didn't ask a question");
         const url = 'https://8ball.delegator.com/magic/JSON/' + question;
@@ -23,7 +23,7 @@ export const command: Command = {
         if(json.magic.type === "Neutral") embedColor = "#6f7275";
 
         reply.edit('Look at the embed:');
-        reply.edit(
+        reply.edit({ content: 'Look at the embed:', embeds: [
             new MessageEmbed()
                 .setTitle('8ball')
                 .setColor(embedColor)
@@ -32,6 +32,6 @@ export const command: Command = {
                 .addField("Asked by: ", message.author.tag, false)
                 .addField("Reply: ", json.magic.answer, false)
                 .setFooter("API provided by Delegator 8ball")
-        );
+        ] });
     }
 }

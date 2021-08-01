@@ -4,6 +4,8 @@ import { blacklistedWordsSchema } from '../Models/blacklistedWords';
 import { blacklistedWordsCollection, prefixCollection } from '../Collections';
 import { prefixSchema } from '../Models/prefix';
 import packageData from '../../package.json';
+import { ClientPrompt } from '../Terminal';
+import { connect, disconnect } from 'mongoose';
 
 export const event: Event = {
     name: 'ready',
@@ -11,6 +13,15 @@ export const event: Event = {
         console.log('[ApexieClient] Logged in as ' + chalk.italic(client.user.tag));
         console.log(`[ApexieClient] Client => ${chalk.greenBright('Ready!')} (version ${packageData.version})`);
         console.log('[ApexieClient] Type ' + chalk.italic(`"${client.config.prefix}help"`) + ' for a list of commands.');
+
+        connect(client.config.mongoURI, {
+            "useUnifiedTopology": true,
+            "useFindAndModify": false,
+            "useNewUrlParser": true
+        }).then(() => {
+            console.log(`[ApexieClient] Database => ${chalk.greenBright('Connected!')}`);
+            new ClientPrompt(client);
+        });
 
         client.user.setStatus('dnd');
         client.user.setActivity(`Still W.I.P. | ${client.config.prefix}help`);

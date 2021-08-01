@@ -1,5 +1,4 @@
-import { Client, Collection, GuildMember, MessageEmbed, TextChannel } from 'discord.js';
-import discordButtons from 'discord-buttons';
+import { Client, Collection } from 'discord.js';
 import { connect, disconnect } from 'mongoose';
 import path from 'path';
 import { readdirSync } from 'fs';
@@ -8,14 +7,11 @@ import ConfigJson from '../config.json';
 import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet';
-import Nuggies from 'nuggies';
-import { DiscordTogether } from 'discord-together';
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
     public aliases: Collection<string, Command> = new Collection();
     public events: Collection<string, Event> = new Collection();
-    public discordTogether = new DiscordTogether(this);
     public config: Config = ConfigJson;
     public executedCooldown = new Set();
 
@@ -24,20 +20,6 @@ class ExtendedClient extends Client {
         console.log(chalk.cyanBright(figlet.textSync('Apexie', { horizontalLayout: 'full' })));
 
         this.login(this.config.token);
-        discordButtons(this);
-        
-        this.on('clickMenu', menu => {
-            Nuggies.dropclick(this, menu);
-        });
-
-        /* MongoDB */
-        connect(this.config.mongoURI, {
-            "useUnifiedTopology": true,
-            "useFindAndModify": false,
-            "useNewUrlParser": true
-        }).then(() => {
-            console.log(`[ApexieClient] Database => ${chalk.greenBright('Connected!')}`);
-        });
 
         /* Commands */
         const commandPath = path.join(__dirname, "..", "Commands");
@@ -70,7 +52,7 @@ class ExtendedClient extends Client {
         console.log(`[ApexieClient] Database => ${chalk.redBright('Disconnecting...')}`);
         disconnect();
         console.log(`[ApexieClient] Client => ${chalk.redBright('Shutting down...')}`);
-        process.exit();
+        process.exit(0);
     }
 
     public restart() {

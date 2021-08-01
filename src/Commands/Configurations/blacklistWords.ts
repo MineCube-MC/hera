@@ -5,11 +5,12 @@ import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
     name: 'blacklist',
+    type: 'bot',
     category: 'Configurations',
     description: 'Change the blacklist options',
     aliases: ['bl'],
     usage: '<add|remove|display|collection> [word]',
-    run: async(client, message, args) => {
+    run: async(client, args, message) => {
         if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply(`You don't have enough permissions to use this command.`);
 
         const query = args[0]?.toLowerCase();
@@ -56,17 +57,17 @@ export const command: Command = {
         } else if(query === 'display') {
             Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
                 if(!data) return message.reply(`There's no blacklisted word in this server.`);
-                message.reply(
+                message.reply({ embeds: [
                     new MessageEmbed()
                     .setTitle('Blacklisted words')
                     .setDescription((data.Words as string[]).join(', '))
                     .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
                     .setTimestamp()
-                );
+                ] });
             });
         } else if(query === 'collection') {
             const getCollection = Collection.get(message.guild.id);
-            if(getCollection) return message.reply(getCollection, { code: 'js' });
+            if(getCollection) return message.reply(`\`\`\`js\n${getCollection}\n\`\`\``);
         } else message.reply(`These are the available options: \`add\`, \`remove\`, \`display\`, \`collection\``);
     }
 }

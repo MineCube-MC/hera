@@ -4,7 +4,7 @@ import { prefixSchema as mongoPrefixSchema } from '../Models/prefix';
 import { prefixCollection } from '../Collections/prefix';
 
 export const event: Event = {
-    name: 'message',
+    name: 'messageCreate',
     run: async (client, message: Message) => {
         if(
             message.author.bot ||
@@ -24,14 +24,16 @@ export const event: Event = {
         if(!cmd) return;
         const command = client.commands.get(cmd) || client.aliases.get(cmd);
         if(command) {
-            if(client.executedCooldown.has(message.author.id)) {
-                return message.reply(`You need to wait some seconds before executing another command.`);
-            } else {
-                (command as Command).run(client, message, args);
-                client.executedCooldown.add(message.author.id);
-                setTimeout(() => {
-                    client.executedCooldown.delete(message.author.id);
-                }, (5 * 1000));
+            if(command.type === 'bot' || command.type === 'both' || !command.type) {
+                if(client.executedCooldown.has(message.author.id)) {
+                    return message.reply(`You need to wait some seconds before executing another command.`);
+                } else {
+                    (command as Command).run(client, args, message);
+                    client.executedCooldown.add(message.author.id);
+                    setTimeout(() => {
+                        client.executedCooldown.delete(message.author.id);
+                    }, (5 * 1000));
+                }
             }
         }
     }

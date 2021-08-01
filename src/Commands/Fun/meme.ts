@@ -1,13 +1,13 @@
 import { Command } from '../../Interfaces';
 import fetch from 'node-fetch';
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, ColorResolvable } from 'discord.js';
 
 export const command: Command = {
     name: 'meme',
     category: 'Fun',
     description: 'Summon funny memes with the power of this command.',
     aliases: ['fun', 'funny'],
-    run: async(client, message, args) => {
+    run: async(client, args, message) => {
 
         const reply = await message.channel.send('Getting the meme for ya...');
 
@@ -18,7 +18,7 @@ export const command: Command = {
         
         if(json.nsfw === false) {
             meme = new MessageEmbed()
-                .setColor(client.config.colors.main)
+                .setColor((client.config.colors.main as ColorResolvable))
                 .setTitle(json.title)
                 .setURL(json.postLink)
                 .setImage(json.url)
@@ -27,8 +27,6 @@ export const command: Command = {
             meme = `Unfortunately, the meme contains NSFW content, so I won't show it for obvious reasons.`;
         }
 
-        reply.edit(`Here's the meme:`)
-        reply.edit(meme);
-
+        reply.edit({content: ' ', embeds: [meme]});
     }
 }

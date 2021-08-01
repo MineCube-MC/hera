@@ -4,11 +4,12 @@ import { prefixCollection as Collection } from '../../Collections/prefix';
 
 export const command: Command = {
     name: 'prefix',
+    type: 'bot',
     category: 'Configurations',
     description: 'Change the server prefix',
     aliases: ['changeprefix', 'prefixchange'],
     usage: '<prefix>',
-    run: async(client, message, args) => {
+    run: async(client, args, message) => {
         if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply(`You don't have enough permissions to use this command.`);
 
         const newPrefix = args[0];

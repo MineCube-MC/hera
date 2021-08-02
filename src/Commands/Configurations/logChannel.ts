@@ -17,20 +17,19 @@ export const command: Command = {
         if(newChannel) {
             const logsSchema = await Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
                 if(!data) {
-                    const newGuild = new Schema({
+                    new Schema({
                         Guild: message.guild.id,
-                        Channel: currentChannel
+                        Channel: newChannel
                     }).save();
-                    Collection.set(message.guild.id, currentChannel);
+                    Collection.set(message.guild.id, newChannel);
+                } else {
+                    data.Channel = newChannel;
+                    data.save();
+                    Collection.set(message.guild.id, newChannel.toString());
                 }
             });
 
-            await logsSchema.updateOne({
-                channel: newChannel
-            });
-            Collection.set(message.guild.id, newChannel.toString());
-
             return message.reply(`Your moderation logs channel has been updated to <#${newChannel}>`);
-        } else message.reply('You need to specify a channel you want to use.');
+        } else return message.reply('You need to specify a channel you want to use.');
     }
 }

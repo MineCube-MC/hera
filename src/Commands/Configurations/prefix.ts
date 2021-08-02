@@ -15,22 +15,21 @@ export const command: Command = {
         const newPrefix = args[0];
 
         if(newPrefix) {
-            const prefixSchema = await Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
+            Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
                 if(!data) {
-                    const newGuild = new Schema({
+                    new Schema({
                         Guild: message.guild.id,
-                        Prefix: client.config.prefix
+                        Prefix: newPrefix
                     }).save();
-                    Collection.set(message.guild.id, client.config.prefix);
+                    Collection.set(message.guild.id, newPrefix);
+                } else {
+                    data.Prefix = newPrefix;
+                    data.save();
+                    Collection.set(message.guild.id, newPrefix.toString());
                 }
             });
 
-            await prefixSchema.updateOne({
-                prefix: newPrefix
-            });
-            Collection.set(message.guild.id, newPrefix.toString());
-
             return message.reply(`Your server prefix has been updated to \`${newPrefix}\``);
-        } else message.reply('You need to specify a prefix you want to use.');
+        } else return message.reply('You need to specify a prefix you want to use.');
     }
 }

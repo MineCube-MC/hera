@@ -20,30 +20,31 @@ export const event: Event = {
             "useFindAndModify": false,
             "useNewUrlParser": true
         }).then(() => {
+            blacklistedWordsSchema.find().then((data) => {
+                data.forEach((val: any) => {
+                    blacklistedWordsCollection.set(val.Guild, val.Words);
+                });
+            });
+    
+            prefixSchema.find().then((data) => {
+                data.forEach((val: any) => {
+                    prefixCollection.set(val.Guild, val.Prefix);
+                });
+            });
+    
+            moderationLogsSchema.find().then((data) => {
+                data.forEach((val: any) => {
+                    moderationLogsCollection.set(val.Guild, val.Channel);
+                });
+            });
+
             console.log(`[Client] Database => ${chalk.greenBright('Connected!')}`);
+        }).finally(() => {
             new ClientPrompt(client);
         });
 
         client.user.setStatus('dnd');
         client.user.setActivity(`Still W.I.P. | ${client.config.prefix}help`);
-
-        blacklistedWordsSchema.find().then((data) => {
-            data.forEach((val: any) => {
-                blacklistedWordsCollection.set(val.Guild, val.Words);
-            });
-        });
-
-        prefixSchema.find().then((data) => {
-            data.forEach((val: any) => {
-                prefixCollection.set(val.Guild, val.Prefix);
-            });
-        });
-
-        moderationLogsSchema.find().then((data) => {
-            data.forEach((val: any) => {
-                moderationLogsCollection.set(val.Guild, val.Channel);
-            });
-        });
 
     }
 }

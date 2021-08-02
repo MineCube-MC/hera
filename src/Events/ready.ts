@@ -3,23 +3,24 @@ import chalk from 'chalk';
 import { blacklistedWordsSchema } from '../Models/blacklistedWords';
 import { blacklistedWordsCollection, prefixCollection } from '../Collections';
 import { prefixSchema } from '../Models/prefix';
-import packageData from '../../package.json';
 import { ClientPrompt } from '../Terminal';
-import { connect, disconnect } from 'mongoose';
+import { connect } from 'mongoose';
+import { moderationLogsSchema } from '../Models/moderationLogs';
+import { moderationLogsCollection } from '../Collections/moderationLogs';
 
 export const event: Event = {
     name: 'ready',
     run: (client) => {
-        console.log('[ApexieClient] Logged in as ' + chalk.italic(client.user.tag));
-        console.log(`[ApexieClient] Client => ${chalk.greenBright('Ready!')} (version ${packageData.version})`);
-        console.log('[ApexieClient] Type ' + chalk.italic(`"${client.config.prefix}help"`) + ' for a list of commands.');
+        console.log('[Client] Logged in as ' + chalk.italic(client.user.tag));
+        console.log(`[Client] Client => ${chalk.greenBright('Ready!')}`);
+        console.log('[Client] Type ' + chalk.italic(`"${client.config.prefix}help"`) + ' for a list of commands.');
 
         connect(client.config.mongoURI, {
             "useUnifiedTopology": true,
             "useFindAndModify": false,
             "useNewUrlParser": true
         }).then(() => {
-            console.log(`[ApexieClient] Database => ${chalk.greenBright('Connected!')}`);
+            console.log(`[Client] Database => ${chalk.greenBright('Connected!')}`);
             new ClientPrompt(client);
         });
 
@@ -35,6 +36,12 @@ export const event: Event = {
         prefixSchema.find().then((data) => {
             data.forEach((val: any) => {
                 prefixCollection.set(val.Guild, val.Prefix);
+            });
+        });
+
+        moderationLogsSchema.find().then((data) => {
+            data.forEach((val: any) => {
+                moderationLogsCollection.set(val.Guild, val.Channel);
             });
         });
 

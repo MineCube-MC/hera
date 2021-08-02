@@ -1,9 +1,9 @@
 import { Client, Collection } from 'discord.js';
-import { connect, disconnect } from 'mongoose';
+import { disconnect } from 'mongoose';
 import path from 'path';
-import { readdirSync } from 'fs';
+import { readdirSync, readFileSync } from 'fs';
 import { Command, Event, Config } from '../Interfaces';
-import ConfigJson from '../config.json';
+import { version } from '../../package.json';
 import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet';
@@ -12,12 +12,13 @@ class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
     public aliases: Collection<string, Command> = new Collection();
     public events: Collection<string, Event> = new Collection();
-    public config: Config = ConfigJson;
+    public config: Config = JSON.parse(readFileSync(path.join(process.cwd() + '/config.json')).toString());
     public executedCooldown = new Set();
 
     public async init() {
         clear();
         console.log(chalk.cyanBright(figlet.textSync('Apexie', { horizontalLayout: 'full' })));
+        console.log(`Starting Apexie Services ${chalk.italic(`(version ${version})`)}`);
 
         this.login(this.config.token);
 
@@ -34,32 +35,32 @@ class ExtendedClient extends Client {
                         this.aliases.set(alias, command);
                     });
                 }
-                console.log(`[ApexieClient] ${chalk.underline(this.capitalize(command.name))} command => ${chalk.yellowBright('Loaded!')}`);
+                console.log(`[Client] ${chalk.underline(this.capitalize(command.name))} command => ${chalk.yellowBright('Loaded!')}`);
             }
         });
 
         /* Events */
         const eventPath = path.join(__dirname, "..", "Events");
-        readdirSync(eventPath).forEach(async (file) => {
+        readdirSync(eventPath).filter(file => file.endsWith('.ts')).forEach(async (file) => {
             const { event } = await import(`${eventPath}/${file}`);
             this.events.set(event.name, event);
-            console.log(`[ApexieClient] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.magentaBright('Loaded!')}`);
+            console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.magentaBright('Loaded!')}`);
             this.on(event.name, event.run.bind(null, this));
         });
     }
 
     public shutdown() {
-        console.log(`[ApexieClient] Database => ${chalk.redBright('Disconnecting...')}`);
+        console.log(`[Client] Database => ${chalk.redBright('Disconnecting...')}`);
         disconnect();
-        console.log(`[ApexieClient] Client => ${chalk.redBright('Shutting down...')}`);
+        console.log(`[Client] Client => ${chalk.redBright('Shutting down...')}`);
         process.exit(0);
     }
 
     public restart() {
-        console.log(`[ApexieClient] Client => ${chalk.yellowBright('Restarting...')}`);
+        console.log(`[Client] Client => ${chalk.yellowBright('Restarting...')}`);
         this.destroy();
         this.login(this.config.token);
-        console.log(`[ApexieClient] Client => ${chalk.greenBright('Ready!')}`);
+        console.log(`[Client] Client => ${chalk.greenBright('Ready!')}`);
     }
     
     public capitalize(string) {

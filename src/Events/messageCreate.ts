@@ -1,6 +1,5 @@
 import { Event, Command } from '../Interfaces';
 import { Message } from 'discord.js';
-import { prefixSchema as mongoPrefixSchema } from '../Models/prefix';
 import { prefixCollection } from '../Collections/prefix';
 
 export const event: Event = {

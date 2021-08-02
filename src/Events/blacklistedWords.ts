@@ -1,6 +1,6 @@
 import { Event } from '../Interfaces';
-import { Message } from 'discord.js';
-import { blacklistedWordsCollection as Collection } from '../Collections';
+import { ColorResolvable, Message, MessageEmbed, TextChannel } from 'discord.js';
+import { blacklistedWordsCollection as blacklistCollection, moderationLogsCollection as logsCollection } from '../Collections';
 
 export const event: Event = {
     name: 'message',
@@ -12,10 +12,24 @@ export const event: Event = {
 
         await Promise.all(
             splittedMessage.map((content) => {
-                if(Collection.get(message.guild.id)?.includes(content.toLowerCase())) deleting = true;
+                if(blacklistCollection.get(message.guild.id)?.includes(content.toLowerCase())) deleting = true;
             })
         );
 
-        if(deleting) return message.delete();
+        if(deleting) {
+            message.delete();
+            const logsChannel = message.guild.channels.cache.get(logsCollection.get(message.guild.id));
+                (<TextChannel> logsChannel).send({ embeds: [
+                    new MessageEmbed()
+                        .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
+                        .setColor((client.config.colors.main as ColorResolvable))
+                        .setTitle('Message Deleted')
+                        .setDescription(
+                            `**❯ Message ID:** ${message.id}\n` +
+                            `**❯ Channel:** <#${message.channel.id}>\n` +
+                            `\n**❯ Deleted Message:** ${message.content}`
+                        )
+                ] });
+        }
     }
 }

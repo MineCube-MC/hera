@@ -1,12 +1,13 @@
 import { Event } from '../Interfaces';
 import chalk from 'chalk';
 import { blacklistedWordsSchema } from '../Models/blacklistedWords';
-import { blacklistedWordsCollection, prefixCollection } from '../Collections';
+import { blacklistedWordsCollection, prefixCollection, welcomeChannelCollection } from '../Collections';
 import { prefixSchema } from '../Models/prefix';
 import { ClientPrompt } from '../Terminal';
 import { connect } from 'mongoose';
 import { moderationLogsSchema } from '../Models/moderationLogs';
 import { moderationLogsCollection } from '../Collections/moderationLogs';
+import { welcomeChannelSchema } from '../Models/welcomeChannel';
 
 export const event: Event = {
     name: 'ready',
@@ -35,6 +36,12 @@ export const event: Event = {
             moderationLogsSchema.find().then((data) => {
                 data.forEach((val: any) => {
                     moderationLogsCollection.set(val.Guild, val.Channel);
+                });
+            });
+
+            welcomeChannelSchema.find().then((data) => {
+                data.forEach((val: any) => {
+                    welcomeChannelCollection.set(val.Guild, val.Channel);
                 });
             });
 

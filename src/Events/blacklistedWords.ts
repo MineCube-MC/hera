@@ -18,8 +18,10 @@ export const event: Event = {
 
         if(deleting) {
             message.delete();
-            const logsChannel = message.guild.channels.cache.get(logsCollection.get(message.guild.id));
-                (<TextChannel> logsChannel).send({ embeds: [
+            const logsChannel = message.guild.channels.cache.find(ch => ch.id === logsCollection.get(message.guild.id));
+            if(!logsChannel) return;
+            if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
+                logsChannel.send({ embeds: [
                     new MessageEmbed()
                         .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
                         .setColor((client.config.colors.main as ColorResolvable))

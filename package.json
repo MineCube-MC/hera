@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
+    "ainasepics": "^1.7.5",
     "chalk": "^4.1.1",
     "clear": "^0.1.0",
     "discord-api-types": "^0.21.0",

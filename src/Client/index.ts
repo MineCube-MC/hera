@@ -57,10 +57,11 @@ class ExtendedClient extends Client {
     }
 
     public restart() {
+        console.log(`[Client] Database => ${chalk.redBright('Disconnecting...')}`);
+        disconnect();
         console.log(`[Client] Client => ${chalk.yellowBright('Restarting...')}`);
         this.destroy();
-        this.login(this.config.token);
-        console.log(`[Client] Client => ${chalk.greenBright('Ready!')}`);
+        this.init();
     }
     
     public capitalize(string) {

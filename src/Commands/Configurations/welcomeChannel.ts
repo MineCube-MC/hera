@@ -1,13 +1,13 @@
 import { Command } from '../../Interfaces';
-import { moderationLogsSchema as Schema } from '../../Models/moderationLogs';
-import { moderationLogsCollection as Collection } from '../../Collections';
+import { welcomeChannelSchema as Schema } from '../../Models/welcomeChannel';
+import { welcomeChannelCollection as Collection } from '../../Collections';
 
 export const command: Command = {
-    name: 'logchannel',
+    name: 'welcomechannel',
     type: 'bot',
     category: 'Configurations',
     aliases: [],
-    description: 'Change the moderation logs channel',
+    description: 'Change the welcome channel',
     run: async(client, args, message) => {
         if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply(`You don't have enough permissions to use this command.`);
 
@@ -28,7 +28,7 @@ export const command: Command = {
                 }
             });
 
-            return message.reply(`Your moderation logs channel has been updated to <#${newChannel}>`);
+            return message.reply(`Your welcome channel has been updated to <#${newChannel}>`);
         } else return message.reply('You need to specify a channel you want to use.');
     }
 }

@@ -1,6 +1,6 @@
 import { Command } from '../../Interfaces';
 import { prefixSchema as Schema } from '../../Models/prefix';
-import { prefixCollection as Collection } from '../../Collections/prefix';
+import { prefixCollection as Collection } from '../../Collections';
 
 export const command: Command = {
     name: 'prefix',

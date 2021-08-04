@@ -16,7 +16,7 @@ export const command: Command = {
                 new MessageEmbed()
                     .setTitle(`${message.author.tag} kissed ${mentionedPerson.tag}`)
                     .setImage(kiss())
-                    .setColor('RANDOM')
+                    .setColor(client.config.colors.fun)
                     .setTimestamp()
             ] });
         } else return message.reply('Mention a user you want to kiss.');

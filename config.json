@@ -11,6 +11,10 @@
     ],
     "colors": {
         "main": "#23abeb",
-        "secondary": ""
+        "secondary": "#ffffff",
+        "positive": "#58eb34",
+        "negative": "#fc3a3a",
+        "admin": "#7945f5",
+        "fun": "#3eedf0"
     }
 }

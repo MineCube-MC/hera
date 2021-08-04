@@ -1,6 +1,6 @@
 import { Command } from '../../Interfaces';
 import fetch from 'node-fetch';
-import { MessageEmbed, ColorResolvable } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
     name: 'meme',
@@ -18,7 +18,7 @@ export const command: Command = {
         
         if(json.nsfw === false) {
             meme = new MessageEmbed()
-                .setColor((client.config.colors.main as ColorResolvable))
+                .setColor(client.config.colors.fun)
                 .setTitle(json.title)
                 .setURL(json.postLink)
                 .setImage(json.url)

@@ -60,6 +60,7 @@ export const command: Command = {
                 message.reply({ embeds: [
                     new MessageEmbed()
                     .setTitle('Blacklisted words')
+                    .setColor(client.config.colors.admin)
                     .setDescription((data.Words as string[]).join(', '))
                     .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
                     .setTimestamp()
@@ -67,7 +68,7 @@ export const command: Command = {
             });
         } else if(query === 'collection') {
             const getCollection = Collection.get(message.guild.id);
-            if(getCollection) return message.reply(`\`\`\`js\n${getCollection}\n\`\`\``);
+            if(getCollection) return message.reply(`\`\`\`\n${getCollection}\n\`\`\``);
         } else message.reply(`These are the available options: \`add\`, \`remove\`, \`display\`, \`collection\``);
     }
 }

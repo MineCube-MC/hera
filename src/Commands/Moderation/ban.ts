@@ -30,12 +30,12 @@ export const command: Command = {
 
         message.guild.members.ban(punishedUser, { reason: banReason });
 
-        message.reply({
-            embeds: [
-                new MessageEmbed()
-                .setColor('#0099ff')
-                .setDescription(`✅ **${punishedUser.user.tag}** has been successfully banned!\nReason: __${banReason}__`)
-            ]
-        });
+        const banEmbed = new MessageEmbed()
+            .setColor(client.config.colors.positive)
+            .setDescription(`✅ **${punishedUser.user.tag}** has been successfully banned!\nReason: __${banReason}__`);
+        
+        if(!banReason) banEmbed.setDescription(`✅ **${punishedUser.user.tag}** has been successfully banned!\nReason: __Not specified__`);
+
+        message.reply({ embeds: [ banEmbed ] });
     }
 }

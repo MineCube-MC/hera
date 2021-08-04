@@ -17,6 +17,7 @@ export const command: Command = {
         if(!message.member.permissions.has('MANAGE_MESSAGES')) return message.reply("You haven't the permission to execute this command!");
     
         await message.channel.messages.fetch({ limit: intArgs }).then(messages => {
+            message.delete();
             (<TextChannel> message.channel).bulkDelete(messages);
         });
     }

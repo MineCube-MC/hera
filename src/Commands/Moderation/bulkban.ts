@@ -1,4 +1,4 @@
-import { ColorResolvable, MessageEmbed } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import { Command } from '../../Interfaces';
 
 export const command: Command = {
@@ -20,7 +20,7 @@ export const command: Command = {
         message.channel.send({ embeds: [
             new MessageEmbed()
                 .setDescription(`✅ **${punishedUsers.size} users** have been banned from the server.`)
-                .setColor((client.config.colors.main as ColorResolvable))
+                .setColor(client.config.colors.positive)
         ] });
     }
 }

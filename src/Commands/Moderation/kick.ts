@@ -22,7 +22,7 @@ export const command: Command = {
             message.reply({
                 embeds: [
                     new MessageEmbed()
-                    .setColor('#0099ff')
+                    .setColor(client.config.colors.positive)
                     .setDescription(`✅ **${punishedUser.user.tag}** has been successfully kicked!`)
                 ]
             });

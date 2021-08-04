@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import {  MessageEmbed } from 'discord.js';
 import { Command } from '../../Interfaces';
 
 export const command: Command = {
@@ -17,7 +17,7 @@ export const command: Command = {
         }
 
         const gayEmbed = new MessageEmbed()
-            .setColor('RANDOM')
+            .setColor(client.config.colors.fun)
             .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }));
         
         if(mentionedPerson) return message.channel.send({ embeds: [ gayEmbed.setDescription(`:rainbow_flag: <@${mentionedPerson}> is ${gayPercentage()}% gay.`) ] });

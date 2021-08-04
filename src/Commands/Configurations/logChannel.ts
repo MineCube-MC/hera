@@ -11,6 +11,22 @@ export const command: Command = {
     run: async(client, args, message) => {
         if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply(`You don't have enough permissions to use this command.`);
 
+        if(args[0] == 'disable') {
+            Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
+                if(!data) {
+                    new Schema({
+                        Guild: message.guild.id,
+                        Channel: 'disabled'
+                    }).save();
+                    Collection.set(message.guild.id, 'disabled');
+                } else {
+                    data.Channel = 'disabled';
+                    data.save();
+                    Collection.set(message.guild.id, 'disabled');
+                }
+            });
+        } else return message.reply(`These are the available options: \`disable\`, \`#channel-name\``);
+
         const newChannel = message.mentions.channels.first()?.id;
 
         if(newChannel) {

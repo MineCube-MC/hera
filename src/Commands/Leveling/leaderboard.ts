@@ -13,7 +13,7 @@ export const command: Command = {
 
         const leaderboard = Levels.computeLeaderboard(client, rawLeaderboard); 
 
-        const lb = (await leaderboard).map(e => `${e.position}. ${e.username}#${e.discriminator}\nLevel: ${e.level}\nXP: ${e.xp.toString()}`);
+        const lb = (await leaderboard).map(e => `**${e.position}. ${e.username}#${e.discriminator}**\nLevel: ${e.level}\nXP: ${e.xp.toString()}`);
 
         const leaderboardEmbed = new MessageEmbed()
             .setTitle(`${message.guild.name}'s leaderboard`)

@@ -4,7 +4,7 @@ import { MessageEmbed } from 'discord.js';
 export const command: Command = {
     name: 'shutdown',
     category: 'Administration',
-    aliases: ['logout', 'explode'],
+    aliases: ['logout', 'explode', 'stop'],
     description: 'Shuts down the client and all the database connections.',
     run: async(client, args, message) => {
         if(!message) return client.shutdown();

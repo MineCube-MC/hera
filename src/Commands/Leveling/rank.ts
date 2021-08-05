@@ -20,11 +20,12 @@ export const command: Command = {
             .setAvatar(message.author.displayAvatarURL({ dynamic: false, format: 'png' }))
             .setCurrentXP(user.xp)
             .setRequiredXP(neededXp)
+            .setLevel(user.level)
             .setStatus(turnToCanvacordStatus(message.member.presence.status), true)
             .setProgressBar(client.config.colors.main.toString(), 'COLOR')
             .setUsername(message.author.username)
             .setDiscriminator(message.author.discriminator);
-        rank.build({})
+        rank.build({ "fontX": "Manrope", "fontY": "Manrope" })
             .then(data => {
                 const attachment = new MessageAttachment(data, `rankCard.png`);
                 message.reply({ files: [attachment] });

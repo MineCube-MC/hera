@@ -18,7 +18,7 @@ export const command: Command = {
         const leaderboardEmbed = new MessageEmbed()
             .setTitle(`${message.guild.name}'s leaderboard`)
             .setColor(client.config.colors.main)
-            .setDescription(`${lb.join("\n\n")}}`)
+            .setDescription(`${lb.join("\n\n")}`)
             .setThumbnail(message.guild.iconURL({ dynamic: true }))
             .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }));
         

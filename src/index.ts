@@ -5,6 +5,7 @@ new Client({
         'GUILD_MESSAGES',
         'GUILD_BANS',
         'GUILD_MEMBERS',
+        'GUILD_PRESENCES',
         'GUILD_MESSAGE_REACTIONS',
         'GUILD_INTEGRATIONS',
         'GUILD_EMOJIS_AND_STICKERS',

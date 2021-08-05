@@ -7,6 +7,7 @@ import { version } from '../../package.json';
 import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet';
+import Levels from 'discord-xp';
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
@@ -22,30 +23,40 @@ class ExtendedClient extends Client {
 
         this.login(this.config.token);
 
+        Levels.setURL(this.config.mongoURI);
+
         /* Commands */
         const commandPath = path.join(__dirname, "..", "Commands");
         readdirSync(commandPath).forEach((dir) => {
             const commands = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
 
             for (const file of commands) {
-                const { command } = require(`${commandPath}/${dir}/${file}`);
-                this.commands.set(command.name, command);
-                if(command?.aliases.length !== 0) {
-                    command.aliases.forEach((alias) => {
-                        this.aliases.set(alias, command);
-                    });
+                try {
+                    const { command } = require(`${commandPath}/${dir}/${file}`);
+                    this.commands.set(command.name, command);
+                    if(command?.aliases.length !== 0) {
+                        command.aliases.forEach((alias) => {
+                            this.aliases.set(alias, command);
+                        });
+                    }
+                    console.log(`[Client] ${chalk.underline(this.capitalize(command.name))} command => ${chalk.yellowBright('Loaded!')}`);
+                } catch (e) {
+                    console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Doesn't export a command`)}`);
                 }
-                console.log(`[Client] ${chalk.underline(this.capitalize(command.name))} command => ${chalk.yellowBright('Loaded!')}`);
             }
         });
 
         /* Events */
         const eventPath = path.join(__dirname, "..", "Events");
         readdirSync(eventPath).filter(file => file.endsWith('.ts')).forEach(async (file) => {
-            const { event } = await import(`${eventPath}/${file}`);
-            this.events.set(event.name, event);
-            console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.magentaBright('Loaded!')}`);
-            this.on(event.name, event.run.bind(null, this));
+            try {
+                const { event } = await import(`${eventPath}/${file}`);
+                this.events.set(event.name, event);
+                this.on(event.name, event.run.bind(null, this));
+                console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.magentaBright('Loaded!')}`);
+            } catch (e) {
+                console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.redBright(`Doesn't export an event`)}`);
+            }
         });
     }
 

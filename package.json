@@ -4,7 +4,8 @@
   "description": "Makes Apexie's World (the Discord server) functional with features such as welcoming new users and more...",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts"
+    "dev": "code . && ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
+    "start": "ts-node --transpile-only ./src/index.ts"
   },
   "repository": "https://github.com/ApexieDevelopment/ApexieServices",
   "authors": [
@@ -22,9 +23,11 @@
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
     "ainasepics": "^1.7.5",
+    "canvacord": "^5.2.3",
     "chalk": "^4.1.1",
     "clear": "^0.1.0",
     "discord-api-types": "^0.21.0",
+    "discord-xp": "^1.1.16",
     "discord.js": "^13.0.0-dev.t1627949059.35fa3b3",
     "ffmpeg-static": "^4.4.0",
     "figlet": "^1.5.0",

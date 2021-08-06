@@ -10,8 +10,8 @@ import figlet from 'figlet';
 import Levels from 'discord-xp';
 
 class ExtendedClient extends Client {
+    public arrayOfCommands = [];
     public commands: Collection<string, Command> = new Collection();
-    public aliases: Collection<string, Command> = new Collection();
     public events: Collection<string, Event> = new Collection();
     public config: Config = JSON.parse(readFileSync(path.join(process.cwd() + '/config.json')).toString());
     public executedCooldown = new Set();
@@ -30,20 +30,17 @@ class ExtendedClient extends Client {
         readdirSync(commandPath).forEach((dir) => {
             const commands = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
 
-            for (const file of commands) {
+            commands.forEach(async (file) => {
                 try {
-                    const { command } = require(`${commandPath}/${dir}/${file}`);
+                    const { command } = await import(`${commandPath}/${dir}/${file}`);
+                    if(!command?.name) return;
                     this.commands.set(command.name, command);
-                    if(command?.aliases.length !== 0) {
-                        command.aliases.forEach((alias) => {
-                            this.aliases.set(alias, command);
-                        });
-                    }
+                    this.arrayOfCommands.push(command);
                     console.log(`[Client] ${chalk.underline(this.capitalize(command.name))} command => ${chalk.yellowBright('Loaded!')}`);
                 } catch (e) {
                     console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Doesn't export a command`)}`);
                 }
-            }
+            });
         });
 
         /* Events */

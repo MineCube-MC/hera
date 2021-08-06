@@ -17,31 +17,5 @@ export const event: Event = {
             const user = await Levels.fetch(message.author.id, message.guild.id);
             message.channel.send(`Congratulations, ${message.author}. You made it to level **${user.level}**`);
         }
-
-        const prefix = prefixCollection.get(message.guild.id) || client.config.prefix;
-
-        if(!message.content.startsWith(prefix)) return;
-
-        const args = message.content
-            .slice(prefix.length)
-            .trim()
-            .split(/ +/g);
-        
-        const cmd = args.shift().toLowerCase();
-        if(!cmd) return;
-        const command = client.commands.get(cmd) || client.aliases.get(cmd);
-        if(command) {
-            if(command.type === 'bot' || command.type === 'both' || !command.type) {
-                if(client.executedCooldown.has(message.author.id)) {
-                    return message.reply(`You need to wait some seconds before executing another command.`);
-                } else {
-                    (command as Command).run(client, args, message);
-                    client.executedCooldown.add(message.author.id);
-                    setTimeout(() => {
-                        client.executedCooldown.delete(message.author.id);
-                    }, (5 * 1000));
-                }
-            }
-        }
     }
 }

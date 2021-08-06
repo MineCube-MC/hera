@@ -12,5 +12,9 @@ export interface Config {
         negative: ColorResolvable;
         admin: ColorResolvable;
         fun: ColorResolvable;
+    };
+    testMode: {
+        enabled: boolean;
+        guild: string;
     }
 }

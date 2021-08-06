@@ -1,8 +1,8 @@
 import Client from '../Client';
-import { Message } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 
 interface Run {
-    (client: Client, args: string[], message?: Message)
+    (client: Client, args: string[], interaction?: CommandInteraction)
 }
 
 export interface Command {
@@ -10,7 +10,6 @@ export interface Command {
     type?: 'both' | 'console' | 'bot';
     description?: string;
     category: string;
-    aliases: string[];
     usage?: string;
     run: Run;
 }

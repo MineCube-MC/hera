@@ -14,7 +14,13 @@ export const event: Event = {
     run: (client) => {
         console.log('[Client] Logged in as ' + chalk.italic(client.user.tag));
         console.log(`[Client] Client => ${chalk.greenBright('Ready!')}`);
-        console.log('[Client] Type ' + chalk.italic(`"${client.config.prefix}help"`) + ' for a list of commands.');
+
+        console.log(client.arrayOfCommands);
+        if(client.config.testMode.enabled) {
+            client.guilds.cache.get(client.config.testMode.guild).commands.set(client.arrayOfCommands);
+        } else {
+            client.application.commands.set(client.arrayOfCommands);
+        }
 
         connect(client.config.mongoURI, {
             "useUnifiedTopology": true,

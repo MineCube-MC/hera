@@ -16,5 +16,9 @@
         "negative": "#fc3a3a",
         "admin": "#7945f5",
         "fun": "#3eedf0"
+    },
+    "testMode": {
+        "enabled": true,
+        "guild": "864167709061939210"
     }
 }

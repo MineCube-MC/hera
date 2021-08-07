@@ -8,10 +8,10 @@ export const command: Command = {
     description: 'Replies to your questions',
     run: async(client, args, interaction) => {
         const question = args.slice(0).join(' ');
-        if(!question) return interaction.channel.send("You didn't ask a question");
+        if(!question) return interaction.reply("You didn't ask a question");
         const url = 'https://8ball.delegator.com/magic/JSON/' + question;
 
-        const reply = await interaction.channel.send(`I'm replying to your question...`);
+        await interaction.reply(`I'm replying to your question...`);
 
         const json = await fetch(url)
             .then(res => res.json());
@@ -21,8 +21,8 @@ export const command: Command = {
         if(json.magic.type === "Contrary") embedColor = "#ba0d0d";
         if(json.magic.type === "Neutral") embedColor = "#6f7275";
 
-        reply.edit('Look at the embed:');
-        reply.edit({ content: 'Look at the embed:', embeds: [
+        interaction.editReply('Look at the embed:');
+        interaction.editReply({ content: 'Look at the embed:', embeds: [
             new MessageEmbed()
                 .setTitle('8ball')
                 .setColor(embedColor)

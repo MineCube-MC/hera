@@ -6,25 +6,25 @@ export const command: Command = {
     name: 'phub',
     type: 'bot',
     category: 'Fun',
-    aliases: [],
+    
     description: 'Generates a PHub comment',
-    run: async(client, args, message) => {
-        let username = message.author.username;
-        let avatar = message.author.displayAvatarURL({ dynamic: true, format: 'png' });
-        if(!args[0]) return message.reply('Please insert a comment.');
+    run: async(client, args, interaction) => {
+        let username = interaction.user.username;
+        let avatar = interaction.user.displayAvatarURL({ dynamic: true, format: 'png' });
+        if(!args[0]) return interaction.reply('Please insert a comment.');
         let comment = args.join(" ");
-        if(message.mentions.users.first()) {
-            let shiftedArgs = args.slice(message.mentions.users.first.length);
-            username = message.mentions.users.first().username;
-            avatar = message.mentions.users.first().displayAvatarURL({ dynamic: true, format: 'png' });
+        if(interaction.options.getUser("user")) {
+            let shiftedArgs = args.slice(interaction.mentions.users.first.length);
+            username = interaction.options.getUser("user").username;
+            avatar = interaction.options.getUser("user").displayAvatarURL({ dynamic: true, format: 'png' });
             comment = shiftedArgs.join(" ");
         }
         let image = await Canvacord.phub({
             username: username,
-            message: comment,
+            interaction: comment,
             image: avatar
         });
         let attachment = new MessageAttachment(image, "phub.png");
-        return message.channel.send({ files: [attachment] });
+        return interaction.reply({ files: [attachment] });
     }
 }

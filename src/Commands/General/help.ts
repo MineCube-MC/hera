@@ -38,7 +38,7 @@ export const command: Command = {
 
         const helpEmbed = new MessageEmbed()
             .setColor((client.config.colors.main as ColorResolvable))
-            .setAuthor(`${interaction.guild.name} Help Menu`, interaction.guild.icon)
+            .setAuthor(`${interaction.guild.name} Help Menu`, interaction.guild.iconURL({ dynamic: true }))
             .setThumbnail(client.user.displayAvatarURL())
             .setFooter(`Requested by ${interaction.member.user.username}`, interaction.member.user.avatar)
             .setTimestamp();

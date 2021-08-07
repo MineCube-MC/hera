@@ -6,10 +6,9 @@ export const command: Command = {
     name: 'meme',
     category: 'Fun',
     description: 'Summon funny memes with the power of this command.',
-    aliases: ['fun', 'funny'],
-    run: async(client, args, message) => {
+    run: async(client, args, interaction) => {
 
-        const reply = await message.channel.send('Getting the meme for ya...');
+        await interaction.reply('Getting the meme for ya...');
 
         const json = await fetch('https://meme-api.herokuapp.com/gimme')
             .then(res => res.json());
@@ -22,11 +21,11 @@ export const command: Command = {
                 .setTitle(json.title)
                 .setURL(json.postLink)
                 .setImage(json.url)
-                .setFooter(`r/${json.subreddit} · Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }));
+                .setFooter(`r/${json.subreddit} · Requested by ${interaction.user.username}`, interaction.user.displayAvatarURL({ dynamic: true }));
         } else {
             meme = `Unfortunately, the meme contains NSFW content, so I won't show it for obvious reasons.`;
         }
 
-        reply.edit({content: ' ', embeds: [meme]});
+        interaction.editReply({content: ' ', embeds: [meme]});
     }
 }

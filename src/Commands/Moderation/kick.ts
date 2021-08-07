@@ -5,21 +5,21 @@ export const command: Command = {
     name: 'kick',
     type: 'bot',
     category: 'Moderation',
-    aliases: [],
+    
     description: 'Kicks a user from the guild.',
     usage: '<@user>',
-    run: async(client, args, message) => {
-        if(!message.member.permissions.has('KICK_MEMBERS')) return message.reply(`You don't have enough permissions to use this command`);
-        if(!args[0]) return message.reply('You must mention a user to kick.');
+    run: async(client, args, interaction) => {
+        if(!interaction.member.permissions.has('KICK_MEMBERS')) return interaction.reply(`You don't have enough permissions to use this command`);
+        if(!args[0]) return interaction.reply('You must mention a user to kick.');
 
-        let punishedUser = message.mentions.members.first();
+        let punishedUser = interaction.mentions.members.first();
 
-        if(!punishedUser.kickable) return message.reply("I haven't the permission to kick this user. Does he have a higher role? Have I got the permission to kick him?");
+        if(!punishedUser.kickable) return interaction.reply("I haven't the permission to kick this user. Does he have a higher role? Have I got the permission to kick him?");
 
 	    try {
 		    punishedUser.kick();
 
-            message.reply({
+            interaction.reply({
                 embeds: [
                     new MessageEmbed()
                     .setColor(client.config.colors.positive)
@@ -27,7 +27,7 @@ export const command: Command = {
                 ]
             });
 	    } catch (error) {
-		    message.reply("Can't kick this user, does he have a higher role? Is the server creator? Have I got the permission to kick him?");
+		    interaction.reply("Can't kick this user, does he have a higher role? Is the server creator? Have I got the permission to kick him?");
 	    }
     }
 }

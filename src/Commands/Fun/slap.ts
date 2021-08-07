@@ -6,19 +6,19 @@ export const command: Command = {
     name: 'slap',
     type: 'bot',
     category: 'Fun',
-    aliases: [],
+    
     description: `Slap a user of your choice`,
-    run: async(client, args, message) => {
-        const mentionedPerson = message.mentions.users.first();
+    run: async(client, args, interaction) => {
+        const mentionedPerson = interaction.options.getUser("user");
 
         if(mentionedPerson) {
-            message.channel.send({ embeds: [
+            interaction.reply({ embeds: [
                 new MessageEmbed()
-                    .setTitle(`${message.author.tag} slapped ${mentionedPerson.tag}`)
+                    .setTitle(`${interaction.user.tag} slapped ${mentionedPerson.tag}`)
                     .setImage(slap())
                     .setColor(client.config.colors.fun)
                     .setTimestamp()
             ] });
-        } else return message.reply('Mention a user you want to slap so hard.');
+        } else return interaction.reply('Mention a user you want to slap so hard.');
     }
 }

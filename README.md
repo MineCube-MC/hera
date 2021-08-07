@@ -10,15 +10,14 @@
 ## What is left to do?
 - [X] Project setup
 - [X] Basic bot structure
-- [X] Commands and Events handler
-- [ ] Slash Commands handler
+- [-] Commands and Events handler (to be fixed)
 - [ ] Commands:
   - [X] Moderation commands
   - [X] Fun commands (memes, small games and more...)
   - [ ] Music commands
   - [ ] Activity commands (YouTube Together and more...)
-- [ ] Welcoming system
-- [ ] Log System
+- [X] Welcoming system
+- [X] Log System
 - [ ] Server profile customization (reaction roles)
 - [ ] Partnership system
 - [ ] Making the bot public

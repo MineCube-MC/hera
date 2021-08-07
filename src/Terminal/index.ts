@@ -18,14 +18,14 @@ export class ClientPrompt {
     }
 
     public exec(command: string, args: string[], client: ExtendedClient) {
-        const cmd = client.commands.get(command);
-        if(cmd) {
-            if(cmd.type === 'console' || cmd.type === 'both' || !cmd.type) {
-                (cmd as Command).run(client, args);
-            } else {
-                console.log('This command is only available in the Discord bot client');
-            }
-        }
+        // const cmd = client.commands.get(command);
+        // if(cmd) {
+        //     if(cmd.type === 'console' || cmd.type === 'both' || !cmd.type) {
+        //         (cmd as Command).run(client, args);
+        //     } else {
+        //         console.log('This command is only available in the Discord bot client');
+        //     }
+        // }
         this.rl.prompt();
     }
 

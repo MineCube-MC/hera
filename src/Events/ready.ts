@@ -1,8 +1,7 @@
 import { Event } from '../Interfaces';
 import chalk from 'chalk';
 import { blacklistedWordsSchema } from '../Models/blacklistedWords';
-import { blacklistedWordsCollection, prefixCollection, welcomeChannelCollection } from '../Collections';
-import { prefixSchema } from '../Models/prefix';
+import { blacklistedWordsCollection, welcomeChannelCollection } from '../Collections';
 import { ClientPrompt } from '../Terminal';
 import { connect } from 'mongoose';
 import { moderationLogsSchema } from '../Models/moderationLogs';
@@ -30,12 +29,6 @@ export const event: Event = {
             blacklistedWordsSchema.find().then((data) => {
                 data.forEach((val: any) => {
                     blacklistedWordsCollection.set(val.Guild, val.Words);
-                });
-            });
-    
-            prefixSchema.find().then((data) => {
-                data.forEach((val: any) => {
-                    prefixCollection.set(val.Guild, val.Prefix);
                 });
             });
     

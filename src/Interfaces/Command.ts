@@ -1,15 +1,8 @@
-import Client from '../Client';
-import { CommandInteraction } from 'discord.js';
-
-interface Run {
-    (client: Client, args: string[], interaction?: CommandInteraction)
-}
+import { ApplicationCommandOption, CommandInteraction } from 'discord.js';
 
 export interface Command {
     name: string;
-    type?: 'both' | 'console' | 'bot';
-    description?: string;
-    category: string;
-    usage?: string;
-    run: Run;
+    description: string;
+    options?: ApplicationCommandOption;
+    execute(interaction: CommandInteraction): any;
 }

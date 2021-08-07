@@ -1,8 +1,8 @@
-import { ApplicationCommandOption, CommandInteraction } from 'discord.js';
-
+import { ApplicationCommandOptionData, CommandInteraction } from 'discord.js';
+import Client from '../Client';
 export interface Command {
     name: string;
     description: string;
-    options?: ApplicationCommandOption;
-    execute(interaction: CommandInteraction): any;
+    options?: Array<ApplicationCommandOptionData>;
+    execute(interaction: CommandInteraction, client?: Client): any;
 }

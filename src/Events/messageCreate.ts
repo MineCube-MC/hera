@@ -1,6 +1,5 @@
 import { Event, Command } from '../Interfaces';
 import { Message } from 'discord.js';
-import { prefixCollection } from '../Collections/prefix';
 import Levels from 'discord-xp';
 
 export const event: Event = {

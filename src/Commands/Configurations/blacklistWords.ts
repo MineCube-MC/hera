@@ -8,67 +8,66 @@ export const command: Command = {
     type: 'bot',
     category: 'Configurations',
     description: 'Change the blacklist options',
-    aliases: ['bl'],
     usage: '<add|remove|display|collection> [word]',
-    run: async(client, args, message) => {
-        if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply(`You don't have enough permissions to use this command.`);
+    run: async(client, args, interaction) => {
+        if(!interaction.guild.members.cache.get(interaction.user.id).permissions.has('ADMINISTRATOR')) return interaction.reply({ content: `You don't have enough permissions to use this command.`, ephemeral: true });
 
         const query = args[0]?.toLowerCase();
 
         if(query === 'add') {
             const word = args[1].toLowerCase();
-            if(!word) return message.reply('You need to specify a word to add.');
+            if(!word) return interaction.reply({ content: 'You need to specify a word to add.', ephemeral: true });
 
-            Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
+            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
                 if(data) {
-                    if((data.Words as string[]).includes(word)) return message.reply('The word is already added into the blacklist.');
+                    if((data.Words as string[]).includes(word)) return interaction.reply({ content: 'The word is already added into the blacklist.', ephemeral: true });
 
                     (data.Words as string[]).push(word);
                     data.save();
-                    Collection.get(message.guild.id).push(word);
+                    Collection.get(interaction.guild.id).push(word);
                 } else {
                     new Schema({
-                        Guild: message.guild.id,
+                        Guild: interaction.guild.id,
                         Words: word
                     }).save();
-                    Collection.set(message.guild.id, [ word ]);
+                    Collection.set(interaction.guild.id, [ word ]);
                 }
-                message.reply(`The word \`${word}\` has been added into the blacklist.`);
+                interaction.reply({ content: `The word \`${word}\` has been added into the blacklist.`, ephemeral: true });
             });
         } else if(query === 'remove') {
             const word = args[1].toLowerCase();
-            if(!word) return message.reply('You need to specify a word to remove.');
+            if(!word) return interaction.reply({ content: 'You need to specify a word to remove.', ephemeral: true });
 
-            Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
-                if(!data) return message.reply(`There isn't any data to delete`);
+            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+                if(!data) return interaction.reply({ content: `There isn't any data to delete`, ephemeral: true });
 
-                if(!(data.Words as string[]).includes(word)) return message.reply(`The word doesn't exist in the blacklist.`);
+                if(!(data.Words as string[]).includes(word)) return interaction.reply({ content: `The word doesn't exist in the blacklist.`, ephemeral: true });
 
                 const filtered = (data.Words as string[]).filter((target) => target !== word);
 
-                await Schema.findOneAndUpdate({ Guild: message.guild.id }, {
-                    Guild: message.guild.id,
+                await Schema.findOneAndUpdate({ Guild: interaction.guild.id }, {
+                    Guild: interaction.guild.id,
                     Words: filtered
                 });
-                Collection.get(message.guild.id).filter((target) => target !== word);
+                Collection.get(interaction.guild.id).filter((target) => target !== word);
 
-                message.reply(`The word \`${word}\` has been removed from the blacklist.`);
+                interaction.reply({ content: `The word \`${word}\` has been removed from the blacklist.`, ephemeral: true });
             });
         } else if(query === 'display') {
-            Schema.findOne({ Guild: message.guild.id }, async(err, data) => {
-                if(!data) return message.reply(`There's no blacklisted word in this server.`);
-                message.reply({ embeds: [
+            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+                if(!data) return interaction.reply(`There's no blacklisted word in this server.`);
+                interaction.reply({ embeds: [
                     new MessageEmbed()
                     .setTitle('Blacklisted words')
                     .setColor(client.config.colors.admin)
                     .setDescription((data.Words as string[]).join(', '))
-                    .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }))
+                    .setFooter(`Requested by ${interaction.user.username}`, interaction.user.displayAvatarURL({ dynamic: true }))
                     .setTimestamp()
                 ] });
             });
         } else if(query === 'collection') {
-            const getCollection = Collection.get(message.guild.id);
-            if(getCollection) return message.reply(`\`\`\`\n${getCollection}\n\`\`\``);
-        } else message.reply(`These are the available options: \`add\`, \`remove\`, \`display\`, \`collection\``);
+            const getCollection = Collection.get(interaction.guild.id);
+            if(getCollection) return interaction.reply(`\`\`\`\n${getCollection}\n\`\`\``);
+        } else interaction.reply(`These are the available options: \`add\`, \`remove\`, \`display\`, \`collection\``);
     }
 }

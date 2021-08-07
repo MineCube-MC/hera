@@ -5,10 +5,9 @@ export const command: Command = {
     name: 'howgay',
     type: 'bot',
     category: 'Fun',
-    aliases: [],
     description: `Check your/others' gayness`,
-    run: async(client, args, message) => {
-        const mentionedPerson = message.mentions.users.first()?.id;
+    run: async(client, args, interaction) => {
+        const mentionedPerson = interaction.options.getUser("user")?.id;
 
         function gayPercentage() {
             let min = Math.ceil(0);
@@ -18,10 +17,10 @@ export const command: Command = {
 
         const gayEmbed = new MessageEmbed()
             .setColor(client.config.colors.fun)
-            .setFooter(`Requested by ${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }));
+            .setFooter(`Requested by ${interaction.user.tag}`, interaction.user.displayAvatarURL({ dynamic: true }));
         
-        if(mentionedPerson) return message.channel.send({ embeds: [ gayEmbed.setDescription(`:rainbow_flag: <@${mentionedPerson}> is ${gayPercentage()}% gay.`) ] });
+        if(mentionedPerson) return interaction.reply({ embeds: [ gayEmbed.setDescription(`:rainbow_flag: <@${mentionedPerson}> is ${gayPercentage()}% gay.`) ] });
 
-        if(!mentionedPerson) return message.reply({ embeds: [ gayEmbed.setDescription(`:rainbow_flag: You are ${gayPercentage()}% gay.`) ] });
+        if(!mentionedPerson) return interaction.reply({ embeds: [ gayEmbed.setDescription(`:rainbow_flag: You are ${gayPercentage()}% gay.`) ] });
     }
 }

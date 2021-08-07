@@ -6,19 +6,18 @@ export const command: Command = {
     name: 'hug',
     type: 'bot',
     category: 'Fun',
-    aliases: [],
     description: `Hug a user of your choice`,
-    run: async(client, args, message) => {
-        const mentionedPerson = message.mentions.users.first();
+    run: async(client, args, interaction) => {
+        const mentionedPerson = interaction.options.getUser("user");
 
         if(mentionedPerson) {
-            message.channel.send({ embeds: [
+            interaction.reply({ embeds: [
                 new MessageEmbed()
-                    .setTitle(`${message.author.tag} hugged ${mentionedPerson.tag}`)
+                    .setTitle(`${interaction.user.tag} hugged ${mentionedPerson.tag}`)
                     .setImage(hug())
                     .setColor(client.config.colors.fun)
                     .setTimestamp()
             ] });
-        } else return message.reply('Mention a user you want to hug.');
+        } else return interaction.reply('Mention a user you want to hug.');
     }
 }

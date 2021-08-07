@@ -29,18 +29,5 @@ export const command: Command = {
                 const attachment = new MessageAttachment(data, `rankCard.png`);
                 interaction.reply({ files: [attachment] });
             });
-
-        /* const rankEmbed = new MessageEmbed()
-            .setTitle(`${message.author.username}'s ranking`)
-            .setColor(client.config.colors.main)
-            .addField('Current level', user.level.toString(), true)
-            .addField('Current XP', user.xp.toString(), true)
-            .addField('Goal', `You need **${Levels.xpFor(user.level + 1)}** XP to reach level **${user.level + 1}**`)
-            .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
-            .setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }));
-        
-        message.reply({ embeds: [ rankEmbed ] }); */
-
-
     }
 }

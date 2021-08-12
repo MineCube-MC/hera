@@ -14,7 +14,7 @@ export const event: Event = {
         console.log('[Client] Logged in as ' + chalk.italic(client.user.tag));
         console.log(`[Client] Client => ${chalk.greenBright('Ready!')}`);
 
-        console.log(client.arrayOfCommands);
+        // console.log(client.arrayOfCommands);
         if(client.config.testMode.enabled) {
             client.guilds.cache.get(client.config.testMode.guild).commands.set(client.arrayOfCommands);
         } else {

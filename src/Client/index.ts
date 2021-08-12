@@ -2,7 +2,7 @@ import { Client, Collection } from 'discord.js';
 import { disconnect } from 'mongoose';
 import path from 'path';
 import { readdirSync, readFileSync } from 'fs';
-import { Command, Event, Config } from '../Interfaces';
+import { Command, TerminalCommand, Event, Config } from '../Interfaces';
 import { version } from '../../package.json';
 import chalk from 'chalk';
 import clear from 'clear';
@@ -12,6 +12,7 @@ import Levels from 'discord-xp';
 class ExtendedClient extends Client {
     public arrayOfCommands = [];
     public commands: Collection<string, Command> = new Collection();
+    public terminalCmds: Collection<string, TerminalCommand> = new Collection();
     public events: Collection<string, Event> = new Collection();
     public config: Config = JSON.parse(readFileSync(path.join(process.cwd() + '/config.json')).toString());
     public executedCooldown = new Set();
@@ -43,6 +44,8 @@ class ExtendedClient extends Client {
             });
         });
 
+        /* Terminal commands */
+
         /* Events */
         const eventPath = path.join(__dirname, "..", "Events");
         readdirSync(eventPath).filter(file => file.endsWith('.ts')).forEach(async (file) => {
@@ -62,14 +65,6 @@ class ExtendedClient extends Client {
         disconnect();
         console.log(`[Client] Client => ${chalk.redBright('Shutting down...')}`);
         process.exit(0);
-    }
-
-    public restart() {
-        console.log(`[Client] Database => ${chalk.redBright('Disconnecting...')}`);
-        disconnect();
-        console.log(`[Client] Client => ${chalk.yellowBright('Restarting...')}`);
-        this.destroy();
-        this.init();
     }
     
     public capitalize(string) {

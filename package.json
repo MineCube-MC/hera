@@ -21,15 +21,13 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "@discordjs/opus": "^0.5.3",
-    "@discordjs/rest": "^0.1.0-canary.0",
     "ainasepics": "^1.7.5",
     "canvacord": "^5.2.3",
     "chalk": "^4.1.1",
     "clear": "^0.1.0",
+    "discord-api-types": "^0.22.0",
     "discord-xp": "^1.1.16",
     "discord.js": "^13.0.0",
-    "ffmpeg-static": "^4.4.0",
     "figlet": "^1.5.0",
     "glob": "^7.1.7",
     "mongoose": "^5.13.3",

@@ -6,6 +6,7 @@ import { MessageAttachment, PresenceStatus } from 'discord.js';
 export const command: Command = {
     name: 'rank',
     description: 'See your current ranking on the server',
+    options: [],
     async execute(interaction, client) {
         const user = await Levels.fetch(interaction.user.id, interaction.guild.id);
 

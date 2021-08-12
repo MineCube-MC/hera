@@ -6,7 +6,7 @@ export const command: Command = {
     name: 'leaderboard',
     description: 'Shows the leaderboard of the guild',
     async execute(interaction, client) {
-        const rawLeaderboard = await Levels.fetchLeaderboard(interaction.guildId.toString(), 5);
+        const rawLeaderboard = await Levels.fetchLeaderboard(interaction.guild.id, 5);
         if (rawLeaderboard.length < 1) return interaction.reply("Nobody's in leaderboard yet.");
 
         const leaderboard = Levels.computeLeaderboard(client, rawLeaderboard); 

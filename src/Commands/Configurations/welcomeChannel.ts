@@ -4,31 +4,34 @@ import { welcomeChannelCollection as Collection } from '../../Collections';
 
 export const command: Command = {
     name: 'welcomechannel',
-    type: 'bot',
-    category: 'Configurations',
-    description: 'Change the welcome channel',
-    run: async(client, args, interaction) => {
-        if(!interaction.guild.members.cache.get(interaction.user.id).permissions.has('ADMINISTRATOR')) return interaction.reply(`You don't have enough permissions to use this command.`);
-
-        if(args[0] == 'disable') {
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
-                if(!data) {
-                    new Schema({
-                        Guild: interaction.guild.id,
-                        Channel: 'disabled'
-                    }).save();
-                    Collection.set(interaction.guild.id, 'disabled');
-                } else {
-                    data.Channel = 'disabled';
-                    data.save();
-                    Collection.set(interaction.guild.id, 'disabled');
+    options: [
+        {
+            name: 'set',
+            description: 'Enable this module and choose a channel for it',
+            type: 'SUB_COMMAND',
+            options: [
+                {
+                    name: 'channel',
+                    description: 'The channel you want to set as the welcome channel',
+                    type: 'CHANNEL',
+                    required: true
                 }
-            });
-        } else return interaction.reply({ content: `These are the available options: \`disable\`, \`#channel-name\``, ephemeral: true });
+            ]
+        },
+        {
+            name: 'disable',
+            description: 'Disable this module in the server',
+            type: 'SUB_COMMAND'
+        }
+    ],
+    description: 'Helps the administrators of the guild to configure the welcome channel module',
+    async execute(interaction, client) {
+        if(!interaction.guild.members.cache.get(interaction.user.id).permissions.has('ADMINISTRATOR')) return interaction.reply({ content: `You don't have enough permissions to use this command.`, ephemeral: true });
 
-        const newChannel = interaction.options.getChannel("channel")?.id;
+        const action = interaction.options.getSubcommand(true);
 
-        if(newChannel) {
+        if(action === 'set') {
+            const newChannel = interaction.options.getChannel("channel")?.id;
             Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
                 if(!data) {
                     new Schema({
@@ -43,7 +46,23 @@ export const command: Command = {
                 }
             });
 
-            return interaction.reply({ content: `Your welcome channel has been updated to <#${newChannel}>`, ephemeral: true });
-        } else return interaction.reply({ content: 'You need to specify a channel you want to use.', ephemeral: true });
+            return interaction.reply({ content: `The welcome channel has been updated to <#${newChannel}>`, ephemeral: true });
+        } else if(action === 'disable') {
+            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+                if(!data) {
+                    new Schema({
+                        Guild: interaction.guild.id,
+                        Channel: 'disabled'
+                    }).save();
+                    Collection.set(interaction.guild.id, 'disabled');
+                } else {
+                    data.Channel = 'disabled';
+                    data.save();
+                    Collection.set(interaction.guild.id, 'disabled');
+                }
+            });
+
+            return interaction.reply({ content: `The welcome channel module has been disabled`, ephemeral: true });
+        }
     }
 }

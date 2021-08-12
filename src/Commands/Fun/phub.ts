@@ -13,7 +13,7 @@ export const command: Command = {
             required: true
         },
         {
-            name: 'user',
+            name: 'who',
             description: 'The user you want to be shown in the image',
             type: 'USER',
             required: false
@@ -22,7 +22,7 @@ export const command: Command = {
     async execute(interaction) {
         let username = interaction.user.username;
         let avatar = interaction.user.displayAvatarURL({ dynamic: true, format: 'png' });
-        if(interaction.options.getUser("user")) {
+        if(interaction.options.getUser('who', true)) {
             username = interaction.options.getUser("user").username;
             avatar = interaction.options.getUser("user").displayAvatarURL({ dynamic: true, format: 'png' });
         }

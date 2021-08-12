@@ -14,6 +14,7 @@ export const command: Command = {
         }
     ],
     async execute(interaction) {
+        console.log(interaction);
         let avatar = interaction.user.displayAvatarURL({ dynamic: false, format: 'png' });
         if(interaction.options.getUser("user")) avatar = interaction.options.getUser("user").displayAvatarURL({ dynamic: false, format: 'png' });
         let image = await Canvacord.rainbow(avatar);

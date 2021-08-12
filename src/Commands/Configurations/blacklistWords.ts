@@ -8,53 +8,46 @@ export const command: Command = {
     description: 'Change the blacklist options',
     options: [
         {
-            name: 'query',
-            description: 'Select an action for the blacklist',
-            type: 'SUB_COMMAND_GROUP',
+            name: 'add',
+            description: 'Add a word to the blacklist',
+            type: 'SUB_COMMAND',
             options: [
                 {
-                    name: 'add',
-                    description: 'Add a word to the blacklist',
-                    type: 'SUB_COMMAND',
-                    options: [
-                        {
-                            name: 'word',
-                            description: 'The word you want to add into the blacklist',
-                            type: 'STRING',
-                            required: true
-                        }
-                    ]
-                },
-                {
-                    name: 'remove',
-                    description: 'Remove a word from the blacklist',
-                    type: 'SUB_COMMAND',
-                    options: [
-                        {
-                            name: 'word',
-                            description: 'The word you want to add into the blacklist',
-                            type: 'STRING',
-                            required: true
-                        }
-                    ]
-                },
-                {
-                    name: 'display',
-                    description: 'Sends the blacklist as an embed',
-                    type: 'SUB_COMMAND'
-                },
-                {
-                    name: 'collection',
-                    description: 'Sends the blacklist as plain text',
-                    type: 'SUB_COMMAND'
+                    name: 'word',
+                    description: 'The word you want to add into the blacklist',
+                    type: 'STRING',
+                    required: true
                 }
             ]
+        },
+        {
+            name: 'remove',
+            description: 'Remove a word from the blacklist',
+            type: 'SUB_COMMAND',
+            options: [
+                {
+                    name: 'word',
+                    description: 'The word you want to add into the blacklist',
+                    type: 'STRING',
+                    required: true
+                }
+            ]
+        },
+        {
+            name: 'display',
+            description: 'Sends the blacklist as an embed',
+            type: 'SUB_COMMAND'
+        },
+        {
+            name: 'collection',
+            description: 'Sends the blacklist as plain text',
+            type: 'SUB_COMMAND'
         }
     ],
     async execute(interaction, client) {
         if(!interaction.guild.members.cache.get(interaction.user.id).permissions.has('ADMINISTRATOR')) return interaction.reply({ content: `You don't have enough permissions to use this command.`, ephemeral: true });
 
-        const query = interaction.options.getSubcommandGroup(true);
+        const query = interaction.options.getSubcommand(true);
 
         if(query === 'add') {
             const word = interaction.options.getString("word").toLowerCase();
@@ -109,7 +102,7 @@ export const command: Command = {
             });
         } else if(query === 'collection') {
             const getCollection = Collection.get(interaction.guild.id);
-            if(getCollection) return interaction.reply(`\`\`\`\n${getCollection}\n\`\`\``);
-        } else interaction.reply(`These are the available options: \`add\`, \`remove\`, \`display\`, \`collection\``);
+            if(getCollection) return interaction.reply({content: `\`\`\`js\n${getCollection}\n\`\`\``, ephemeral: true});
+        }
     }
 }

@@ -4,7 +4,7 @@
   "description": "Makes Apexie's World (the Discord server) functional with features such as welcoming new users and more...",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "code . && ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts",
     "start": "ts-node --transpile-only ./src/index.ts"
   },
   "repository": "https://github.com/ApexieDevelopment/ApexieServices",

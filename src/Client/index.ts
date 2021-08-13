@@ -2,7 +2,7 @@ import { Client, Collection } from 'discord.js';
 import { disconnect } from 'mongoose';
 import path from 'path';
 import { readdirSync, readFileSync } from 'fs';
-import { Command, TerminalCommand, Event, Config } from '../Interfaces';
+import { Command, TerminalCommand, Event, Config, Task } from '../Interfaces';
 import { version } from '../../package.json';
 import chalk from 'chalk';
 import clear from 'clear';
@@ -14,6 +14,7 @@ class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection();
     public terminalCmds: Collection<string, TerminalCommand> = new Collection();
     public events: Collection<string, Event> = new Collection();
+    public tasks: Collection<string, Task> = new Collection();
     public config: Config = JSON.parse(readFileSync(path.join(process.cwd() + '/config.json')).toString());
     public executedCooldown = new Set();
 
@@ -45,6 +46,18 @@ class ExtendedClient extends Client {
         });
 
         /* Terminal commands */
+        const terminalCmdPath = path.join(__dirname, "..", "Terminal", "Commands");
+        const terminalCmds = readdirSync(`${terminalCmdPath}`).filter((file) => file.endsWith('.ts'));
+        terminalCmds.forEach(async (file) => {
+            try {
+                const { command } = await import(`${terminalCmdPath}/${file}`);
+                if(!command?.name) return;
+                this.terminalCmds.set(command.name, command);
+                console.log(`[Client] ${chalk.underline(this.capitalize(command.name))} command => ${chalk.whiteBright('Loaded!')}`);
+            } catch (e) {
+                console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Doesn't export a terminal command`)}`);
+            }
+        });
 
         /* Events */
         const eventPath = path.join(__dirname, "..", "Events");
@@ -56,6 +69,20 @@ class ExtendedClient extends Client {
                 console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.magentaBright('Loaded!')}`);
             } catch (e) {
                 console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.redBright(`Doesn't export an event`)}`);
+            }
+        });
+
+        /* Tasks */
+        const tasksPath = path.join(__dirname, "..", "Tasks");
+        const tasks = readdirSync(`${tasksPath}`).filter((file) => file.endsWith('.ts'));
+        tasks.forEach(async (file) => {
+            try {
+                const { task } = await import(`${tasksPath}/${file}`);
+                if(!task?.name) return;
+                this.tasks.set(task.name, task);
+                console.log(`[Client] ${chalk.underline(this.capitalize(task.name))} task => ${chalk.cyanBright('Loaded!')}`);
+            } catch (e) {
+                console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Doesn't export a task`)}`);
             }
         });
     }

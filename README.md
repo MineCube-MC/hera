@@ -10,15 +10,14 @@
 ## What is left to do?
 - [X] Project setup
 - [X] Basic bot structure
-- [-] Commands and Events handler (to be fixed)
+- [X] Commands and Events handler
 - [ ] Commands:
   - [X] Moderation commands
   - [X] Fun commands (memes, small games and more...)
-  - [ ] Music commands
   - [ ] Activity commands (YouTube Together and more...)
 - [X] Welcoming system
 - [X] Log System
 - [ ] Server profile customization (reaction roles)
-- [ ] Partnership system
+- [ ] Partnership system (*We're working on it right now*)
 - [ ] Making the bot public
       (*This means the bot will be able to be invited in other servers, however this will be done only when people will be actually interested in the bot, otherwise the bot will still be private*)

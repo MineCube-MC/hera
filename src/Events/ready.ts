@@ -1,12 +1,12 @@
 import { Event } from '../Interfaces';
 import chalk from 'chalk';
 import { blacklistedWordsSchema } from '../Models/blacklistedWords';
-import { blacklistedWordsCollection, welcomeChannelCollection } from '../Collections';
+import { blacklistedWordsCollection, partnersCollection, welcomeChannelCollection, moderationLogsCollection } from '../Collections';
 import { ClientPrompt } from '../Terminal';
 import { connect } from 'mongoose';
 import { moderationLogsSchema } from '../Models/moderationLogs';
-import { moderationLogsCollection } from '../Collections/moderationLogs';
 import { welcomeChannelSchema } from '../Models/welcomeChannel';
+import { partnersSchema } from '../Models/partners';
 
 export const event: Event = {
     name: 'ready',
@@ -44,13 +44,24 @@ export const event: Event = {
                 });
             });
 
+            partnersSchema.find().then((data) => {
+                data.forEach((val: any) => {
+                    partnersCollection.set(val.Guild, val.Name);
+                });
+            });
+
             console.log(`[Client] Database => ${chalk.greenBright('Connected!')}`);
         }).finally(() => {
+            client.tasks.forEach(async task => {
+                setInterval(async () => {
+                    await task.execute(client);
+                }, task.interval * 1000);
+            });
             new ClientPrompt(client);
         });
 
         client.user.setStatus('dnd');
-        client.user.setActivity(`Still W.I.P. | ${client.config.prefix}help`);
+        client.user.setActivity(`The team is still working on me`);
 
     }
 }

@@ -1,7 +1,6 @@
 {
     "token": "ODczNTE3MzE5NTcyMzEyMDk2.YQ5kZg.0VVlYbifwfTANhmw32MvGjl1ky4",
     "mongoURI": "mongodb+srv://DiscordClient:pgtVkd5gdb926TJF@apexieservices.83gni.mongodb.net/DiscordClientDB?retryWrites=true&w=majority",
-    "prefix": ".",
     "owners": [
         "480987124405895168",
         "832967911206944788",
@@ -9,6 +8,11 @@
         "467338019830104064",
         "721395864572264519"
     ],
+    "partnership": {
+        "channel": "875749772219277342",
+        "mainGuild": "864167709061939210",
+        "brandName": "Apexie's World"
+    },
     "colors": {
         "main": "#23abeb",
         "secondary": "#ffffff",

@@ -3,8 +3,12 @@ import { ColorResolvable } from "discord.js";
 export interface Config {
     token: string;
     mongoURI: string;
-    prefix: string;
     owners: string[];
+    partnership: {
+        channel: string;
+        mainGuild: string;
+        brandName: string;
+    }
     colors: {
         main: ColorResolvable;
         secondary: ColorResolvable;

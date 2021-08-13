@@ -11,10 +11,11 @@
 - [X] Project setup
 - [X] Basic bot structure
 - [X] Commands and Events handler
-- [ ] Commands:
+- [X] Tasks implementation
+- [X] Commands:
   - [X] Moderation commands
   - [X] Fun commands (memes, small games and more...)
-  - [ ] Activity commands (YouTube Together and more...)
+  - [X] Activity commands (YouTube Together, *more stuff will be added later on*)
 - [X] Welcoming system
 - [X] Log System
 - [ ] Server profile customization (reaction roles)

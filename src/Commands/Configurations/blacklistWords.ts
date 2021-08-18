@@ -63,7 +63,7 @@ export const command: Command = {
                 } else {
                     new Schema({
                         Guild: interaction.guild.id,
-                        Words: word
+                        Words: [ word ]
                     }).save();
                     Collection.set(interaction.guild.id, [ word ]);
                 }

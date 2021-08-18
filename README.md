@@ -18,7 +18,7 @@
   - [X] Activity commands (YouTube Together, *more stuff will be added later on*)
 - [X] Welcoming system
 - [X] Log System
-- [ ] Server profile customization (reaction roles)
+- [X] Server profile customization (role buttons)
 - [X] Partnership system
 - [ ] Making the bot public
       (*This means the bot will be able to be invited in other servers, however this will be done only when people will be actually interested in the bot, otherwise the bot will still be private*)

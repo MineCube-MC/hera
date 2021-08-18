@@ -13,6 +13,12 @@
         "mainGuild": "864167709061939210",
         "brandName": "Apexie's World"
     },
+    "statusMessages": [
+        "Ready to help you",
+        "Just a simple bot",
+        "Made with love by Apexie",
+        "Use our slash commands"
+    ],
     "colors": {
         "main": "#23abeb",
         "secondary": "#ffffff",

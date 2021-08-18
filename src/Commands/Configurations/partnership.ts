@@ -19,15 +19,65 @@ export const command: Command = {
                 },
                 {
                     name: 'invite',
-                    description: 'The invite link for the server',
+                    description: 'The invite link for the server.',
                     type: 'STRING',
                     required: true
                 },
                 {
                     name: 'guild',
-                    description: 'The server ID of the server (enable Developer Mode to get it)',
+                    description: 'The server ID of the server (enable Developer Mode to get it).',
                     type: 'STRING',
                     required: true
+                }
+            ]
+        },
+        {
+            name: 'remove',
+            description: 'Remove an existing partnership',
+            type: 'SUB_COMMAND',
+            options: [
+                {
+                    name: 'guild',
+                    description: 'The server ID of the server (enable Developer Mode to get it).',
+                    type: 'STRING',
+                    required: true
+                }
+            ]
+        },
+        {
+            name: 'sponsor',
+            description: 'Send a sponsor message',
+            type: 'SUB_COMMAND',
+            options: [
+                {
+                    name: 'title',
+                    description: 'The title/name of the sponsored product.',
+                    type: 'STRING',
+                    required: true
+                },
+                {
+                    name: 'description',
+                    description: 'The description of the sponsored product. Any \\n will be a new line on the description',
+                    type: 'STRING',
+                    required: true
+                },
+                {
+                    name: 'links',
+                    description: 'The links of the sponsored product.',
+                    type: 'STRING',
+                    required: true
+                },
+                {
+                    name: 'ping',
+                    description: 'Should @everyone get pinged for the sponsored product?',
+                    type: 'BOOLEAN',
+                    required: true
+                },
+                {
+                    name: 'image',
+                    description: 'The image of the sponsored product.',
+                    type: 'STRING',
+                    required: false
                 }
             ]
         }
@@ -79,6 +129,53 @@ export const command: Command = {
             });
 
             return interaction.reply({ content: `The partnership has been created successfully`, ephemeral: true });
+        } else if(action === "remove") {
+            const serverId = interaction.options.getString("guild");
+
+            Schema.findOne({ Guild: serverId }, async(err, data) => {
+                if(!data) return interaction.reply({ content: `The specified server was not found`, ephemeral: true });
+
+                const name = data.Name;
+
+                await Schema.deleteOne({ Guild: serverId }, () => {
+                    Collection.delete(serverId);
+                    interaction.reply({ content: `The guild **${name}** is not a **${client.config.partnership.brandName}** partner anymore. Feel free to delete the sponsor message.`, ephemeral: true });
+                });
+            });
+        } else if(action === "sponsor") {
+            const title = interaction.options.getString("title");
+            const description = interaction.options.getString("description");
+            const links = interaction.options.getString("links");
+            const image = interaction.options.getString("image");
+            function isPing() {
+                return interaction.options.getBoolean("ping");
+            };
+
+            const channel = client.channels.cache.get(client.config.partnership.channel);
+
+            if(channel.isText()) {
+                const newSponsor = new MessageEmbed()
+                    .setColor('RANDOM')
+                    .setTitle(title)
+                    .setDescription(description)
+                    .addField("Links", links)
+                    .setFooter(`Sponsored by ${client.config.partnership.brandName}`, client.user.displayAvatarURL({ dynamic: true }))
+                    .setTimestamp();
+                
+                if(image) newSponsor.setImage(image);
+
+                if(isPing) return channel.send({
+                    content: '@everyone',
+                    embeds: [newSponsor]
+                });
+
+                channel.send({ embeds: [newSponsor] });
+
+                return interaction.reply({
+                    content: `The product **${title}** has been sponsored successfully.`,
+                    ephemeral: true
+                });
+            }
         }
     }
 }

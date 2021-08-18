@@ -8,7 +8,8 @@ export interface Config {
         channel: string;
         mainGuild: string;
         brandName: string;
-    }
+    };
+    statusMessages: string[];
     colors: {
         main: ColorResolvable;
         secondary: ColorResolvable;

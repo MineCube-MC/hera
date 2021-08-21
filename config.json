@@ -1,6 +1,6 @@
 {
-    "token": "ODczNTE3MzE5NTcyMzEyMDk2.YQ5kZg.0VVlYbifwfTANhmw32MvGjl1ky4",
-    "mongoURI": "mongodb+srv://DiscordClient:pgtVkd5gdb926TJF@apexieservices.83gni.mongodb.net/DiscordClientDB?retryWrites=true&w=majority",
+    "token": "ODU2NTg5NTUxNjA1MzgzMTk5.YNDPLw.YYqH0t0fjfqq93nJpwup9QHwf8M",
+    "mongoURI": "mongodb+srv://DiscordClient:pgtVkd5gdb926TJF@apexieservices.83gni.mongodb.net/apexie-services?retryWrites=true&w=majority",
     "owners": [
         "480987124405895168",
         "832967911206944788",
@@ -9,8 +9,8 @@
         "721395864572264519"
     ],
     "partnership": {
-        "channel": "875749772219277342",
-        "mainGuild": "864167709061939210",
+        "channel": "877649597533671434",
+        "mainGuild": "736977303539810365",
         "brandName": "Apexie's World"
     },
     "statusMessages": [
@@ -28,7 +28,7 @@
         "fun": "#3eedf0"
     },
     "testMode": {
-        "enabled": true,
-        "guild": "864167709061939210"
+        "enabled": false,
+        "guild": "736977303539810365"
     }
 }

@@ -164,14 +164,21 @@ export const command: Command = {
                 
                 if(image) newSponsor.setImage(image);
 
-                if(isPing) return channel.send({
-                    content: '@everyone',
-                    embeds: [newSponsor]
-                });
+                if(isPing) {
+                    channel.send({
+                        content: '@everyone',
+                        embeds: [newSponsor]
+                    });
+                    await interaction.reply({
+                        content: `The product **${title}** has been sponsored successfully.`,
+                        ephemeral: true
+                    });
+                    return;
+                }
 
                 channel.send({ embeds: [newSponsor] });
 
-                return interaction.reply({
+                await interaction.reply({
                     content: `The product **${title}** has been sponsored successfully.`,
                     ephemeral: true
                 });

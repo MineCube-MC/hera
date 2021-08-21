@@ -1,4 +1,4 @@
-import { ColorResolvable, GuildMember, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import { ColorResolvable, GuildMember, MessageActionRow, MessageButton, MessageEmbed, Util } from 'discord.js';
 import { Command } from '../../Interfaces';
 import { rolesCollection as Collection } from '../../Collections';
 import { rolesSchema as Schema } from '../../Models/roles';
@@ -67,10 +67,6 @@ export const command: Command = {
             return str.match(/^#[a-f0-9]{6}$/i) !== null;
         }
 
-        function isValidEmoji(str) {
-            return str.match(/(^|\s)+:([^\s\n\r])+:|^:[^\s\n\r]+/g) !== null;
-        }
-
         if(action === "create") {
             const description = interaction.options.getString("description");
             const role = interaction.guild.roles.cache.get(interaction.options.getRole("role").id);
@@ -99,7 +95,7 @@ export const command: Command = {
                 .setCustomId(role.id);
             
             if(emoji) {
-                if(isValidEmoji(emoji)) {
+                if(Util.parseEmoji(emoji)) {
                     roleButton.setEmoji(emoji);
                 } else return interaction.reply({
                     content: `The emoji doesn't use a valid format. A valid Discord format emoji should be like this: \`:joy:\``,

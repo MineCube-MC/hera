@@ -21,5 +21,9 @@ export interface Config {
     testMode: {
         enabled: boolean;
         guild: string;
+    };
+    terminal: {
+        fancyTerminal: boolean;
+        verbose: boolean
     }
 }

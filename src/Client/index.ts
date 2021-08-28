@@ -5,8 +5,6 @@ import { readdirSync, readFileSync } from 'fs';
 import { Command, TerminalCommand, Event, Config, Task } from '../Interfaces';
 import { version } from '../../package.json';
 import chalk from 'chalk';
-import clear from 'clear';
-import figlet from 'figlet';
 import Levels from 'discord-xp';
 
 class ExtendedClient extends Client {
@@ -19,9 +17,10 @@ class ExtendedClient extends Client {
     public executedCooldown = new Set();
 
     public async init() {
-        clear();
-        console.log(chalk.cyanBright(figlet.textSync('Apexie', { horizontalLayout: 'full' })));
-        console.log(`Starting Apexie Services ${chalk.italic(`(version ${version})`)}`);
+        console.clear();
+        console.log(`Apexie Shell ${version}`);
+        console.log(`Copyright (c) Apexie Development.`);
+        console.log(`\nhttps://github.com/ApexieDevelopment/ApexieServices \nType 'help' to get help.`);
 
         this.login(this.config.token);
 
@@ -38,9 +37,9 @@ class ExtendedClient extends Client {
                     if(!command?.name) return;
                     this.commands.set(command.name, command);
                     this.arrayOfCommands.push(command);
-                    console.log(`[Client] ${chalk.underline(this.capitalize(command.name))} command => ${chalk.yellowBright('Loaded!')}`);
+                    if (this.config.terminal.verbose) console.log(`${chalk.underline(this.capitalize(command.name))} command => ${chalk.yellowBright('Loaded!')}`);
                 } catch (e) {
-                    console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Doesn't export a command`)}`);
+                    console.log(`${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Unable to load the command`)}`);
                 }
             });
         });
@@ -53,9 +52,9 @@ class ExtendedClient extends Client {
                 const { command } = await import(`${terminalCmdPath}/${file}`);
                 if(!command?.name) return;
                 this.terminalCmds.set(command.name, command);
-                console.log(`[Client] ${chalk.underline(this.capitalize(command.name))} command => ${chalk.whiteBright('Loaded!')}`);
+                if (this.config.terminal.verbose) console.log(`${chalk.underline(this.capitalize(command.name))} command => ${chalk.whiteBright('Loaded!')}`);
             } catch (e) {
-                console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Doesn't export a terminal command`)}`);
+                console.log(`${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Unable to load the terminal command`)}`);
             }
         });
 
@@ -66,9 +65,9 @@ class ExtendedClient extends Client {
                 const { event } = await import(`${eventPath}/${file}`);
                 this.events.set(event.name, event);
                 this.on(event.name, event.run.bind(null, this));
-                console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.magentaBright('Loaded!')}`);
+                if (this.config.terminal.verbose) console.log(`${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.magentaBright('Loaded!')}`);
             } catch (e) {
-                console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.redBright(`Doesn't export an event`)}`);
+                console.log(`${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} event => ${chalk.redBright(`Unable to load the event`)}`);
             }
         });
 
@@ -80,21 +79,21 @@ class ExtendedClient extends Client {
                 const { task } = await import(`${tasksPath}/${file}`);
                 if(!task?.name) return;
                 this.tasks.set(task.name, task);
-                console.log(`[Client] ${chalk.underline(this.capitalize(task.name))} task => ${chalk.cyanBright('Loaded!')}`);
+                if (this.config.terminal.verbose) console.log(`${chalk.underline(this.capitalize(task.name))} task => ${chalk.cyanBright('Loaded!')}`);
             } catch (e) {
-                console.log(`[Client] ${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Doesn't export a task`)}`);
+                console.log(`${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Unable to load the task`)}`);
             }
         });
     }
 
     public shutdown() {
-        console.log(`[Client] Database => ${chalk.redBright('Disconnecting...')}`);
+        if (this.config.terminal.verbose) console.log(`Database => ${chalk.redBright('Disconnecting...')}`);
         disconnect();
-        console.log(`[Client] Client => ${chalk.redBright('Shutting down...')}`);
+        if (this.config.terminal.verbose) console.log(`Client => ${chalk.redBright('Shutting down...')}`);
         process.exit(0);
     }
     
-    public capitalize(string) {
+    public capitalize(string: string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 

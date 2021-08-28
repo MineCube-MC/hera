@@ -12,10 +12,9 @@ import { rolesSchema } from '../Models/roles';
 export const event: Event = {
     name: 'ready',
     run: (client) => {
-        console.log('[Client] Logged in as ' + chalk.italic(client.user.tag));
-        console.log(`[Client] Client => ${chalk.greenBright('Ready!')}`);
+        if (client.config.terminal.verbose) console.log('Logged in as ' + chalk.italic(client.user.tag));
+        if (client.config.terminal.verbose) console.log(`Client => ${chalk.greenBright('Ready!')}`);
 
-        // console.log(client.arrayOfCommands);
         if(client.config.testMode.enabled) {
             client.guilds.cache.get(client.config.testMode.guild).commands.set(client.arrayOfCommands);
         } else {
@@ -57,7 +56,7 @@ export const event: Event = {
                 });
             });
 
-            console.log(`[Client] Database => ${chalk.greenBright('Connected!')}`);
+            if (client.config.terminal.verbose) console.log(`Database => ${chalk.greenBright('Connected!')}`);
         }).finally(() => {
             client.tasks.forEach(async task => {
                 setInterval(async () => {
@@ -66,7 +65,5 @@ export const event: Event = {
             });
             new ClientPrompt(client);
         });
-
-        client.user.setStatus('dnd');
     }
 }

@@ -103,7 +103,7 @@ export const command: Command = {
                         .setColor('RANDOM')
                         .setTitle(guild.name)
                         .setThumbnail(guild.iconURL({ dynamic: true }))
-                        .setDescription(serverDescription)
+                        .setDescription(serverDescription.replaceAll('\\n', '\n'))
                         .addField("Click the link to join", serverInvite)
                         .setFooter(`Partenered with ${client.config.partnership.brandName}`, client.user.displayAvatarURL({ dynamic: true }))
                         .setTimestamp();
@@ -157,14 +157,14 @@ export const command: Command = {
                 const newSponsor = new MessageEmbed()
                     .setColor('RANDOM')
                     .setTitle(title)
-                    .setDescription(description)
+                    .setDescription(description.replaceAll('\\n', '\n'))
                     .addField("Links", links)
                     .setFooter(`Sponsored by ${client.config.partnership.brandName}`, client.user.displayAvatarURL({ dynamic: true }))
                     .setTimestamp();
                 
                 if(image) newSponsor.setImage(image);
 
-                if(isPing) {
+                if(isPing()) {
                     channel.send({
                         content: '@everyone',
                         embeds: [newSponsor]

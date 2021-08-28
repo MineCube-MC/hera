@@ -11,7 +11,7 @@ export const command: Command = {
             required: true
         }
     ],
-    description: 'Delete up to 100 interactions at once',
+    description: 'Delete up to 100 messages at once',
     async execute(interaction) {
         if(!interaction.guild.members.cache.get(interaction.user.id).permissions.has('MANAGE_MESSAGES')) return interaction.reply("You haven't the permission to execute this command!");
 

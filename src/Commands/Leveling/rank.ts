@@ -9,7 +9,8 @@ export const command: Command = {
     async execute(interaction, client) {
         const user = await Levels.fetch(interaction.user.id, interaction.guild.id);
 
-        const neededXp = Levels.xpFor(user.level + 1);
+        let neededXp = Levels.xpFor(user.level + 1);
+        if(typeof neededXp != 'number') neededXp = Levels.xpFor(1);
 
         const turnToCanvacordStatus = (s: PresenceStatus): "online"|"idle"|"dnd"|"offline"|"streaming" => s === "invisible" ? "offline" : s;
 

@@ -14,7 +14,6 @@ class ExtendedClient extends Client {
     public events: Collection<string, Event> = new Collection();
     public tasks: Collection<string, Task> = new Collection();
     public config: Config = JSON.parse(readFileSync(path.join(process.cwd() + '/config.json')).toString());
-    public executedCooldown = new Set();
 
     public async init() {
         console.clear();
@@ -22,7 +21,11 @@ class ExtendedClient extends Client {
         console.log(`Copyright (c) Apexie Development.`);
         console.log(`\nhttps://github.com/ApexieDevelopment/ApexieServices \nType 'help' to get help.`);
 
-        this.login(this.config.token);
+        let token;
+        if(process.env.TOKEN) {
+            token = process.env.TOKEN;
+        } else token = this.config.token;
+        this.login(token);
 
         Levels.setURL(this.config.mongoURI);
 

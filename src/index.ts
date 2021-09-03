@@ -7,6 +7,7 @@ new Client({
         'GUILD_MEMBERS',
         'GUILD_PRESENCES',
         'GUILD_MESSAGE_REACTIONS',
+        'GUILD_VOICE_STATES',
         'GUILD_INTEGRATIONS',
         'GUILD_EMOJIS_AND_STICKERS',
         'GUILD_MESSAGE_TYPING']

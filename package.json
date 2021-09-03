@@ -26,7 +26,6 @@
     "ainasepics": "^1.7.5",
     "canvacord": "^5.2.3",
     "chalk": "^4.1.1",
-    "discord-api-types": "^0.22.0",
     "discord-xp": "^1.1.16",
     "discord.js": "^13.0.0",
     "glob": "^7.1.7",

@@ -28,7 +28,7 @@
         "fun": "#3eedf0"
     },
     "testMode": {
-        "enabled": false,
+        "enabled": true,
         "guild": "736977303539810365"
     },
     "terminal": {

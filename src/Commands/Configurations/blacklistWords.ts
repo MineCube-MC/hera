@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { blacklistedWordsSchema as Schema } from '../../Models/blacklistedWords';
-import { blacklistedWordsCollection as Collection } from '../../Collections';
 import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
@@ -59,13 +58,11 @@ export const command: Command = {
 
                     (data.Words as string[]).push(word);
                     data.save();
-                    Collection.get(interaction.guild.id).push(word);
                 } else {
                     new Schema({
                         Guild: interaction.guild.id,
                         Words: [ word ]
                     }).save();
-                    Collection.set(interaction.guild.id, [ word ]);
                 }
                 interaction.reply({ content: `The word \`${word}\` has been added into the blacklist.`, ephemeral: true });
             });
@@ -84,7 +81,6 @@ export const command: Command = {
                     Guild: interaction.guild.id,
                     Words: filtered
                 });
-                Collection.get(interaction.guild.id).filter((target) => target !== word);
 
                 interaction.reply({ content: `The word \`${word}\` has been removed from the blacklist.`, ephemeral: true });
             });
@@ -100,9 +96,6 @@ export const command: Command = {
                     .setTimestamp()
                 ] });
             });
-        } else if(query === 'collection') {
-            const getCollection = Collection.get(interaction.guild.id);
-            if(getCollection) return interaction.reply({content: `\`\`\`js\n${getCollection}\n\`\`\``, ephemeral: true});
         }
     }
 }

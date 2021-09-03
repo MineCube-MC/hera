@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { partnersSchema as Schema } from '../../Models/partners';
-import { partnersCollection as Collection } from '../../Collections';
 import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
@@ -120,11 +119,9 @@ export const command: Command = {
                         Guild: serverId,
                         Name: client.guilds.cache.get(serverId).name
                     }).save();
-                    Collection.set(serverId, client.guilds.cache.get(serverId).name);
                 } else {
                     data.Name = client.guilds.cache.get(serverId).name;
                     data.save();
-                    Collection.set(serverId, client.guilds.cache.get(serverId).name);
                 }
             });
 
@@ -138,7 +135,6 @@ export const command: Command = {
                 const name = data.Name;
 
                 await Schema.deleteOne({ Guild: serverId }, () => {
-                    Collection.delete(serverId);
                     interaction.reply({ content: `The guild **${name}** is not a **${client.config.partnership.brandName}** partner anymore. Feel free to delete the sponsor message.`, ephemeral: true });
                 });
             });

@@ -7,6 +7,9 @@ import { version } from '../../package.json';
 import chalk from 'chalk';
 import Levels from 'discord-xp';
 
+import { connect } from 'mongoose';
+import db from 'quick.db';
+
 class ExtendedClient extends Client {
     public arrayOfCommands = [];
     public commands: Collection<string, Command> = new Collection();
@@ -17,7 +20,7 @@ class ExtendedClient extends Client {
 
     public async init() {
         console.clear();
-        console.log(`Apexie Shell ${version}`);
+        console.log(`Plenus Shell ${version}`);
         console.log(`Copyright (c) Apexie Development.`);
         console.log(`\nhttps://github.com/ApexieDevelopment/ApexieServices \nType 'help' to get help.`);
 
@@ -29,6 +32,12 @@ class ExtendedClient extends Client {
 
         Levels.setURL(this.config.mongoURI);
 
+        this.register();
+
+        this.prepareDatabase();
+    }
+
+    public register() {
         /* Commands */
         const commandPath = path.join(__dirname, "..", "Commands");
         readdirSync(commandPath).forEach((dir) => {
@@ -87,6 +96,16 @@ class ExtendedClient extends Client {
                 console.log(`${chalk.underline(this.capitalize(file.replace(/.ts/g,'')))} command => ${chalk.redBright(`Unable to load the task`)}`);
             }
         });
+    }
+
+    public prepareDatabase() {
+        connect(this.config.mongoURI, {
+            "useUnifiedTopology": true,
+            "useFindAndModify": false,
+            "useNewUrlParser": true
+        }).then(() => {
+            if (this.config.terminal.verbose) console.log(`Database => ${chalk.greenBright('Connected!')}`);
+        })
     }
 
     public shutdown() {

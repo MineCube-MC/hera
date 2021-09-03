@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { moderationLogsSchema as Schema } from '../../Models/moderationLogs';
-import { moderationLogsCollection as Collection } from '../../Collections';
 
 export const command: Command = {
     name: 'logchannel',
@@ -38,11 +37,9 @@ export const command: Command = {
                         Guild: interaction.guild.id,
                         Channel: newChannel
                     }).save();
-                    Collection.set(interaction.guild.id, newChannel);
                 } else {
                     data.Channel = newChannel;
                     data.save();
-                    Collection.set(interaction.guild.id, newChannel.toString());
                 }
             });
 
@@ -54,11 +51,9 @@ export const command: Command = {
                         Guild: interaction.guild.id,
                         Channel: 'disabled'
                     }).save();
-                    Collection.set(interaction.guild.id, 'disabled');
                 } else {
                     data.Channel = 'disabled';
                     data.save();
-                    Collection.set(interaction.guild.id, 'disabled');
                 }
             });
 

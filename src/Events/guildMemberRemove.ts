@@ -1,13 +1,27 @@
 import { GuildMember, MessageEmbed, TextChannel } from 'discord.js';
 import { Event } from '../Interfaces';
-import { moderationLogsCollection as logsCollection, partnersCollection } from '../Collections';
+
+import { partnersSchema } from '../Models/partners';
+import { moderationLogsSchema } from '../Models/moderationLogs';
 
 export const event: Event = {
     name: 'guildMemberRemove',
     run: async(client, member: GuildMember) => {
+        let channelFind;
+        let partnerFind;
+        let modLogsId;
+        partnersSchema.findOne({ Guild: client.config.partnership.mainGuild }, async(err, data) => {
+            if(data) channelFind = data.Channel;
+        });
+        partnersSchema.findOne({ Guild: member.guild.id }, async(err, data) => {
+            if(data) partnerFind = data.Channel;
+        });
+        moderationLogsSchema.findOne({ Guild: member.guild.id }, async(err, data) => {
+            if(data) modLogsId = data.Channel;
+        });
         if(member.user === client.user) {
-            if(partnersCollection.get(member.guild.id)) {
-                const logsChannel = client.channels.cache.find(ch => ch.id === logsCollection.get(client.config.partnership.mainGuild));
+            if(partnerFind === member.guild.id) {
+                const logsChannel = client.channels.cache.find(ch => ch.id === channelFind);
                 if(!logsChannel) return;
                 if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
                 logsChannel.send({ embeds: [
@@ -22,7 +36,7 @@ export const event: Event = {
             }
             return;
         }
-        const logsChannel = client.channels.cache.find(ch => ch.id === logsCollection.get(member.guild.id));
+        const logsChannel = client.channels.cache.find(ch => ch.id === modLogsId);
         if(!logsChannel) return;
         if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
         

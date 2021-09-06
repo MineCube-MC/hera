@@ -1,11 +1,15 @@
 import { ColorResolvable, GuildMember, MessageEmbed, TextChannel } from 'discord.js';
 import { Event } from '../Interfaces';
-import { welcomeChannelCollection as welcomeCollection } from '../Collections';
+import { welcomeChannelSchema as Schema } from '../Models/welcomeChannel';
 
 export const event: Event = {
     name: 'guildMemberAdd',
     run: async(client, member: GuildMember) => {
-        const welcomeChannel = client.channels.cache.find(ch => ch.id === welcomeCollection.get(member.guild.id));
+        let welcomeId;
+        Schema.findOne({ Guild: member.guild.id }, async(err, data) => {
+            if(data) welcomeId = data.Channel;
+        });
+        const welcomeChannel = client.channels.cache.find(ch => ch.id === welcomeId);
         if(!welcomeChannel) return;
         if (!((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === 'GUILD_TEXT')(welcomeChannel)) return;
         welcomeChannel.send({ embeds: [

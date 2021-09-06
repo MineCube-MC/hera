@@ -1,5 +1,5 @@
 import { Command } from '../../Interfaces';
-import { welcomeChannelSchema as Schema } from '../../Models/welcomeChannel';
+import { guildsSchema as Schema } from '../../Models/guilds';
 
 export const command: Command = {
     name: 'welcomechannel',
@@ -31,28 +31,32 @@ export const command: Command = {
 
         if(action === 'set') {
             const newChannel = interaction.options.getChannel("channel")?.id;
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            Schema.findOne({ guild: interaction.guild.id }, async(err, data) => {
                 if(!data) {
                     new Schema({
-                        Guild: interaction.guild.id,
-                        Channel: newChannel
+                        guild: interaction.guild.id,
+                        channels: {
+                            welcome: newChannel
+                        }
                     }).save();
                 } else {
-                    data.Channel = newChannel;
+                    data.channels.welcome = newChannel;
                     data.save();
                 }
             });
 
             return interaction.reply({ content: `The welcome channel has been updated to <#${newChannel}>`, ephemeral: true });
         } else if(action === 'disable') {
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            Schema.findOne({ guild: interaction.guild.id }, async(err, data) => {
                 if(!data) {
                     new Schema({
-                        Guild: interaction.guild.id,
-                        Channel: 'disabled'
+                        guild: interaction.guild.id,
+                        channels: {
+                            welcome: 'disabled'
+                        }
                     }).save();
                 } else {
-                    data.Channel = 'disabled';
+                    data.channels.welcome = 'disabled';
                     data.save();
                 }
             });

@@ -1,5 +1,5 @@
 import { Command } from '../../Interfaces';
-import { moderationLogsSchema as Schema } from '../../Models/moderationLogs';
+import { guildsSchema as Schema } from '../../Models/guilds';
 
 export const command: Command = {
     name: 'logchannel',
@@ -31,28 +31,22 @@ export const command: Command = {
 
         if(action === 'set') {
             const newChannel = interaction.options.getChannel("channel")?.id;
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            Schema.findOne({ guild: interaction.guild.id }, async(err, data) => {
                 if(!data) {
-                    new Schema({
-                        Guild: interaction.guild.id,
-                        Channel: newChannel
-                    }).save();
+                    new Schema().save();
                 } else {
-                    data.Channel = newChannel;
+                    data.channels.logging = newChannel;
                     data.save();
                 }
             });
 
             return interaction.reply({ content: `Your moderation logs channel has been updated to <#${newChannel}>`, ephemeral: true });
         } else if(action === 'disable') {
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            Schema.findOne({ guild: interaction.guild.id }, async(err, data) => {
                 if(!data) {
-                    new Schema({
-                        Guild: interaction.guild.id,
-                        Channel: 'disabled'
-                    }).save();
+                    new Schema().save();
                 } else {
-                    data.Channel = 'disabled';
+                    data.channels.logging = 'disabled';
                     data.save();
                 }
             });

@@ -37,7 +37,7 @@ class ExtendedClient extends Client {
         this.prepareDatabase();
     }
 
-    public register() {
+    public async register() {
         /* Commands */
         const commandPath = path.join(__dirname, "..", "Commands");
         readdirSync(commandPath).forEach((dir) => {

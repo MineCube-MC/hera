@@ -1,5 +1,5 @@
 import { Command } from '../../Interfaces';
-import { blacklistedWordsSchema as Schema } from '../../Models/blacklistedWords';
+import { guildsSchema as Schema } from '../../Models/guilds';
 import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
@@ -52,17 +52,14 @@ export const command: Command = {
             const word = interaction.options.getString("word").toLowerCase();
             if(!word) return interaction.reply({ content: 'You need to specify a word to add.', ephemeral: true });
 
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            Schema.findOne({ guild: interaction.guild.id }, async(err, data) => {
                 if(data) {
-                    if((data.Words as string[]).includes(word)) return interaction.reply({ content: 'The word is already added into the blacklist.', ephemeral: true });
+                    if((data.blacklist as string[]).includes(word)) return interaction.reply({ content: 'The word is already added into the blacklist.', ephemeral: true });
 
-                    (data.Words as string[]).push(word);
+                    (data.blacklist as string[]).push(word);
                     data.save();
                 } else {
-                    new Schema({
-                        Guild: interaction.guild.id,
-                        Words: [ word ]
-                    }).save();
+                    new Schema().save();
                 }
                 interaction.reply({ content: `The word \`${word}\` has been added into the blacklist.`, ephemeral: true });
             });
@@ -70,28 +67,28 @@ export const command: Command = {
             const word = interaction.options.getString("word").toLowerCase();
             if(!word) return interaction.reply({ content: 'You need to specify a word to remove.', ephemeral: true });
 
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            Schema.findOne({ guild: interaction.guild.id }, async(err, data) => {
                 if(!data) return interaction.reply({ content: `There isn't any data to delete`, ephemeral: true });
 
-                if(!(data.Words as string[]).includes(word)) return interaction.reply({ content: `The word doesn't exist in the blacklist.`, ephemeral: true });
+                if(!(data.blacklist as string[]).includes(word)) return interaction.reply({ content: `The word doesn't exist in the blacklist.`, ephemeral: true });
 
-                const filtered = (data.Words as string[]).filter((target) => target !== word);
+                const filtered = (data.blacklist as string[]).filter((target) => target !== word);
 
-                await Schema.findOneAndUpdate({ Guild: interaction.guild.id }, {
-                    Guild: interaction.guild.id,
-                    Words: filtered
+                await Schema.findOneAndUpdate({ guild: interaction.guild.id }, {
+                    guild: interaction.guild.id,
+                    blacklist: filtered
                 });
 
                 interaction.reply({ content: `The word \`${word}\` has been removed from the blacklist.`, ephemeral: true });
             });
         } else if(query === 'display') {
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            Schema.findOne({ guild: interaction.guild.id }, async(err, data) => {
                 if(!data) return interaction.reply(`There's no blacklisted word in this server.`);
                 interaction.reply({ embeds: [
                     new MessageEmbed()
                     .setTitle('Blacklisted words')
                     .setColor(client.config.colors.admin)
-                    .setDescription((data.Words as string[]).join(', '))
+                    .setDescription((data.blacklist as string[]).join(', '))
                     .setFooter(`Requested by ${interaction.user.username}`, interaction.user.displayAvatarURL({ dynamic: true }))
                     .setTimestamp()
                 ] });

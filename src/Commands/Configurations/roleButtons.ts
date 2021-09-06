@@ -1,6 +1,6 @@
 import { ColorResolvable, GuildMember, MessageActionRow, MessageButton, MessageEmbed, Util } from 'discord.js';
 import { Command } from '../../Interfaces';
-import { rolesSchema as Schema } from '../../Models/roles';
+import { guildsSchema as Schema } from '../../Models/guilds';
 
 export const command: Command = {
     name: 'rolebuttons',
@@ -107,21 +107,21 @@ export const command: Command = {
                     .addComponents(roleButton)
             ] });
 
-            Schema.findOne({ Role: roleButton.customId }, async(err, data) => {
-                new Schema({
-                    Role: roleButton.customId,
-                    Users: []
-                }).save();
+            Schema.findOne({ guild: interaction.guild.id }, async(err, data) => {
+                if(data) data.roles.push({
+                    role: roleButton.customId,
+                    users: []
+                });
             });
 
             interaction.reply({ content: `The role button has been created in the current text channel.`, ephemeral: true });
         } else if(action === "delete") {
             const role = interaction.guild.roles.cache.get(interaction.options.getRole("role").id);
 
-            Schema.findOne({ Role: role.id }, async(err, data) => {
+            Schema.findOne({ roles: [ { role: role.id } ] }, async(err, data) => {
                 if(!data) return interaction.reply({ content: `This role isn't registered for a role button` });
                 
-                await Schema.deleteOne({ Role: role.id }, () => {
+                await Schema.deleteOne({ roles: [ { role: role.id } ] }, () => {
                     interaction.reply({ content: `The role **${role.name}** is not used for a role button anymore. Delete the message that contains the role button.`, ephemeral: true });
                 });
             });

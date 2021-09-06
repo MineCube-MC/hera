@@ -2,7 +2,7 @@ import { GuildMember, MessageEmbed, TextChannel } from 'discord.js';
 import { Event } from '../Interfaces';
 
 import { partnersSchema } from '../Models/partners';
-import { moderationLogsSchema } from '../Models/moderationLogs';
+import { guildsSchema } from '../Models/guilds';
 
 export const event: Event = {
     name: 'guildMemberRemove',
@@ -16,8 +16,8 @@ export const event: Event = {
         partnersSchema.findOne({ Guild: member.guild.id }, async(err, data) => {
             if(data) partnerFind = data.Channel;
         });
-        moderationLogsSchema.findOne({ Guild: member.guild.id }, async(err, data) => {
-            if(data) modLogsId = data.Channel;
+        guildsSchema.findOne({ guild: member.guild.id }, async(err, data) => {
+            if(data) modLogsId = data.channels.logging;
         });
         if(member.user === client.user) {
             if(partnerFind === member.guild.id) {

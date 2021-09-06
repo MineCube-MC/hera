@@ -1,7 +1,6 @@
 import { Event } from '../Interfaces';
 import { ColorResolvable, Message, MessageEmbed, TextChannel } from 'discord.js';
-import { blacklistedWordsSchema } from '../Models/blacklistedWords';
-import { moderationLogsSchema } from '../Models/moderationLogs';
+import { guildsSchema as Schema } from '../Models/guilds';
 
 export const event: Event = {
     name: 'messageCreate',
@@ -12,8 +11,12 @@ export const event: Event = {
         let deleting: boolean = false;
 
         let blacklist;
-        blacklistedWordsSchema.findOne({ Guild: message.guild.id }, async(err, data) => {
-            if(data) blacklist = data.Words;
+        let modLogsId;
+        Schema.findOne({ guild: message.guild.id }, async(err, data) => {
+            if(data) {
+                blacklist = data.blacklist;
+                modLogsId = data.channels.logging;
+            }
         });
 
         await Promise.all(
@@ -24,10 +27,6 @@ export const event: Event = {
 
         if(deleting) {
             message.delete();
-            let modLogsId;
-            moderationLogsSchema.findOne({ Guild: message.guild.id }, async(err, data) => {
-                if(data) modLogsId = data.Channel;
-            });
             const logsChannel = message.guild.channels.cache.find(ch => ch.id === modLogsId);
             if(!logsChannel) return;
             if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;

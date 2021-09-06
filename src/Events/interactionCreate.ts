@@ -1,32 +1,32 @@
 import { GuildMember, Interaction, RoleResolvable } from 'discord.js';
 import { Event } from '../Interfaces';
-import { rolesSchema as Schema } from '../Models/roles';
+import { guildsSchema as Schema } from '../Models/guilds';
 
 export const event: Event = {
     name: 'interactionCreate',
     run: async(client, interaction: Interaction) => {
         if(interaction.isButton()) {
-			Schema.findOne({ Role: interaction.customId }, async(err, data) => {
+			Schema.findOne({ roles: [ { role: interaction.customId } ] }, async(err, data) => {
 				const role = interaction.guild.roles.cache.get(interaction.customId);
 
 				if(data) {
-					if((data.Users as string[]).includes(interaction.user.id)) {
+					if((data.users as string[]).includes(interaction.user.id)) {
 						const filtered = (data.Users as string[]).filter((target) => target !== interaction.user.id);
-						await Schema.findOneAndUpdate({ Role: interaction.customId }, {
-							Role: interaction.customId,
-							Users: filtered
+						await Schema.findOneAndUpdate({ roles: [ { role: interaction.customId } ] }, {
+							role: interaction.customId,
+							users: filtered
 						});
 						(interaction.member as GuildMember).roles.remove((interaction.customId as RoleResolvable));
 						return interaction.reply({ content: `You've been removed the **${role.name}** role.`, ephemeral: true });
 					}
 
-					(data.Users as string[]).push(interaction.user.id);
+					(data.users as string[]).push(interaction.user.id);
 					data.save();
 					(interaction.member as GuildMember).roles.add((interaction.customId as RoleResolvable));
 				} else {
 					new Schema({
-						Role: interaction.customId,
-						Users: [ interaction.user.id ]
+						role: interaction.customId,
+						users: [ interaction.user.id ]
 					}).save();
 					(interaction.member as GuildMember).roles.add((interaction.customId as RoleResolvable));
 				}

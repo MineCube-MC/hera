@@ -1,13 +1,13 @@
 import { GuildBan, MessageEmbed, TextChannel } from 'discord.js';
 import { Event } from '../Interfaces';
-import { moderationLogsSchema as Schema } from '../Models/moderationLogs';
+import { guildsSchema as Schema } from '../Models/guilds';
 
 export const event: Event = {
     name: 'guildBanAdd',
     run: async(client, ban: GuildBan) => {
         let modLogsId;
-        Schema.findOne({ Guild: ban.guild.id }, async(err, data) => {
-            if(data) modLogsId = data.Channel;
+        Schema.findOne({ guild: ban.guild.id }, async(err, data) => {
+            if(data) modLogsId = data.channel.logging;
         });
         const logsChannel = client.channels.cache.find(ch => ch.id === modLogsId);
         if(!logsChannel) return;

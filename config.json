@@ -1,5 +1,5 @@
 {
-    "token": "ODU2NTg5NTUxNjA1MzgzMTk5.YNDPLw.YYqH0t0fjfqq93nJpwup9QHwf8M",
+    "token": "ODQ2NzgyNzk1MDQwMDMwNzIw.YK0h7g.mA1F9xj_iFnWAVis-3fAEP3qpbQ",
     "mongoURI": "mongodb+srv://DiscordClient:pgtVkd5gdb926TJF@apexieservices.83gni.mongodb.net/apexie-services?retryWrites=true&w=majority",
     "owners": [
         "480987124405895168",
@@ -14,10 +14,10 @@
         "brandName": "Apexie's World"
     },
     "statusMessages": [
-        "Ready to help you",
-        "Just a simple bot",
-        "Made with love by Apexie",
-        "Use our slash commands"
+        "%servers% servers",
+        "%users% users",
+        "%name%'s Adventure",
+        "%name% Simulator"
     ],
     "colors": {
         "main": "#23abeb",
@@ -29,7 +29,7 @@
     },
     "testMode": {
         "enabled": true,
-        "guild": "736977303539810365"
+        "guild": "883231701306843136"
     },
     "terminal": {
         "fancyTerminal": true,

@@ -1,0 +1,23 @@
+{
+    // Usare IntelliSense per informazioni sui possibili attributi.
+    // Al passaggio del mouse vengono visualizzate le descrizioni degli attributi esistenti.
+    // Per altre informazioni, visitare: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Bot",
+            "type": "node",
+            "request": "launch",
+            "args": [
+                "src\\index.ts"
+            ],
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "cwd": "${workspaceRoot}",
+            "protocol": "inspector",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}

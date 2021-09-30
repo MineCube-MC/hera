@@ -1,41 +1,16 @@
 import { GuildMember, MessageEmbed, TextChannel } from 'discord.js';
 import { Event } from '../Interfaces';
 
-import { partnersSchema } from '../Models/partners';
 import { guildsSchema } from '../Models/guilds';
 
 export const event: Event = {
     name: 'guildMemberRemove',
     run: async(client, member: GuildMember) => {
         let channelFind;
-        let partnerFind;
         let modLogsId;
-        partnersSchema.findOne({ Guild: client.config.partnership.mainGuild }, async(err, data) => {
-            if(data) channelFind = data.Channel;
-        });
-        partnersSchema.findOne({ Guild: member.guild.id }, async(err, data) => {
-            if(data) partnerFind = data.Channel;
-        });
         guildsSchema.findOne({ guild: member.guild.id }, async(err, data) => {
             if(data) modLogsId = data.channels.logging;
         });
-        if(member.user === client.user) {
-            if(partnerFind === member.guild.id) {
-                const logsChannel = client.channels.cache.find(ch => ch.id === channelFind);
-                if(!logsChannel) return;
-                if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
-                logsChannel.send({ embeds: [
-                    new MessageEmbed()
-                        .setColor(client.config.colors.negative)
-                        .setTitle('Partnership broken')
-                        .setDescription(
-                            `**❯ Server ID:** ${member.guild.id}\n` +
-                            `**❯ Server Name:**${member.guild.name}`
-                        )
-                ] });
-            }
-            return;
-        }
         const logsChannel = client.channels.cache.find(ch => ch.id === modLogsId);
         if(!logsChannel) return;
         if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;

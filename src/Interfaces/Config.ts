@@ -4,11 +4,6 @@ export interface Config {
     token: string;
     mongoURI: string;
     owners: string[];
-    partnership: {
-        channel: string;
-        mainGuild: string;
-        brandName: string;
-    };
     statusMessages: string[];
     colors: {
         main: ColorResolvable;

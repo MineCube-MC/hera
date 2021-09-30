@@ -59,7 +59,11 @@ export const command: Command = {
                     (data.blacklist as string[]).push(word);
                     data.save();
                 } else {
-                    new Schema().save();
+                    const newSchema = new Schema({
+                        guild: interaction.guild.id,
+                        blacklist: [word]
+                    });
+                    newSchema.save();
                 }
                 interaction.reply({ content: `The word \`${word}\` has been added into the blacklist.`, ephemeral: true });
             });

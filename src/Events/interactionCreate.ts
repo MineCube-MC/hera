@@ -26,16 +26,41 @@ export const event: Event = {
 						(data.Users as string[]).push(interaction.user.id);
 						data.save();
 						Collection.get(interaction.customId).push(interaction.user.id);
-						(interaction.member as GuildMember).roles.add((interaction.customId as RoleResolvable));
+						try {
+							(interaction.member as GuildMember).roles.add((interaction.customId as RoleResolvable));
+							interaction.reply({ content: `You got the **${role.name}** role.`, ephemeral: true });
+						} catch (e) {
+							if((data.Users as string[]).includes(interaction.user.id)) {
+								const filtered = (data.Users as string[]).filter((target) => target !== interaction.user.id);
+								await Schema.findOneAndUpdate({ Role: interaction.customId }, {
+									Role: interaction.customId,
+									Users: filtered
+								});
+								Collection.get(interaction.customId).filter((target) => target !== interaction.user.id);
+								return interaction.reply({ content: `The bot hasn't enough permissions to add you the **${role.name}** role.`, ephemeral: true });
+							}
+						}
 					} else {
 						new Schema({
 							Role: interaction.customId,
 							Users: [ interaction.user.id ]
 						}).save();
 						Collection.set(interaction.customId, [ interaction.user.id ]);
-						(interaction.member as GuildMember).roles.add((interaction.customId as RoleResolvable));
+						try {
+							(interaction.member as GuildMember).roles.add((interaction.customId as RoleResolvable));
+							interaction.reply({ content: `You got the **${role.name}** role.`, ephemeral: true });
+						} catch (e) {
+							if((data.Users as string[]).includes(interaction.user.id)) {
+								const filtered = (data.Users as string[]).filter((target) => target !== interaction.user.id);
+								await Schema.findOneAndUpdate({ Role: interaction.customId }, {
+									Role: interaction.customId,
+									Users: filtered
+								});
+								Collection.get(interaction.customId).filter((target) => target !== interaction.user.id);
+								return interaction.reply({ content: `The bot hasn't enough permissions to add you the **${role.name}** role.`, ephemeral: true });
+							}
+						}
 					}
-					interaction.reply({ content: `You got the **${role.name}** role.`, ephemeral: true });
 				});
 			}
 		}

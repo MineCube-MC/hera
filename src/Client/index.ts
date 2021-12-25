@@ -6,6 +6,7 @@ import { Command, TerminalCommand, Event, Config, Task } from '../Interfaces';
 import { version } from '../../package.json';
 import chalk from 'chalk';
 import Levels from 'discord-xp';
+import { DiscordTogether } from 'discord-together';
 
 class ExtendedClient extends Client {
     public arrayOfCommands = [];
@@ -14,6 +15,7 @@ class ExtendedClient extends Client {
     public events: Collection<string, Event> = new Collection();
     public tasks: Collection<string, Task> = new Collection();
     public config: Config = JSON.parse(readFileSync(path.join(process.cwd() + '/config.json')).toString());
+    public activities = new DiscordTogether(this);
 
     public async init() {
         console.clear();

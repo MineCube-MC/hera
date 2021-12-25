@@ -3,7 +3,7 @@ import { ColorResolvable, Message, MessageEmbed, TextChannel } from 'discord.js'
 import { blacklistedWordsCollection as blacklistCollection, moderationLogsCollection as logsCollection } from '../Collections';
 
 export const event: Event = {
-    name: 'message',
+    name: 'messageCreate',
     run: async (client, message: Message) => {
         if(!message.guild) return;
         if(message.author.id === client.user.id) return;

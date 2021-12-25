@@ -31,18 +31,20 @@ export const command: Command = {
 
         if(!punishedUser.kickable) return interaction.reply("I haven't the permission to time out this user. Does he have a higher role? Do I have the permission to time out him?");
 
+        let seconds = interaction.options.getInteger("seconds") * 1000;
+
 	    try {
 		    if(!interaction.options.getString("reason")) {
-                punishedUser.timeout(interaction.options.getInteger("seconds"));
+                punishedUser.timeout(seconds);
             } else {
-                punishedUser.timeout(interaction.options.getInteger("seconds"), interaction.options.getString("reason"));
+                punishedUser.timeout(seconds, interaction.options.getString("reason"));
             }
 
             interaction.reply({
                 embeds: [
                     new MessageEmbed()
                     .setColor(client.config.colors.positive)
-                    .setDescription(`✅ **${punishedUser.user.tag}** has been successfully timed out for ${interaction.options.getInteger("seconds")}!`)
+                    .setDescription(`✅ **${punishedUser.user.tag}** has been successfully timed out for ${interaction.options.getInteger("seconds")} seconds!`)
                 ]
             });
 	    } catch (error) {

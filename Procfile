@@ -1,1 +1,1 @@
-worker: git pull && npm update && npm start
+worker: npm run heroku

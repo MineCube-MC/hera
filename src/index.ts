@@ -1,4 +1,7 @@
 import Client from './Client';
+import path from 'path';
+import { readFileSync } from 'fs';
+
 new Client({
     intents: [
         'GUILDS',
@@ -11,4 +14,4 @@ new Client({
         'GUILD_INTEGRATIONS',
         'GUILD_EMOJIS_AND_STICKERS',
         'GUILD_MESSAGE_TYPING']
-}).init();
+}).init(JSON.parse(readFileSync(path.join(process.cwd() + '/config.json')).toString()));

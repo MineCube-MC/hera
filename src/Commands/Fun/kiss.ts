@@ -1,6 +1,6 @@
 import { MessageEmbed } from 'discord.js';
 import { Command } from '../../Interfaces';
-import { kiss } from 'ainasepics';
+import ainasepics from 'ainasepics';
 
 export const command: Command = {
     name: 'kiss',
@@ -16,11 +16,13 @@ export const command: Command = {
     async execute(interaction, client) {
         const mentionedPerson = interaction.options.getUser("user");
 
+        const kiss = await ainasepics.get('kiss');
+
         if(mentionedPerson) {
             interaction.reply({ embeds: [
                 new MessageEmbed()
                     .setTitle(`${interaction.user.tag} kissed ${mentionedPerson.tag}`)
-                    .setImage(kiss())
+                    .setImage(kiss.url)
                     .setColor(client.config.colors.fun)
                     .setTimestamp()
             ] });

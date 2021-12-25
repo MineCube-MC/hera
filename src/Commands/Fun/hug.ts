@@ -1,6 +1,6 @@
 import { MessageEmbed } from 'discord.js';
 import { Command } from '../../Interfaces';
-import { hug } from 'ainasepics';
+import ainasepics from 'ainasepics';
 
 export const command: Command = {
     name: 'hug',
@@ -16,14 +16,14 @@ export const command: Command = {
     async execute(interaction, client) {
         const mentionedPerson = interaction.options.getUser("user");
 
-        if(mentionedPerson) {
-            interaction.reply({ embeds: [
-                new MessageEmbed()
-                    .setTitle(`${interaction.user.tag} hugged ${mentionedPerson.tag}`)
-                    .setImage(hug())
-                    .setColor(client.config.colors.fun)
-                    .setTimestamp()
-            ] });
-        } else return interaction.reply('Mention a user you want to hug.');
+        let hug = await ainasepics.get('hug');
+
+        interaction.reply({ embeds: [
+            new MessageEmbed()
+                .setTitle(`${interaction.user.tag} hugged ${mentionedPerson.tag}`)
+                .setImage(hug.url)
+                .setColor(client.config.colors.fun)
+                .setTimestamp()
+        ] });
     }
 }

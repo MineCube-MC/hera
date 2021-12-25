@@ -24,7 +24,6 @@ export const event: Event = {
 
         connect(client.config.mongoURI, {
             "useUnifiedTopology": true,
-            "useFindAndModify": false,
             "useNewUrlParser": true
         }).then(() => {
             blacklistedWordsSchema.find().then((data) => {

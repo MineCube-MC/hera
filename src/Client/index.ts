@@ -1,10 +1,10 @@
 import { Client, Collection } from 'discord.js';
 import { disconnect } from 'mongoose';
-import path from 'path';
-import { readdirSync, readFileSync } from 'fs';
 import { Command, TerminalCommand, Event, Config, Task } from '../Interfaces';
 import { version } from '../../package.json';
 import chalk from 'chalk';
+import path from 'path';
+import { readdirSync, readFileSync } from 'fs';
 import Levels from 'discord-xp';
 import { DiscordTogether } from 'discord-together';
 
@@ -14,10 +14,13 @@ class ExtendedClient extends Client {
     public terminalCmds: Collection<string, TerminalCommand> = new Collection();
     public events: Collection<string, Event> = new Collection();
     public tasks: Collection<string, Task> = new Collection();
-    public config: Config = JSON.parse(readFileSync(path.join(process.cwd() + '/config.json')).toString());
+    public config: Config;
     public activities = new DiscordTogether(this);
 
-    public async init() {
+    public async init(config: Config) {
+
+        this.config = config;
+
         console.clear();
         console.log(`Apexie Shell ${version}`);
         console.log(`Copyright (c) Apexie Development.`);

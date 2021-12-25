@@ -24,9 +24,7 @@ class ExtendedClient extends Client {
         console.log(`\nhttps://github.com/ApexieDevelopment/ApexieServices \nType 'help' to get help.`);
 
         let token;
-        if(process.env.TOKEN) {
-            token = process.env.TOKEN;
-        } else token = this.config.token;
+        token = this.config.token;
         this.login(token);
 
         Levels.setURL(this.config.mongoURI);

@@ -1,7 +1,7 @@
 {
-  "name": "apexie-services",
-  "version": "1.1.0",
-  "description": "Makes Apexie's World (the Discord server) functional with features such as welcoming new users and more...",
+  "name": "plenus-bot",
+  "version": "1.0.0",
+  "description": "A classic Discord bot made in TypeScript. Not a competitor of Dyno and MEE6, but something that works and for free.",
   "main": "src/index.ts",
   "engines": {
     "node": ">=16.7.0",
@@ -14,6 +14,7 @@
   "repository": "https://github.com/ApexieDevelopment/ApexieServices",
   "authors": [
     "ItzLightyHD",
+    "Stef58",
     "LukeBTW",
     "Kawi",
     "Abdy"

@@ -1,6 +1,6 @@
 import { ColorResolvable, GuildMember, MessageEmbed, TextChannel } from 'discord.js';
 import { Event } from '../Interfaces';
-import { welcomeChannelCollection as welcomeCollection } from '../Collections';
+import { welcomeChannelCollection as welcomeCollection, autoRolesCollection } from '../Collections';
 
 export const event: Event = {
     name: 'guildMemberAdd',
@@ -20,5 +20,9 @@ export const event: Event = {
                 )
                 .setFooter(member.guild.name, member.guild.iconURL({ dynamic: true }))
         ] });
+        autoRolesCollection.get(member.guild.id).forEach((roleId) => {
+            const role = member.guild.roles.cache.get(roleId);
+            member.roles.add(role);
+        });
     }
 }

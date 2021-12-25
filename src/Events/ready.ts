@@ -1,13 +1,14 @@
 import { Event } from '../Interfaces';
 import chalk from 'chalk';
 import { blacklistedWordsSchema } from '../Models/blacklistedWords';
-import { blacklistedWordsCollection, partnersCollection, welcomeChannelCollection, moderationLogsCollection, rolesCollection } from '../Collections';
+import { blacklistedWordsCollection, partnersCollection, welcomeChannelCollection, moderationLogsCollection, rolesCollection, autoRolesCollection } from '../Collections';
 import { ClientPrompt } from '../Terminal';
 import { connect } from 'mongoose';
 import { moderationLogsSchema } from '../Models/moderationLogs';
 import { welcomeChannelSchema } from '../Models/welcomeChannel';
 import { partnersSchema } from '../Models/partners';
 import { rolesSchema } from '../Models/roles';
+import { autoRolesSchema } from '../Models/autoRoles';
 
 export const event: Event = {
     name: 'ready',
@@ -53,6 +54,12 @@ export const event: Event = {
             rolesSchema.find().then((data) => {
                 data.forEach((val: any) => {
                     rolesCollection.set(val.Role, val.Users);
+                });
+            });
+
+            autoRolesSchema.find().then((data) => {
+                data.forEach((val: any) => {
+                    autoRolesCollection.set(val.Guild, val.AutoRoles);
                 });
             });
 

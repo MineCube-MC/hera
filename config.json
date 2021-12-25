@@ -17,7 +17,8 @@
         "Ready to help you",
         "Just a simple bot",
         "Made with love by Apexie",
-        "Use our slash commands"
+        "Use our slash commands",
+        "Plenus & Knuckles"
     ],
     "colors": {
         "main": "#23abeb",
@@ -29,7 +30,7 @@
     },
     "testMode": {
         "enabled": false,
-        "guild": "883231701306843136"
+        "guild": "924159913024958505"
     },
     "terminal": {
         "fancyTerminal": true,

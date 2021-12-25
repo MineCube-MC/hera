@@ -5,7 +5,7 @@ import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
     name: 'blacklist',
-    description: 'Change the blacklist options',
+    description: 'Manage the blacklist of the guild',
     options: [
         {
             name: 'add',

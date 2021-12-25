@@ -1,6 +1,7 @@
 <p align="center">
     <a href="https://github.com/ApexieDevelopment/ApexieServices"><img src="/assets/logo.png" height="256"></img></a>
     <br><br>
+    <h2>Plenus</h2><br>
     <a href="https://discord.gg/a75eNEAtrt">Discord</a> |
     <a href="https://github.com/ApexieDevelopment">GitHub</a> |
     <a href="https://youtube.com/ItzLightyHD">YouTube</a><br>

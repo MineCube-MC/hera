@@ -24,10 +24,7 @@ export const event: Event = {
             client.application.commands.set(client.arrayOfCommands);
         }
 
-        connect(client.config.mongoURI, {
-            "useUnifiedTopology": true,
-            "useNewUrlParser": true
-        }).then(() => {
+        connect(client.config.mongoURI).then(() => {
             blacklistedWordsSchema.find().then((data) => {
                 data.forEach((val: any) => {
                     blacklistedWordsCollection.set(val.Guild, val.Words);

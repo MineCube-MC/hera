@@ -147,9 +147,6 @@ export const command: Command = {
             const description = interaction.options.getString("description");
             const links = interaction.options.getString("links");
             const image = interaction.options.getString("image");
-            function isPing() {
-                return interaction.options.getBoolean("ping");
-            };
 
             const channel = client.channels.cache.get(client.config.partnership.channel);
 
@@ -164,7 +161,7 @@ export const command: Command = {
                 
                 if(image) newSponsor.setImage(image);
 
-                if(isPing()) {
+                if(interaction.options.getBoolean("ping")) {
                     channel.send({
                         content: '@everyone',
                         embeds: [newSponsor]

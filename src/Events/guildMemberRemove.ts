@@ -42,7 +42,7 @@ export const event: Event = {
     
         // Update the output with a bit more information
         // Also run a check to make sure that the log returned was for the same kicked member
-        if ((target as GuildMember).id === member.id) {
+        if ((target as unknown as GuildMember).id === member.id) {
             logsChannel.send({ embeds: [
                 new MessageEmbed()
                     .setAuthor(member.user.tag, member.user.displayAvatarURL({ dynamic: true }))

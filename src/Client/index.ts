@@ -4,12 +4,12 @@ import { Command, TerminalCommand, Event, Config, Task } from '../Interfaces';
 import { version } from '../../package.json';
 import chalk from 'chalk';
 import path from 'path';
-import { readdirSync, readFileSync } from 'fs';
+import { readdirSync } from 'fs';
 import Levels from 'discord-xp';
 import { DiscordTogether } from 'discord-together';
 
-class ExtendedClient extends Client {
-    public arrayOfCommands = [];
+export class ExtendedClient extends Client {
+    public arrayOfCommands: any[] = [];
     public commands: Collection<string, Command> = new Collection();
     public terminalCmds: Collection<string, TerminalCommand> = new Collection();
     public events: Collection<string, Event> = new Collection();
@@ -17,8 +17,20 @@ class ExtendedClient extends Client {
     public config: Config;
     public activities = new DiscordTogether(this);
 
-    public async init(config: Config) {
-
+    public constructor(config: Config) {
+        super({
+            intents: [
+                'GUILDS',
+                'GUILD_MESSAGES',
+                'GUILD_BANS',
+                'GUILD_MEMBERS',
+                'GUILD_PRESENCES',
+                'GUILD_MESSAGE_REACTIONS',
+                'GUILD_VOICE_STATES',
+                'GUILD_INTEGRATIONS',
+                'GUILD_EMOJIS_AND_STICKERS',
+                'GUILD_MESSAGE_TYPING']
+        });
         this.config = config;
 
         console.clear();
@@ -35,7 +47,7 @@ class ExtendedClient extends Client {
         /* Commands */
         const commandPath = path.join(__dirname, "..", "Commands");
         readdirSync(commandPath).forEach((dir) => {
-            const commands = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith('.ts'));
+            const commands = readdirSync(`${commandPath}/${dir}`).filter((file) => file.endsWith('.js'));
 
             commands.forEach(async (file) => {
                 try {
@@ -52,7 +64,7 @@ class ExtendedClient extends Client {
 
         /* Terminal commands */
         const terminalCmdPath = path.join(__dirname, "..", "Terminal", "Commands");
-        const terminalCmds = readdirSync(`${terminalCmdPath}`).filter((file) => file.endsWith('.ts'));
+        const terminalCmds = readdirSync(`${terminalCmdPath}`).filter((file) => file.endsWith('.js'));
         terminalCmds.forEach(async (file) => {
             try {
                 const { command } = await import(`${terminalCmdPath}/${file}`);
@@ -66,7 +78,7 @@ class ExtendedClient extends Client {
 
         /* Events */
         const eventPath = path.join(__dirname, "..", "Events");
-        readdirSync(eventPath).filter(file => file.endsWith('.ts')).forEach(async (file) => {
+        readdirSync(eventPath).filter(file => file.endsWith('.js')).forEach(async (file) => {
             try {
                 const { event } = await import(`${eventPath}/${file}`);
                 this.events.set(event.name, event);
@@ -79,7 +91,7 @@ class ExtendedClient extends Client {
 
         /* Tasks */
         const tasksPath = path.join(__dirname, "..", "Tasks");
-        const tasks = readdirSync(`${tasksPath}`).filter((file) => file.endsWith('.ts'));
+        const tasks = readdirSync(`${tasksPath}`).filter((file) => file.endsWith('.js'));
         tasks.forEach(async (file) => {
             try {
                 const { task } = await import(`${tasksPath}/${file}`);
@@ -103,7 +115,7 @@ class ExtendedClient extends Client {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    public removeDuplicates(arr) {
+    public removeDuplicates(arr: any) {
         return [...new Set(arr)];
     }
 }

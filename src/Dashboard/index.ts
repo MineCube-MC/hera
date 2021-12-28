@@ -10,7 +10,7 @@ export class ClientDashboard {
     public constructor(client: ExtendedClient) {
         this.client = client;
 
-        let cmdList = [];
+        let cmdList: any[] = [];
         client.arrayOfCommands.forEach((command: Command) => {
             let cmd = {
                 commandName: command.name,
@@ -24,18 +24,18 @@ export class ClientDashboard {
             port: client.config.dashboard.port,
             client: {
                 id: client.config.clientId,
-                secret: this.client.config.clientSecret
+                secret: client.config.clientSecret
             },
-            redirectUri: this.client.config.dashboard.redirectUri,
-            domain: this.client.config.dashboard.domain,
-            bot: this.client,
-            ownerIDs: this.client.config.owners,
+            redirectUri: client.config.dashboard.redirectUri,
+            domain: client.config.dashboard.domain,
+            bot: client,
+            ownerIDs: client.config.owners,
             acceptPrivacyPolicy: true,
             sessionFileStore: true,
             invite: {
-                redirectUri: this.client.config.dashboard.redirectUri,
+                redirectUri: client.config.dashboard.redirectUri,
                 permissions: 8,
-                clientId: this.client.config.clientId,
+                clientId: client.config.clientId,
                 scopes: [
                     'bot',
                     'application.commands'

@@ -23,7 +23,7 @@ export interface Config {
     dashboard: {
         redirectUri: string;
         domain: string;
-        port: number;
+        port: any;
     }
     testMode: {
         enabled: boolean;

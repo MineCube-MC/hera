@@ -36,9 +36,9 @@ export const config: Config = {
         "fun": "#3eedf0"
     },
     "dashboard": {
-        "redirectUri": "https://apexie-services.herokuapp.com/discord/callback",
-        "domain": "https://apexie-services.herokuapp.com",
-        "port": 3000
+        "redirectUri": "https://plenus.apexiecommunity.cf/discord/callback",
+        "domain": "http://plenus.apexiecommunity.cf",
+        "port": process.env.PORT
     },
     "testMode": {
         "enabled": false,

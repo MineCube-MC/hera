@@ -9,6 +9,7 @@ import { welcomeChannelSchema } from '../Models/welcomeChannel';
 import { partnersSchema } from '../Models/partners';
 import { rolesSchema } from '../Models/roles';
 import { autoRolesSchema } from '../Models/autoRoles';
+import { ClientDashboard } from '../Dashboard';
 
 export const event: Event = {
     name: 'ready',
@@ -19,6 +20,7 @@ export const event: Event = {
         if(client.config.testMode.enabled) {
             client.guilds.cache.get(client.config.testMode.guild).commands.set(client.arrayOfCommands);
         } else {
+            console.log(client.arrayOfCommands);
             client.application.commands.set(client.arrayOfCommands);
         }
 
@@ -69,6 +71,7 @@ export const event: Event = {
                     await task.execute(client);
                 }, task.interval * 1000);
             });
+            new ClientDashboard(client);
             new ClientPrompt(client);
         });
     }

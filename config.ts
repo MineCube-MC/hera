@@ -1,6 +1,13 @@
-{
-    "token": "ODQ2NzgyNzk1MDQwMDMwNzIw.YK0h7g.zrwZpL3clC_tUvc1ai04y9hG_ok",
-    "mongoURI": "mongodb+srv://DiscordClient:pgtVkd5gdb926TJF@apexieservices.83gni.mongodb.net/apexie-services?retryWrites=true&w=majority",
+import { Config } from "./src/Interfaces";
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export const config: Config = {
+    "token": process.env.TOKEN,
+    "clientSecret": process.env.SECRET,
+    "clientId": process.env.CLIENT_ID,
+    "mongoURI": process.env.MONGO_URI,
     "owners": [
         "480987124405895168",
         "832967911206944788",
@@ -28,12 +35,17 @@
         "admin": "#7945f5",
         "fun": "#3eedf0"
     },
+    "dashboard": {
+        "redirectUri": "https://apexie-services.herokuapp.com/discord/callback",
+        "domain": "https://apexie-services.herokuapp.com",
+        "port": 3000
+    },
     "testMode": {
         "enabled": false,
         "guild": "924159913024958505"
     },
     "terminal": {
-        "fancyTerminal": true,
+        "fancyTerminal": false,
         "verbose": false
     }
 }

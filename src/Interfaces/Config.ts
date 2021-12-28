@@ -2,6 +2,8 @@ import { ColorResolvable } from "discord.js";
 
 export interface Config {
     token: string;
+    clientSecret: string;
+    clientId: string;
     mongoURI: string;
     owners: string[];
     partnership: {
@@ -18,6 +20,11 @@ export interface Config {
         admin: ColorResolvable;
         fun: ColorResolvable;
     };
+    dashboard: {
+        redirectUri: string;
+        domain: string;
+        port: number;
+    }
     testMode: {
         enabled: boolean;
         guild: string;

@@ -20,7 +20,7 @@ export const event: Event = {
         if(client.config.testMode.enabled) {
             client.guilds.cache.get(client.config.testMode.guild).commands.set(client.arrayOfCommands);
         } else {
-            console.log(client.arrayOfCommands);
+            // console.log(client.arrayOfCommands);
             client.application.commands.set(client.arrayOfCommands);
         }
 

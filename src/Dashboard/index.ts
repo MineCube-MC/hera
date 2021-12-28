@@ -69,6 +69,17 @@ export class ClientDashboard {
                     information: {
                         title: "Information",
                         description: "To manage your bot, go to the <a href='/manage'>Server Management page</a>.<br><br>For a list of commands, go to the <a href='/commands'>Commands page</a>."
+                    },
+                    feeds: {
+                        title: "Feeds",
+                        list: [
+                            {
+                                icon: "fa fa-server",
+                                text: "Bot released to the public and open-sourced!",
+                                timeText: "28/12/2021",
+                                bg: "bg-light-danger"
+                            }
+                        ]
                     }
                 },
                 commands: {

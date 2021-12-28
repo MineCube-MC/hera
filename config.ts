@@ -36,8 +36,8 @@ export const config: Config = {
         "fun": "#3eedf0"
     },
     "dashboard": {
-        "redirectUri": "http://plenus.apexiecommunity.cf/discord/callback",
-        "domain": "http://plenus.apexiecommunity.cf",
+        "redirectUri": process.env.REDIRECT_URI || "http://localhost:3000/discord/callback",
+        "domain": process.env.DOMAIN || "http://localhost",
         "port": process.env.PORT || 3000
     },
     "testMode": {

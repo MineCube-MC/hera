@@ -2,6 +2,7 @@ import { Dashboard, formTypes } from "discord-dashboard";
 import CaprihamTheme from "dbd-capriham-theme";
 import ExtendedClient from "../Client";
 import { Command } from "../Interfaces";
+import { Configuration } from "./Modules/Configuration";
 
 export class ClientDashboard {
 
@@ -101,26 +102,25 @@ export class ClientDashboard {
     public dashboardSettings(): settings_options {
         const settings: settings_options = [
             {
-                categoryId: 'setup',
-                categoryName: 'Setup',
-                categoryDescription: 'The general bot settings.',
+                categoryId: 'config',
+                categoryName: 'Configuration',
+                categoryDescription: 'The configuration of the bot in your guild.',
                 categoryOptionsList: [
                     {
-                        optionId: 'nickname',
-                        optionName: 'Nickname',
-                        optionDescription: 'Change the bot nickname in your guild',
-                        optionType: formTypes.input("Bot username", 1, 16, false, true),
+                        optionId: 'logchannel',
+                        optionName: 'Logging Channel',
+                        optionDescription: 'Change the log channel in your guild',
+                        optionType: formTypes.channelsSelect(false),
                         getActualSet: async({ guild }) => {
-                            const guildsettings = await this.client.guilds.cache.get(guild.id).me;
-                            if (guildsettings.nickname == null) {
-                                var nicknamer = guildsettings.user.username;
-                            } else {
-                                var nicknamer = guildsettings.nickname;
-                            }
-                            return nicknamer;
+                            return Configuration.getLogChannel(guild);
                         },
                         setNew: async({ guild, newData }) => {
-                            return { error: 'Still work in progress...' };
+                            try {
+                                Configuration.changeLogChannel(newData);
+                                return;
+                            } catch (e) {
+                                return { error: "Can't change log channel." };
+                            }
                         }
                     }
                 ]

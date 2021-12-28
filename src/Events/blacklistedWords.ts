@@ -28,6 +28,7 @@ export const event: Event = {
                     .setTitle('Message Deleted')
                     .setDescription(
                         `**❯ Message ID:** ${message.id}\n` +
+                        `**❯ Reason:** Blacklisted word\n` +
                         `**❯ Channel:** <#${message.channel.id}>\n` +
                         `\n**❯ Deleted Message:** ${message.content}`
                     )

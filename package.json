@@ -10,8 +10,7 @@
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node dist/src/index.js",
-    "heroku": "echo \"Starting Plenus in Heroku mode...\" & npm update && node ."
+    "start": "node dist/src/index.js"
   },
   "repository": "https://github.com/ApexieDevelopment/ApexieServices",
   "authors": [

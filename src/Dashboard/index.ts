@@ -57,30 +57,19 @@ export class ClientDashboard {
                 index: {
                     card: {
                         title: "Plenus - Make everything easier",
-                        description: "Assistants Discord Bot management panel. Assistants Bot was created to give others the ability to do what they want. Just.<br>That's an example text.<br><br><b><i>Feel free to use HTML</i></b>",
+                        description: "Plenus is a simple Discord bot that's quick to add and easy to setup. The bot is made with open source libraries and the bot itself is also free and open source available in a GitHub repository." +
+                        "<br>The bot has the following features:<br>" +
+                        "- <b>Slash commands</b>, the newest Discord commands implementation<br>" +
+                        "- <b>Moderation commands</b>, that makes moderation for everyone easier than it was before<br>" +
+                        "- <b>Fun commands</b>, helpful for the chat to not die and to express yourself with the funniest commands<br>" +
+                        "- <b>Activity commands</b>, such as YouTube Together and Doodle Crew to entertain yourself and your friends in a voice chat<br>" +
+                        "- <b>Administration commands</b>, which help with things like logging, words blacklist and so much more...",
                         image: "https://www.geeklawblog.com/wp-content/uploads/sites/528/2018/12/liprofile-656x369.png",
                     },
                     information: {
                         title: "Information",
-                        description: "To manage your bot, go to the <a href='/manage'>Server Management page</a>.<br><br>For a list of commands, go to the <a href='/commands'>Commands page</a>.<br><br><b><i>You can use HTML there</i></b>"
-                    },
-                    feeds: {
-                        title: "Feeds",
-                        list: [
-                            {
-                                icon: "fa fa-user",
-                                text: "New user registered",
-                                timeText: "Just now",
-                                bg: "bg-light-info"
-                            },
-                            {
-                                icon: "fa fa-server",
-                                text: "Server issues",
-                                timeText: "3 minutes ago",
-                                bg: "bg-light-danger"
-                            }
-                        ]
-                    },
+                        description: "To manage your bot, go to the <a href='/manage'>Server Management page</a>.<br><br>For a list of commands, go to the <a href='/commands'>Commands page</a>."
+                    }
                 },
                 commands: {
                     pageTitle: "Commands",

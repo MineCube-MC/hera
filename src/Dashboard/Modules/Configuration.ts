@@ -26,7 +26,8 @@ export class Configuration {
     }
 
     public static async getLogChannel(guild: Guild) {
-        return moderationLogsCollection.get(guild.id) || "";
+        let channel = guild.channels.cache.get(moderationLogsCollection.get(guild.id));
+        return channel.id || "";
     }
 
 }

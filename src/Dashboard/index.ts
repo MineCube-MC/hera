@@ -11,21 +11,13 @@ export class ClientDashboard {
     public constructor(client: ExtendedClient) {
         this.client = client;
 
-        let cmdList: Array<{
-            commandName: string,
-            commandUsage: string,
-            commandDescription: string,
-            commandAlias: string
-        }> = [];
-        client.arrayOfCommands.forEach((command: Command) => {
-            let cmd = {
-                commandName: command.name,
-                commandUsage: "",
-                commandDescription: command.description,
-                commandAlias: "No Aliases"
-            };
-            cmdList.push(cmd);
-        });
+        let commands = [];
+        client.arrayOfCommands.forEach(command => commands.push({
+            commandName: command.name,
+            commandUsage: "",
+            commandDescription: command.description,
+            commandAlias: "No Aliases"
+        }));
 
         DBD.Dashboard = DBD.UpdatedClass();
 
@@ -110,11 +102,11 @@ export class ClientDashboard {
                         ]
                     }
                 },
-                commands: {
+                commands: [{
                     category: "Commands",
                     subTitle: "All the available commands of the bot",
-                    commands: cmdList
-                }
+                    list: commands
+                }]
             }),
             settings: this.dashboardSettings()
         }

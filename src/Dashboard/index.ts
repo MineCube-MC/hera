@@ -1,5 +1,5 @@
-import { Dashboard, formTypes } from "discord-dashboard";
-import CaprihamTheme from "dbd-capriham-theme";
+import DBD from 'discord-dashboard';
+import DarkDashboard from 'dbd-dark-dashboard';
 import ExtendedClient from "../Client";
 import { Command } from "../Interfaces";
 import { Configuration } from "./Modules/Configuration";
@@ -11,17 +11,28 @@ export class ClientDashboard {
     public constructor(client: ExtendedClient) {
         this.client = client;
 
-        let cmdList: any[] = [];
+        let cmdList: Array<{
+            commandName: string,
+            commandUsage: string,
+            commandDescription: string,
+            commandAlias: string
+        }> = [];
         client.arrayOfCommands.forEach((command: Command) => {
             let cmd = {
                 commandName: command.name,
-                // commandUsage: "Slash command",
-                commandDescription: command.description
+                commandUsage: "",
+                commandDescription: command.description,
+                commandAlias: "No Aliases"
             };
             cmdList.push(cmd);
         });
 
-        const settings: config_options = {
+        DBD.Dashboard = DBD.UpdatedClass();
+
+        let urlPort: string;
+        if(client.config.dashboard.port === 3000) urlPort = ":3000";
+
+        const settings = {
             port: client.config.dashboard.port,
             client: {
                 id: client.config.clientId,
@@ -52,24 +63,40 @@ export class ClientDashboard {
                 use: true,
                 guildId: '924159913024958505'
             },
-            theme: CaprihamTheme({
-                websiteName: "Plenus",
-                iconURL: 'https://i.imgur.com/bHAUaCl.png',
+            theme: DarkDashboard({
+                information: {
+                    createdBy: client.config.partnership.brandName,
+                    websiteTitle: client.user.username + " - Dashboard",
+                    websiteName: client.user.username,
+                    websiteUrl: client.config.dashboard.domain + urlPort,
+                    dashboardUrl: client.config.dashboard.domain + urlPort,
+                    supporteMail: "Sike!",
+                    supportServer: "https://discord.gg/CNTz9fDYYJ",
+                    imageFavicon: "https://i.imgur.com/PXKhUSB.png",
+                    iconURL: "https://i.imgur.com/PXKhUSB.png",
+                    pageBackGround: "linear-gradient(#2CA8FF, #155b8d)",
+                    mainColor: "#2CA8FF",
+                    subColor: "#ebdbdb",
+                },
+                privacyPolicy: {
+                    pp: `<meta http-equiv="refresh" content="0; URL='https://www.iubenda.com/privacy-policy/12305593'" />`
+                },
                 index: {
                     card: {
-                        title: "Plenus - Make everything easier",
-                        description: "Plenus is a simple Discord bot that's quick to add and easy to setup. The bot is made with open source libraries and the bot itself is also free and open source available in a GitHub repository." +
+                        category: "Plenus - Make everything easier",
+                        title: "Plenus is a simple Discord bot that's quick to add and easy to setup.",
+                        image: "https://i.imgur.com/ROjAjqv.png",
+                    },
+                    information: {
+                        title: "Information",
+                        description: "The bot is made with open source libraries and the bot itself is also free and open source available in a GitHub repository." +
                         "<br>The bot has the following features:<br>" +
                         "- <b>Slash commands</b>, the newest Discord commands implementation<br>" +
                         "- <b>Moderation commands</b>, that makes moderation for everyone easier than it was before<br>" +
                         "- <b>Fun commands</b>, helpful for the chat to not die and to express yourself with the funniest commands<br>" +
                         "- <b>Activity commands</b>, such as YouTube Together and Doodle Crew to entertain yourself and your friends in a voice chat<br>" +
-                        "- <b>Administration commands</b>, which help with things like logging, words blacklist and so much more...",
-                        image: "https://www.geeklawblog.com/wp-content/uploads/sites/528/2018/12/liprofile-656x369.png",
-                    },
-                    information: {
-                        title: "Information",
-                        description: "To manage your bot, go to the <a href='/manage'>Server Management page</a>.<br><br>For a list of commands, go to the <a href='/commands'>Commands page</a>."
+                        "- <b>Administration commands</b>, which help with things like logging, words blacklist and so much more..." +
+                        "<br><br>To manage your bot, go to the <a href='/manage'>Server Management page</a>.<br><br>For a list of commands, go to the <a href='/commands'>Commands page</a>."
                     },
                     feeds: {
                         title: "Feeds",
@@ -84,23 +111,20 @@ export class ClientDashboard {
                     }
                 },
                 commands: {
-                    pageTitle: "Commands",
-                    table: {
-                        title: "List",
-                        subTitle: "All the available commands of the bot",
-                        list: cmdList
-                    }
+                    category: "Commands",
+                    subTitle: "All the available commands of the bot",
+                    commands: cmdList
                 }
             }),
             settings: this.dashboardSettings()
         }
 
-        const db = new Dashboard(settings);
+        const db = new DBD.Dashboard(settings);
         db.init();
     }
 
-    public dashboardSettings(): settings_options {
-        const settings: settings_options = [
+    public dashboardSettings() {
+        const settings = [
             {
                 categoryId: 'config',
                 categoryName: 'Configuration',
@@ -110,7 +134,7 @@ export class ClientDashboard {
                         optionId: 'logchannel',
                         optionName: 'Logging Channel',
                         optionDescription: 'Change the log channel in your guild',
-                        optionType: formTypes.channelsSelect(false),
+                        optionType: DBD.formTypes.channelsSelect(false, ['GUILD_TEXT']),
                         getActualSet: async({ guild }) => {
                             return Configuration.getLogChannel(guild);
                         },
@@ -120,6 +144,23 @@ export class ClientDashboard {
                                 return;
                             } catch (e) {
                                 return { error: "Can't change log channel." };
+                            }
+                        }
+                    },
+                    {
+                        optionId: 'autoroles',
+                        optionName: 'Auto Roles',
+                        optionDescription: 'Choose which roles of your guild need to be added when a new member joins your guild.',
+                        optionType: DBD.formTypes.rolesMultiSelect(false, false),
+                        getActualSet: async({ guild }) => {
+                            return Configuration.getAutoRoles(guild);
+                        },
+                        setNew: async({ guild, newData }) => {
+                            try {
+                                Configuration.setAutoRoles(guild, newData);
+                                return;
+                            } catch (e) {
+                                return { error: "Can't set auto roles." };
                             }
                         }
                     }

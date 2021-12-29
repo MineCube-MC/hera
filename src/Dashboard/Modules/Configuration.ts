@@ -1,6 +1,7 @@
 import { Guild, TextChannel } from "discord.js";
 import { moderationLogsSchema } from "../../Models/moderationLogs";
-import { moderationLogsCollection } from "../../Collections";
+import { autoRolesCollection, moderationLogsCollection } from "../../Collections";
+import { autoRolesSchema } from "../../Models/autoRoles";
 
 export class Configuration {
 
@@ -27,6 +28,26 @@ export class Configuration {
 
     public static async getLogChannel(guild: Guild) {
         return moderationLogsCollection.get(guild.id) || "";
+    }
+
+    public static async setAutoRoles(guild: Guild, rolesArray: string[]) {
+        autoRolesSchema.findOne({ Guild: guild.id }, async (err, data) => {
+            if(data) {
+                (data.AutoRoles as string[]) = rolesArray;
+                data.save();
+                autoRolesCollection.set(guild.id, rolesArray);
+            } else {
+                new autoRolesSchema({
+                    Guild: guild.id,
+                    AutoRoles: rolesArray
+                }).save();
+                autoRolesCollection.set(guild.id, rolesArray);
+            }
+        });
+    }
+
+    public static async getAutoRoles(guild: Guild) {
+        return autoRolesCollection.get(guild.id) || "";
     }
 
 }

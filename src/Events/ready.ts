@@ -10,10 +10,11 @@ import { partnersSchema } from '../Models/partners';
 import { rolesSchema } from '../Models/roles';
 import { autoRolesSchema } from '../Models/autoRoles';
 import { ClientDashboard } from '../Dashboard';
+import DBD from 'discord-dashboard';
 
 export const event: Event = {
     name: 'ready',
-    run: (client) => {
+    run: async (client) => {
         if (client.config.terminal.verbose) console.log('Logged in as ' + chalk.italic(client.user.tag));
         if (client.config.terminal.verbose) console.log(`Client => ${chalk.greenBright('Ready!')}`);
 
@@ -62,12 +63,13 @@ export const event: Event = {
             });
 
             if (client.config.terminal.verbose) console.log(`Database => ${chalk.greenBright('Connected!')}`);
-        }).finally(() => {
+        }).finally(async () => {
             client.tasks.forEach(async task => {
                 setInterval(async () => {
                     await task.execute(client);
                 }, task.interval * 1000);
             });
+            await DBD.useLicense(client.config.dashboard.license);
             new ClientDashboard(client);
             new ClientPrompt(client);
         });

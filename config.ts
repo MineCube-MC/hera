@@ -38,7 +38,8 @@ export const config: Config = {
     "dashboard": {
         "redirectUri": process.env.REDIRECT_URI || "http://localhost:3000/discord/callback",
         "domain": process.env.DOMAIN || "http://localhost",
-        "port": process.env.PORT || 3000
+        "port": process.env.PORT || 3000,
+        "license": process.env.DASH_LICENSE
     },
     "testMode": {
         "enabled": false,

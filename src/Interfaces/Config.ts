@@ -24,6 +24,7 @@ export interface Config {
         redirectUri: string;
         domain: string;
         port: any;
+        license: string;
     }
     testMode: {
         enabled: boolean;

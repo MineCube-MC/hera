@@ -2,15 +2,22 @@
   "name": "plenus-bot",
   "version": "1.0.0",
   "description": "A classic Discord bot made in TypeScript. Not a competitor of Dyno and MEE6, but something that works and for free.",
-  "main": "dist/src/index.js",
+  "main": "build/src/index.js",
+  "pkg": {
+    "scripts": "build/**/*.js",
+    "targets": [ "node16-linux-x64", "node16-win-x64" ],
+    "outputPath": "dist"
+  },
   "engines": {
     "node": ">=16.7.0",
     "npm": ">=8.3.0"
   },
   "scripts": {
-    "build": "tsc",
-    "prestart": "npm run build",
-    "start": "node dist/src/index.js"
+    "clean": "rm -rf build dist",
+    "compile": "tsc",
+    "build-all": "npm run compile",
+    "prestart": "npm run build-all",
+    "start": "node build/src/index.js"
   },
   "repository": "https://github.com/ApexieDevelopment/ApexieServices",
   "authors": [

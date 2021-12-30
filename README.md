@@ -20,5 +20,4 @@
 - [X] Log System
 - [X] Server profile customization (role buttons)
 - [X] Partnership system
-- [X] Making the bot public
-      (*This means the bot will be able to be invited in other servers, however this will be done only when people will be actually interested in the bot, otherwise the bot will still be private*)
+- [X] Making the bot public and open-source

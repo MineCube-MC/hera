@@ -162,7 +162,7 @@ export const command: Command = {
                 if(image) newSponsor.setImage(image);
 
                 if(interaction.options.getBoolean("ping")) {
-                    channel.send({
+                    interaction.channel.send({
                         content: '@everyone',
                         embeds: [newSponsor]
                     });

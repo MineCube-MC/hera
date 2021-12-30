@@ -16,9 +16,9 @@ export const config: Config = {
         "721395864572264519"
     ],
     "partnership": {
-        "channel": "877649597533671434",
-        "mainGuild": "736977303539810365",
-        "brandName": "Apexie's World"
+        "channel": "924709092063318027",
+        "mainGuild": "924159913024958505",
+        "brandName": "Plenus Team"
     },
     "statusMessages": [
         "Ready to help you",

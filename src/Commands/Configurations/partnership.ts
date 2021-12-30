@@ -84,11 +84,11 @@ export const command: Command = {
     ],
     description: `Manage the partnerships of Apexie's World`,
     async execute(interaction, client) {
-        if (!client.config.owners.includes(interaction.user.id)) return interaction.reply({ content: `Only Apexie's World owners may use this command.`, ephemeral: true });
 
         const action = interaction.options.getSubcommand(true);
 
         if(action === "create") {
+            if (!client.config.owners.includes(interaction.user.id)) return interaction.reply({ content: `Only ${client.config.partnership.brandName} owners may use this command.`, ephemeral: true });
             const serverId = interaction.options.getString("guild");
             const serverInvite = interaction.options.getString("invite");
             const serverDescription = interaction.options.getString("description");
@@ -173,7 +173,7 @@ export const command: Command = {
                     return;
                 }
 
-                channel.send({ embeds: [newSponsor] });
+                interaction.channel.send({ embeds: [newSponsor] });
 
                 await interaction.reply({
                     content: `The product **${title}** has been sponsored successfully.`,

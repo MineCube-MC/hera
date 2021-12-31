@@ -10,7 +10,10 @@ export const command: Command = {
         const user = await Levels.fetch(interaction.user.id, interaction.guild.id);
 
         let neededXp = Levels.xpFor(user.level + 1);
-        if(typeof neededXp != 'number') neededXp = Levels.xpFor(1);
+        if(typeof neededXp != 'number') {
+            neededXp = Levels.xpFor(1);
+            return interaction.reply('You didn\'t even type a message here.');
+        }
 
         const turnToCanvacordStatus = (s: PresenceStatus): "online"|"idle"|"dnd"|"offline"|"streaming" => s === "invisible" ? "offline" : s;
 

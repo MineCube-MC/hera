@@ -22,7 +22,7 @@ export class ClientDashboard {
         DBD.Dashboard = DBD.UpdatedClass();
 
         let urlPort: string;
-        if(client.config.dashboard.port === 3000) urlPort = ":3000";
+        if(client.config.dashboard.port === 3000) {urlPort = ":3000"} else urlPort = "";
 
         const settings = {
             port: client.config.dashboard.port,
@@ -155,6 +155,12 @@ export class ClientDashboard {
                                 return { error: "Can't set auto roles." };
                             }
                         }
+                    },
+                    {
+                        optionId: 'blacklist',
+                        optionName: 'Words Blacklist',
+                        optionDescription: 'Add or remove words from the blacklist',
+                        optionType: DBD.formTypes
                     }
                 ]
             }

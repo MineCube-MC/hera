@@ -148,9 +148,7 @@ export const command: Command = {
             const links = interaction.options.getString("links");
             const image = interaction.options.getString("image");
 
-            const channel = client.channels.cache.get(client.config.partnership.channel);
-
-            if(channel.isText()) {
+            if(interaction.channel.isText()) {
                 const newSponsor = new MessageEmbed()
                     .setColor('RANDOM')
                     .setTitle(title)

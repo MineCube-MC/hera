@@ -155,12 +155,6 @@ export class ClientDashboard {
                                 return { error: "Can't set auto roles." };
                             }
                         }
-                    },
-                    {
-                        optionId: 'blacklist',
-                        optionName: 'Words Blacklist',
-                        optionDescription: 'Add or remove words from the blacklist',
-                        optionType: DBD.formTypes
                     }
                 ]
             }

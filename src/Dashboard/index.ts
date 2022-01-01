@@ -1,7 +1,6 @@
 import DBD from 'discord-dashboard';
 import DarkDashboard from 'dbd-dark-dashboard';
 import ExtendedClient from "../Client";
-import { Command } from "../Interfaces";
 import { Configuration } from "./Modules/Configuration";
 
 export class ClientDashboard {

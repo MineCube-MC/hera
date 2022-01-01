@@ -10,9 +10,6 @@ export const config: Config = {
     "mongoURI": process.env.MONGO_URI,
     "owners": [
         "480987124405895168",
-        "832967911206944788",
-        "503533501099016203",
-        "467338019830104064",
         "721395864572264519"
     ],
     "partnership": {
@@ -21,11 +18,11 @@ export const config: Config = {
         "brandName": "Plenus Team"
     },
     "statusMessages": [
-        "Ready to help you",
-        "Just a simple bot",
-        "Made with love by Apexie",
-        "Use our slash commands",
-        "Plenus & Knuckles"
+        "Amazing community",
+        "Slash commands!",
+        "Dashboard",
+        "Invite me",
+        "Made by Plenus Team"
     ],
     "colors": {
         "main": "#23abeb",

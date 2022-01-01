@@ -23,8 +23,8 @@ export const command: Command = {
         let username = interaction.user.username;
         let avatar = interaction.user.displayAvatarURL({ dynamic: true, format: 'png' });
         if(interaction.options.getUser('who', true)) {
-            username = interaction.options.getUser("user").username;
-            avatar = interaction.options.getUser("user").displayAvatarURL({ dynamic: true, format: 'png' });
+            username = interaction.options.getUser("who").username;
+            avatar = interaction.options.getUser("who").displayAvatarURL({ dynamic: true, format: 'png' });
         }
         let image = await Canvacord.phub({
             username: username,

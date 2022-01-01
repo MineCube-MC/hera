@@ -91,8 +91,9 @@ export class ClientDashboard {
                         "<br><br>To manage your bot, go to the <a href='/manage'>Server Management page</a>.<br><br>For a list of commands, go to the <a href='/commands'>Commands page</a>."
                     },
                     feeds: {
-                        category: "Let's do the math!",
-                        title: this.botStatistics()
+                        category: "Feeds",
+                        title: "Let's do the math!",
+                        description: this.botStatistics() + ` Having such a community is amazing for a bot like Plenus and you can be part of this community too. Just add Plenus in your server and start a new journey.`
                     }
                 },
                 commands: [{

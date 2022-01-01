@@ -91,15 +91,8 @@ export class ClientDashboard {
                         "<br><br>To manage your bot, go to the <a href='/manage'>Server Management page</a>.<br><br>For a list of commands, go to the <a href='/commands'>Commands page</a>."
                     },
                     feeds: {
-                        title: "Feeds",
-                        list: [
-                            {
-                                icon: "fa fa-server",
-                                text: "Bot released to the public and open-sourced!",
-                                timeText: "28/12/2021",
-                                bg: "bg-light-danger"
-                            }
-                        ]
+                        category: "Let's do the math!",
+                        title: this.botStatistics()
                     }
                 },
                 commands: [{
@@ -160,6 +153,17 @@ export class ClientDashboard {
             }
         ]
         return settings;
+    }
+
+    public botStatistics(): string {
+        const servers = this.client.guilds.cache.size;
+        let users;
+        let channels;
+        this.client.guilds.cache.forEach((guild) => {
+            users = users + guild.members.cache.size;
+            channels = channels + guild.channels.cache.size;
+        });
+        return `Plenus takes care of <b>${servers}</b> servers, <b>${users}</b> users and <b>${channels}</b> channels.`
     }
 
 }

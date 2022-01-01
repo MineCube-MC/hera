@@ -85,6 +85,7 @@ export class ClientDashboard {
                         "- <b>Slash commands</b>, the newest Discord commands implementation<br>" +
                         "- <b>Moderation commands</b>, that makes moderation for everyone easier than it was before<br>" +
                         "- <b>Fun commands</b>, helpful for the chat to not die and to express yourself with the funniest commands<br>" +
+                        "- <b>Giveaway commands</b>, helpful to start a giveaway and manage it easily<br>" +
                         "- <b>Activity commands</b>, such as YouTube Together and Doodle Crew to entertain yourself and your friends in a voice chat<br>" +
                         "- <b>Administration commands</b>, which help with things like logging, words blacklist and so much more..." +
                         "<br><br>To manage your bot, go to the <a href='/manage'>Server Management page</a>.<br><br>For a list of commands, go to the <a href='/commands'>Commands page</a>."

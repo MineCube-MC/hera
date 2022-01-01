@@ -7,6 +7,7 @@ import path from 'path';
 import { readdirSync } from 'fs';
 import Levels from 'discord-xp';
 import { DiscordTogether } from 'discord-together';
+import { GiveawaysManager } from 'discord-giveaways';
 
 export class ExtendedClient extends Client {
     public arrayOfCommands: any[] = [];
@@ -16,6 +17,7 @@ export class ExtendedClient extends Client {
     public tasks: Collection<string, Task> = new Collection();
     public config: Config;
     public activities = new DiscordTogether(this);
+    public giveaways: GiveawaysManager;
 
     public constructor(config: Config) {
         super({
@@ -32,6 +34,16 @@ export class ExtendedClient extends Client {
                 'GUILD_MESSAGE_TYPING']
         });
         this.config = config;
+
+        this.giveaways = new GiveawaysManager(this, {
+            storage: "./giveaways.json",
+            default: {
+                botsCanWin: false,
+                embedColor: this.config.colors.secondary,
+                embedColorEnd: this.config.colors.negative,
+                reaction: '🎉'
+            }
+        });
 
         console.clear();
         console.log(`Apexie Shell ${version}`);

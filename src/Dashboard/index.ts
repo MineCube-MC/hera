@@ -157,8 +157,8 @@ export class ClientDashboard {
 
     public botStatistics(): string {
         const servers = this.client.guilds.cache.size;
-        let users;
-        let channels;
+        let users: number = 0;
+        let channels: number = 0;
         this.client.guilds.cache.forEach((guild) => {
             users = users + guild.members.cache.size;
             channels = channels + guild.channels.cache.size;

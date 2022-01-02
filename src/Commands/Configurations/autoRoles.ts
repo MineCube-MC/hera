@@ -41,7 +41,7 @@ export const command: Command = {
         const roleId = role.id;
 
         if(query === "add") {
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            await Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
                 if(data) {
                     if((data.AutoRoles as string[]).includes(roleId)) return interaction.reply({ content: 'The role is already added into the list.', ephemeral: true });
 
@@ -56,7 +56,7 @@ export const command: Command = {
                 interaction.reply({ content: `The role \`${role.name}\` has been added into the list.`, ephemeral: true });
             });
         } else if(query === "remove") {
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            await Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
                 if(!data) return interaction.reply({ content: `There isn't any data to delete`, ephemeral: true });
 
                 if(!(data.AutoRoles as string[]).includes(roleId)) return interaction.reply({ content: `The role doesn't exist in the list.`, ephemeral: true });

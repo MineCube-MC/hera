@@ -23,7 +23,8 @@ export const event: Event = {
             }
             return;
         }
-        const logsChannel = client.channels.cache.find(ch => ch.id === moderationLogsSchema.findOne({ guild: member.guild.id }).get('Channel'));
+        const modSchema = await moderationLogsSchema.findOne({ guild: member.guild.id });
+        const logsChannel = client.channels.cache.find(ch => ch.id === modSchema.get('Channel'));
         if(!logsChannel) return;
         if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
         

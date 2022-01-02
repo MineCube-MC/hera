@@ -10,7 +10,7 @@ export const event: Event = {
 			if(rolesSchema.findOne({ Role: interaction.customId })) {
 				const role = interaction.guild.roles.cache.get(interaction.customId);
 
-				Schema.findOne({ Role: interaction.customId }, async(err, data) => {
+				await Schema.findOne({ Role: interaction.customId }, async(err, data) => {
 					if(data) {
 						if((data.Users as string[]).includes(interaction.user.id)) {
 							const filtered = (data.Users as string[]).filter((target) => target !== interaction.user.id);

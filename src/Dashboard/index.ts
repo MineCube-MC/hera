@@ -122,7 +122,7 @@ export class ClientDashboard {
                         optionDescription: 'Change the log channel in your guild',
                         optionType: DBD.formTypes.channelsSelect(false, ['GUILD_TEXT']),
                         getActualSet: async({ guild }) => {
-                            return Configuration.getLogChannel(guild);
+                            return await Configuration.getLogChannel(guild);
                         },
                         setNew: async({ guild, newData }) => {
                             try {
@@ -139,7 +139,7 @@ export class ClientDashboard {
                         optionDescription: 'Change the welcome channel in your guild',
                         optionType: DBD.formTypes.channelsSelect(false, ['GUILD_TEXT']),
                         getActualSet: async({ guild }) => {
-                            return Configuration.getWelcomeChannel(guild);
+                            return await Configuration.getWelcomeChannel(guild);
                         },
                         setNew: async({ guild, newData }) => {
                             try {
@@ -156,7 +156,7 @@ export class ClientDashboard {
                         optionDescription: 'Choose which roles of your guild need to be added when a new member joins your guild.',
                         optionType: DBD.formTypes.rolesMultiSelect(false, false),
                         getActualSet: async({ guild }) => {
-                            return Configuration.getAutoRoles(guild);
+                            return await Configuration.getAutoRoles(guild);
                         },
                         setNew: async({ guild, newData }) => {
                             try {
@@ -173,7 +173,7 @@ export class ClientDashboard {
                         optionDescription: 'Enable / Disable the ranking system in your guild.',
                         optionType: DBD.formTypes.switch(false),
                         getActualSet: async({ guild }) => {
-                            return Configuration.getRanking(guild);
+                            return await Configuration.getRanking(guild);
                         },
                         setNew: async({ guild, newData }) => {
                             try {

@@ -10,7 +10,7 @@ export const event: Event = {
         if(message.author.id === client.user.id) return;
         const splittedMessage = message.content.split(" ");
         let deleting: boolean = false;
-        const Schema = blacklistedWordsSchema.findOne({ guild: message.guild.id });
+        const Schema = await blacklistedWordsSchema.findOne({ guild: message.guild.id });
 
         await Promise.all(
             splittedMessage.map((content) => {
@@ -20,7 +20,8 @@ export const event: Event = {
 
         if(deleting) {
             message.delete();
-            const logsChannel = message.guild.channels.cache.find(ch => ch.id === moderationLogsSchema.findOne({ guild: message.guild.id }).get('Channel'));
+            const modSchema = await moderationLogsSchema.findOne({ guild: message.guild.id });
+            const logsChannel = message.guild.channels.cache.find(ch => ch.id === modSchema.get('Channel'));
             if(!logsChannel) return;
             if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
             logsChannel.send({ embeds: [

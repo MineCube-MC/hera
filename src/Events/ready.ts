@@ -18,7 +18,9 @@ export const event: Event = {
             client.application.commands.set(client.arrayOfCommands);
         }
 
-        connect(client.config.mongoURI).then(() => {
+        connect(client.config.mongoURI, {
+            
+        }).then(() => {
             if (client.config.terminal.verbose) console.log(`Database => ${chalk.greenBright('Connected!')}`);
         }).finally(async () => {
             client.tasks.forEach(async task => {

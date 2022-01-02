@@ -107,7 +107,7 @@ export const command: Command = {
                     .addComponents(roleButton)
             ] });
 
-            Schema.findOne({ Role: roleButton.customId }, async(err, data) => {
+            await Schema.findOne({ Role: roleButton.customId }, async(err, data) => {
                 new Schema({
                     Role: roleButton.customId,
                     Users: []
@@ -118,7 +118,7 @@ export const command: Command = {
         } else if(action === "delete") {
             const role = interaction.guild.roles.cache.get(interaction.options.getRole("role").id);
 
-            Schema.findOne({ Role: role.id }, async(err, data) => {
+            await Schema.findOne({ Role: role.id }, async(err, data) => {
                 if(!data) return interaction.reply({ content: `This role isn't registered for a role button` });
                 
                 await Schema.deleteOne({ Role: role.id }, () => {

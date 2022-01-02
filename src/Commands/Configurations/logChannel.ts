@@ -33,7 +33,7 @@ export const command: Command = {
 
         if(action === 'set') {
             const newChannel = interaction.options.getChannel("channel");
-            Configuration.changeLogChannel(interaction.guild, (newChannel as TextChannel));
+            await Configuration.changeLogChannel(interaction.guild, (newChannel as TextChannel));
             return interaction.reply({ content: `The moderation logs channel module has been set to <#${newChannel.id}>`, ephemeral: true });
         } else if(action === 'disable') {
             Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {

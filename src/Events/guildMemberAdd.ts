@@ -6,14 +6,15 @@ import { welcomeChannelSchema } from '../Models/welcomeChannel';
 export const event: Event = {
     name: 'guildMemberAdd',
     run: async(client, member: GuildMember) => {
-        const autoRoles = autoRolesSchema.findOne({ guild: member.guild.id }).get('AutoRoles');
+        const autoRoles = await autoRolesSchema.findOne({ guild: member.guild.id }).get('AutoRoles');
         if(autoRoles) {
             autoRoles.forEach((roleId) => {
                 const role = member.guild.roles.cache.get(roleId);
                 member.roles.add(role);
             });
         }
-        const welcomeChannel = client.channels.cache.find(ch => ch.id === welcomeChannelSchema.findOne({ guild: member.guild.id }).get('Channel'));
+        const welcomeSchema = await welcomeChannelSchema.findOne({ guild: member.guild.id });
+        const welcomeChannel = client.channels.cache.find(ch => ch.id === welcomeSchema.get('Channel'));
         if(welcomeChannel) {
             if(((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === 'GUILD_TEXT')(welcomeChannel)) {
                 welcomeChannel.send({ embeds: [

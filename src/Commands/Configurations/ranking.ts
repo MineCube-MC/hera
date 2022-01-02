@@ -14,7 +14,7 @@ export const command: Command = {
     ],
     async execute(interaction, client) {
         if(!interaction.memberPermissions.has('ADMINISTRATOR')) return interaction.reply({ content: `The \`ADMINISTRATOR\` permission is needed to execute this command!`, ephemeral: true});
-        Configuration.setRanking(interaction.guild, interaction.options.getBoolean('enabled'));
+        await Configuration.setRanking(interaction.guild, interaction.options.getBoolean('enabled'));
         if(interaction.options.getBoolean('enabled')) {
             return interaction.reply({
                 content: `You have successfully **enabled** the ranking system`,

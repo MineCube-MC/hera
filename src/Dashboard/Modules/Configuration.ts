@@ -25,8 +25,8 @@ export class Configuration {
         });
     }
 
-    public static getLogChannel(guild: Guild) {
-        const Schema = moderationLogsSchema.findOne({ Guild: guild.id });
+    public static async getLogChannel(guild: Guild) {
+        const Schema = await moderationLogsSchema.findOne({ Guild: guild.id });
         return Schema.get('Channel') || "";
     }
 
@@ -44,8 +44,8 @@ export class Configuration {
         });
     }
 
-    public static getWelcomeChannel(guild: Guild) {
-        const Schema = welcomeChannelSchema.findOne({ Guild: guild.id });
+    public static async getWelcomeChannel(guild: Guild) {
+        const Schema = await welcomeChannelSchema.findOne({ Guild: guild.id });
         return Schema.get('Channel') || "";
     }
 
@@ -63,13 +63,13 @@ export class Configuration {
         });
     }
 
-    public static getAutoRoles(guild: Guild) {
-        const Schema = autoRolesSchema.findOne({ Guild: guild.id });
+    public static async getAutoRoles(guild: Guild) {
+        const Schema = await autoRolesSchema.findOne({ Guild: guild.id });
         return Schema.get('AutoRoles') || "";
     }
 
     public static async setRanking(guild: Guild, enabled: boolean) {
-        rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
+        await rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
             if(!data) {
                 new rankingSchema({
                     Guild: guild.id,
@@ -82,9 +82,9 @@ export class Configuration {
         });
     }
 
-    public static getRanking(guild: Guild) {
+    public static async getRanking(guild: Guild) {
         let activated: boolean;
-        rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
+        await rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
             if(!data) {
                 new rankingSchema({
                     Guild: guild.id,

@@ -113,7 +113,7 @@ export const command: Command = {
                 }
             } else return interaction.reply({ content: `The specified server has less than 100 members, the partnership cannot be created`, ephemeral: true });
 
-            Schema.findOne({ Guild: serverId }, async(err, data) => {
+            await Schema.findOne({ Guild: serverId }, async(err, data) => {
                 if(!data) {
                     new Schema({
                         Guild: serverId,
@@ -129,7 +129,7 @@ export const command: Command = {
         } else if(action === "remove") {
             const serverId = interaction.options.getString("guild");
 
-            Schema.findOne({ Guild: serverId }, async(err, data) => {
+            await Schema.findOne({ Guild: serverId }, async(err, data) => {
                 if(!data) return interaction.reply({ content: `The specified server was not found`, ephemeral: true });
 
                 const name = data.Name;

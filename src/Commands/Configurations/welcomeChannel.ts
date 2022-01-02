@@ -33,11 +33,11 @@ export const command: Command = {
 
         if(action === 'set') {
             const newChannel = interaction.options.getChannel("channel");
-            Configuration.changeWelcomeChannel(interaction.guild, (newChannel as TextChannel));
+            await Configuration.changeWelcomeChannel(interaction.guild, (newChannel as TextChannel));
 
             return interaction.reply({ content: `The welcome channel has been updated to <#${newChannel}>`, ephemeral: true });
         } else if(action === 'disable') {
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
+            await Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
                 if(!data) {
                     new Schema({
                         Guild: interaction.guild.id,

@@ -11,7 +11,7 @@ export const event: Event = {
             !message.guild
         ) return;
 
-        if(Configuration.getRanking(message.guild) == true) {
+        if(await Configuration.getRanking(message.guild) == true) {
             const randomXp = Math.floor(Math.random() * 9) + 1;
             const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomXp);
             if(hasLeveledUp) {

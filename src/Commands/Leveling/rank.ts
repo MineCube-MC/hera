@@ -8,7 +8,7 @@ export const command: Command = {
     name: 'rank',
     description: 'See your current ranking on the server',
     async execute(interaction, client) {
-        if(Configuration.getRanking(interaction.guild) == false) return interaction.reply(`The ranking system of this bot in this server is disabled by the server administrator.`);
+        if(await Configuration.getRanking(interaction.guild) == false) return interaction.reply(`The ranking system of this bot in this server is disabled by the server administrator.`);
 
         const user = await Levels.fetch(interaction.user.id, interaction.guild.id);
 

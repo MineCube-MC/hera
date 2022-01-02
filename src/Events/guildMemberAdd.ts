@@ -6,7 +6,7 @@ import { welcomeChannelSchema } from '../Models/welcomeChannel';
 export const event: Event = {
     name: 'guildMemberAdd',
     run: async(client, member: GuildMember) => {
-        const autoRoles = await autoRolesSchema.findOne({ guild: member.guild.id }).get('AutoRoles').clone();
+        const autoRoles = await autoRolesSchema.findOne({ guild: member.guild.id }).clone().get('AutoRoles');
         if(autoRoles) {
             autoRoles.forEach((roleId) => {
                 const role = member.guild.roles.cache.get(roleId);

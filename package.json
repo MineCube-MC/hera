@@ -21,7 +21,7 @@
     "build-all": "npm run compile",
     "prestart": "npm run build-all",
     "start": "node build/src/index.js",
-    "pm2": "npm run clean && git pull && npm update && npm start"
+    "pm2": "npm run clean && git pull && npm install && npm start"
   },
   "repository": "https://github.com/ApexieDevelopment/ApexieServices",
   "authors": [

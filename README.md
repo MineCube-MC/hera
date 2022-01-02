@@ -15,7 +15,8 @@
 - [X] Commands:
   - [X] Moderation commands
   - [X] Fun commands (memes, small games and more...)
-  - [X] Activity commands (YouTube Together, *more stuff will be added later on*)
+  - [X] Activity commands (YouTube Together, Doodle Crew, *more stuff will be added later on*)
+  - [X] Giveaway commands
 - [X] Welcoming system
 - [X] Log System
 - [X] Server profile customization (role buttons)

@@ -1,11 +1,14 @@
 import { Command } from '../../Interfaces';
 import Levels from 'discord-xp';
 import { MessageEmbed } from 'discord.js';
+import { Configuration } from '../../Dashboard/Modules/Configuration';
 
 export const command: Command = {
     name: 'leaderboard',
     description: 'Shows the leaderboard of the guild',
     async execute(interaction, client) {
+        if(Configuration.getRanking(interaction.guild) == false) return interaction.reply(`The ranking system of this bot in this server is disabled by the server administrator.`);
+
         const rawLeaderboard = await Levels.fetchLeaderboard(interaction.guild.id, 5);
         if (rawLeaderboard.length < 1) return interaction.reply("Nobody's in leaderboard yet.");
 

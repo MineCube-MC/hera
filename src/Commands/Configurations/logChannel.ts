@@ -1,6 +1,8 @@
 import { Command } from '../../Interfaces';
 import { moderationLogsSchema as Schema } from '../../Models/moderationLogs';
 import { moderationLogsCollection as Collection } from '../../Collections';
+import { Configuration } from '../../Dashboard/Modules/Configuration';
+import { TextChannel } from 'discord.js';
 
 export const command: Command = {
     name: 'logchannel',
@@ -31,22 +33,9 @@ export const command: Command = {
         const action = interaction.options.getSubcommand(true);
 
         if(action === 'set') {
-            const newChannel = interaction.options.getChannel("channel")?.id;
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
-                if(!data) {
-                    new Schema({
-                        Guild: interaction.guild.id,
-                        Channel: newChannel
-                    }).save();
-                    Collection.set(interaction.guild.id, newChannel);
-                } else {
-                    data.Channel = newChannel;
-                    data.save();
-                    Collection.set(interaction.guild.id, newChannel.toString());
-                }
-            });
-
-            return interaction.reply({ content: `Your moderation logs channel has been updated to <#${newChannel}>`, ephemeral: true });
+            const newChannel = interaction.options.getChannel("channel");
+            Configuration.changeLogChannel(interaction.guild, (newChannel as TextChannel));
+            return interaction.reply({ content: `The moderation logs channel module has been set to <#${newChannel.id}>`, ephemeral: true });
         } else if(action === 'disable') {
             Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
                 if(!data) {

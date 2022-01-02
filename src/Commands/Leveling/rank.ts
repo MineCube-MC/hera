@@ -2,11 +2,14 @@ import { Command } from '../../Interfaces';
 import Levels from 'discord-xp';
 import Canvacord from 'canvacord';
 import { MessageAttachment, PresenceStatus } from 'discord.js';
+import { Configuration } from '../../Dashboard/Modules/Configuration';
 
 export const command: Command = {
     name: 'rank',
     description: 'See your current ranking on the server',
     async execute(interaction, client) {
+        if(Configuration.getRanking(interaction.guild) == false) return interaction.reply(`The ranking system of this bot in this server is disabled by the server administrator.`);
+
         const user = await Levels.fetch(interaction.user.id, interaction.guild.id);
 
         let neededXp = Levels.xpFor(user.level + 1);

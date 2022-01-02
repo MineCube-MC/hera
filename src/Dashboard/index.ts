@@ -126,10 +126,27 @@ export class ClientDashboard {
                         },
                         setNew: async({ guild, newData }) => {
                             try {
-                                Configuration.changeLogChannel(newData);
+                                Configuration.changeLogChannel(guild, newData);
                                 return;
                             } catch (e) {
                                 return { error: "Can't change log channel." };
+                            }
+                        }
+                    },
+                    {
+                        optionId: 'welcomechannel',
+                        optionName: 'Welcome Channel',
+                        optionDescription: 'Change the welcome channel in your guild',
+                        optionType: DBD.formTypes.channelsSelect(false, ['GUILD_TEXT']),
+                        getActualSet: async({ guild }) => {
+                            return Configuration.getWelcomeChannel(guild);
+                        },
+                        setNew: async({ guild, newData }) => {
+                            try {
+                                Configuration.changeWelcomeChannel(guild, newData);
+                                return;
+                            } catch (e) {
+                                return { error: "Can't change welcome channel." };
                             }
                         }
                     },
@@ -147,6 +164,23 @@ export class ClientDashboard {
                                 return;
                             } catch (e) {
                                 return { error: "Can't set auto roles." };
+                            }
+                        }
+                    },
+                    {
+                        optionId: 'ranking',
+                        optionName: 'Ranking',
+                        optionDescription: 'Enable / Disable the ranking system in your guild.',
+                        optionType: DBD.formTypes.switch(false),
+                        getActualSet: async({ guild }) => {
+                            return Configuration.getRanking(guild);
+                        },
+                        setNew: async({ guild, newData }) => {
+                            try {
+                                Configuration.setRanking(guild, newData);
+                                return;
+                            } catch (e) {
+                                return { error: "Can't enable / disable the ranking system." };
                             }
                         }
                     }

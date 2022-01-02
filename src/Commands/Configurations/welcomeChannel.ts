@@ -1,6 +1,8 @@
 import { Command } from '../../Interfaces';
 import { welcomeChannelSchema as Schema } from '../../Models/welcomeChannel';
 import { welcomeChannelCollection as Collection } from '../../Collections';
+import { Configuration } from '../../Dashboard/Modules/Configuration';
+import { TextChannel } from 'discord.js';
 
 export const command: Command = {
     name: 'welcomechannel',
@@ -31,20 +33,8 @@ export const command: Command = {
         const action = interaction.options.getSubcommand(true);
 
         if(action === 'set') {
-            const newChannel = interaction.options.getChannel("channel")?.id;
-            Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
-                if(!data) {
-                    new Schema({
-                        Guild: interaction.guild.id,
-                        Channel: newChannel
-                    }).save();
-                    Collection.set(interaction.guild.id, newChannel);
-                } else {
-                    data.Channel = newChannel;
-                    data.save();
-                    Collection.set(interaction.guild.id, newChannel.toString());
-                }
-            });
+            const newChannel = interaction.options.getChannel("channel");
+            Configuration.changeWelcomeChannel(interaction.guild, (newChannel as TextChannel));
 
             return interaction.reply({ content: `The welcome channel has been updated to <#${newChannel}>`, ephemeral: true });
         } else if(action === 'disable') {

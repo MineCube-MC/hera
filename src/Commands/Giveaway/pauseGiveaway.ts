@@ -12,8 +12,8 @@ export const command: Command = {
         }
     ],
     async execute(interaction, client) {
-        if(!interaction.memberPermissions.has('ADMINISTRATOR')) return interaction.reply("You don't have the permission to execute this command");
-
+        if(!interaction.memberPermissions.has('ADMINISTRATOR')) return interaction.reply({ content: `The \`ADMINISTRATOR\` permission is needed to execute this command!`, ephemeral: true});
+        
         const query = interaction.options.getString('giveaway');
 
         // try to found the giveaway with prize then with ID

@@ -112,7 +112,7 @@ export const command: Command = {
                     Role: roleButton.customId,
                     Users: []
                 }).save();
-            });
+            }).clone();
 
             interaction.reply({ content: `The role button has been created in the current text channel.`, ephemeral: true });
         } else if(action === "delete") {
@@ -123,8 +123,8 @@ export const command: Command = {
                 
                 await Schema.deleteOne({ Role: role.id }, () => {
                     interaction.reply({ content: `The role **${role.name}** is not used for a role button anymore. Delete the message that contains the role button.`, ephemeral: true });
-                });
-            });
+                }).clone();
+            }).clone();
         }
     }
 }

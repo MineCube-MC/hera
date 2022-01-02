@@ -5,7 +5,7 @@ import { moderationLogsSchema } from '../Models/moderationLogs';
 export const event: Event = {
     name: 'guildBanAdd',
     run: async(client, ban: GuildBan) => {
-        const modSchema = await moderationLogsSchema.findOne({ guild: ban.guild.id });
+        const modSchema = await moderationLogsSchema.findOne({ guild: ban.guild.id }).clone();
         const logsChannel = client.channels.cache.find(ch => ch.id === modSchema.get('Channel'));
         if(!logsChannel) return;
         if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;

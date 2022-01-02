@@ -54,7 +54,7 @@ export const command: Command = {
                     }).save();
                 }
                 interaction.reply({ content: `The role \`${role.name}\` has been added into the list.`, ephemeral: true });
-            });
+            }).clone();
         } else if(query === "remove") {
             await Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
                 if(!data) return interaction.reply({ content: `There isn't any data to delete`, ephemeral: true });
@@ -69,7 +69,7 @@ export const command: Command = {
                 });
 
                 interaction.reply({ content: `The role \`${role.name}\` has been removed from the list.`, ephemeral: true });
-            });
+            }).clone();
         }
     }
 }

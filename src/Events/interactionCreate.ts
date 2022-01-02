@@ -7,7 +7,7 @@ export const event: Event = {
     run: async(client, interaction: Interaction) => {
         if(interaction.isButton()) {
 
-			if(rolesSchema.findOne({ Role: interaction.customId })) {
+			if(rolesSchema.findOne({ Role: interaction.customId }).clone()) {
 				const role = interaction.guild.roles.cache.get(interaction.customId);
 
 				await Schema.findOne({ Role: interaction.customId }, async(err, data) => {
@@ -17,7 +17,7 @@ export const event: Event = {
 							await Schema.findOneAndUpdate({ Role: interaction.customId }, {
 								Role: interaction.customId,
 								Users: filtered
-							});
+							}).clone();
 							(interaction.member as GuildMember).roles.remove((interaction.customId as RoleResolvable));
 							return interaction.reply({ content: `You've been removed the **${role.name}** role.`, ephemeral: true });
 						}
@@ -33,7 +33,7 @@ export const event: Event = {
 								await Schema.findOneAndUpdate({ Role: interaction.customId }, {
 									Role: interaction.customId,
 									Users: filtered
-								});
+								}).clone();
 								return interaction.reply({ content: `The bot hasn't enough permissions to add you the **${role.name}** role.`, ephemeral: true });
 							}
 						}
@@ -51,12 +51,12 @@ export const event: Event = {
 								await Schema.findOneAndUpdate({ Role: interaction.customId }, {
 									Role: interaction.customId,
 									Users: filtered
-								});
+								}).clone();
 								return interaction.reply({ content: `The bot hasn't enough permissions to add you the **${role.name}** role.`, ephemeral: true });
 							}
 						}
 					}
-				});
+				}).clone();
 			}
 		}
 

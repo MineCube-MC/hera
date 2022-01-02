@@ -60,7 +60,7 @@ export const command: Command = {
                     }).save();
                 }
                 interaction.reply({ content: `The word \`${word}\` has been added into the blacklist.`, ephemeral: true });
-            });
+            }).clone();
         } else if(query === 'remove') {
             const word = interaction.options.getString("word").toLowerCase();
             if(!word) return interaction.reply({ content: 'You need to specify a word to remove.', ephemeral: true });
@@ -75,10 +75,10 @@ export const command: Command = {
                 await Schema.findOneAndUpdate({ Guild: interaction.guild.id }, {
                     Guild: interaction.guild.id,
                     Words: filtered
-                });
+                }).clone();
 
                 interaction.reply({ content: `The word \`${word}\` has been removed from the blacklist.`, ephemeral: true });
-            });
+            }).clone();
         } else if(query === 'display') {
             await Schema.findOne({ Guild: interaction.guild.id }, async(err, data) => {
                 if(!data) return interaction.reply(`There's no blacklisted word in this server.`);
@@ -90,7 +90,7 @@ export const command: Command = {
                     .setFooter(`Requested by ${interaction.user.username}`, interaction.user.displayAvatarURL({ dynamic: true }))
                     .setTimestamp()
                 ] });
-            });
+            }).clone();
         }
     }
 }

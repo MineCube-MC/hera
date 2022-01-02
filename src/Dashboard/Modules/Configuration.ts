@@ -12,7 +12,7 @@ export class Configuration {
     }
 
     public static async changeLogChannel(guild: Guild, channel: GuildTextBasedChannel) {
-        moderationLogsSchema.findOne({ Guild: guild.id }, async(err, data) => {
+        await moderationLogsSchema.findOne({ Guild: guild.id }, async(err, data) => {
             if(!data) {
                 new moderationLogsSchema({
                     Guild: guild.id,
@@ -22,16 +22,18 @@ export class Configuration {
                 data.Channel = channel.id;
                 data.save();
             }
-        });
+        }).clone();
     }
 
     public static async getLogChannel(guild: Guild) {
-        const Schema = await moderationLogsSchema.findOne({ Guild: guild.id });
-        return Schema.get('Channel') || "";
+        const Schema = await moderationLogsSchema.findOne({ Guild: guild.id }, async(err, data) => {
+            if(!data) return "";
+            return data.Channel;
+        }).clone();
     }
 
     public static async changeWelcomeChannel(guild: Guild, channel: TextChannel) {
-        welcomeChannelSchema.findOne({ Guild: guild.id }, async(err, data) => {
+        await welcomeChannelSchema.findOne({ Guild: guild.id }, async(err, data) => {
             if(!data) {
                 new welcomeChannelSchema({
                     Guild: guild.id,
@@ -41,16 +43,18 @@ export class Configuration {
                 data.Channel = channel.id;
                 data.save();
             }
-        });
+        }).clone();
     }
 
     public static async getWelcomeChannel(guild: Guild) {
-        const Schema = await welcomeChannelSchema.findOne({ Guild: guild.id });
-        return Schema.get('Channel') || "";
+        const Schema = await welcomeChannelSchema.findOne({ Guild: guild.id }, async(err, data) => {
+            if(!data) return "";
+            return data.Channel;
+        }).clone();
     }
 
     public static async setAutoRoles(guild: Guild, rolesArray: string[]) {
-        autoRolesSchema.findOne({ Guild: guild.id }, async (err, data) => {
+        await autoRolesSchema.findOne({ Guild: guild.id }, async (err, data) => {
             if(data) {
                 (data.AutoRoles as string[]) = rolesArray;
                 data.save();
@@ -60,12 +64,14 @@ export class Configuration {
                     AutoRoles: rolesArray
                 }).save();
             }
-        });
+        }).clone();
     }
 
     public static async getAutoRoles(guild: Guild) {
-        const Schema = await autoRolesSchema.findOne({ Guild: guild.id });
-        return Schema.get('AutoRoles') || "";
+        const Schema = await autoRolesSchema.findOne({ Guild: guild.id }, async(err, data) => {
+            if(!data) return "";
+            return data.AutoRoles;
+        }).clone();
     }
 
     public static async setRanking(guild: Guild, enabled: boolean) {
@@ -79,23 +85,21 @@ export class Configuration {
                 data.Enabled = enabled;
                 data.save();
             }
-        });
+        }).clone();
     }
 
-    public static async getRanking(guild: Guild) {
-        let activated: boolean;
-        await rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
+    public static getRanking(guild: Guild): any {
+        rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
             if(!data) {
                 new rankingSchema({
                     Guild: guild.id,
                     Enabled: true
                 }).save();
-                activated = true;
+                return true;
             } else {
-                activated = data.Enabled;
+                return data.Enabled;
             }
-        });
-        return activated;
+        }).clone();
     }
 
 }

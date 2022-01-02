@@ -123,7 +123,7 @@ export const command: Command = {
                     data.Name = client.guilds.cache.get(serverId).name;
                     data.save();
                 }
-            });
+            }).clone();
 
             return interaction.reply({ content: `The partnership has been created successfully`, ephemeral: true });
         } else if(action === "remove") {
@@ -136,8 +136,8 @@ export const command: Command = {
 
                 await Schema.deleteOne({ Guild: serverId }, () => {
                     interaction.reply({ content: `The guild **${name}** is not a **${client.config.partnership.brandName}** partner anymore. Feel free to delete the sponsor message.`, ephemeral: true });
-                });
-            });
+                }).clone();
+            }).clone();
         } else if(action === "sponsor") {
             const title = interaction.options.getString("title");
             const description = interaction.options.getString("description");

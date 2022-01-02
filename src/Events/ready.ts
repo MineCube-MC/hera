@@ -1,7 +1,7 @@
 import { Event } from '../Interfaces';
 import chalk from 'chalk';
 import { blacklistedWordsSchema } from '../Models/blacklistedWords';
-import { blacklistedWordsCollection, partnersCollection, welcomeChannelCollection, moderationLogsCollection, rolesCollection, autoRolesCollection } from '../Collections';
+import { blacklistedWordsCollection, partnersCollection, welcomeChannelCollection, moderationLogsCollection, rolesCollection, autoRolesCollection, rankingCollection } from '../Collections';
 import { ClientPrompt } from '../Terminal';
 import { connect } from 'mongoose';
 import { moderationLogsSchema } from '../Models/moderationLogs';
@@ -11,6 +11,7 @@ import { rolesSchema } from '../Models/roles';
 import { autoRolesSchema } from '../Models/autoRoles';
 import { ClientDashboard } from '../Dashboard';
 import DBD from 'discord-dashboard';
+import { rankingSchema } from '../Models/ranking';
 
 export const event: Event = {
     name: 'ready',
@@ -59,6 +60,12 @@ export const event: Event = {
             autoRolesSchema.find().then((data) => {
                 data.forEach((val: any) => {
                     autoRolesCollection.set(val.Guild, val.AutoRoles);
+                });
+            });
+
+            rankingSchema.find().then((data) => {
+                data.forEach((val: any) => {
+                    rankingCollection.set(val.Guild, val.Enabled);
                 });
             });
 

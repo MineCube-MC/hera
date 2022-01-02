@@ -1,6 +1,5 @@
 import { Guild, GuildTextBasedChannel, TextChannel } from "discord.js";
 import { moderationLogsSchema } from "../../Models/moderationLogs";
-import { autoRolesCollection, moderationLogsCollection, rankingCollection, welcomeChannelCollection } from "../../Collections";
 import { autoRolesSchema } from "../../Models/autoRoles";
 import { welcomeChannelSchema } from "../../Models/welcomeChannel";
 import { rankingSchema } from "../../Models/ranking";
@@ -19,17 +18,16 @@ export class Configuration {
                     Guild: guild.id,
                     Channel: channel.id
                 }).save();
-                moderationLogsCollection.set(guild.id, channel.id);
             } else {
                 data.Channel = channel.id;
                 data.save();
-                moderationLogsCollection.set(guild.id, channel.id);
             }
         });
     }
 
     public static getLogChannel(guild: Guild) {
-        return moderationLogsCollection.get(guild.id) || "";
+        const Schema = moderationLogsSchema.findOne({ Guild: guild.id });
+        return Schema.get('Channel') || "";
     }
 
     public static async changeWelcomeChannel(guild: Guild, channel: TextChannel) {
@@ -39,17 +37,16 @@ export class Configuration {
                     Guild: guild.id,
                     Channel: channel.id
                 }).save();
-                welcomeChannelCollection.set(guild.id, channel.id);
             } else {
                 data.Channel = channel.id;
                 data.save();
-                welcomeChannelCollection.set(guild.id, channel.id);
             }
         });
     }
 
     public static getWelcomeChannel(guild: Guild) {
-        return welcomeChannelCollection.get(guild.id) || "";
+        const Schema = welcomeChannelSchema.findOne({ Guild: guild.id });
+        return Schema.get('Channel') || "";
     }
 
     public static async setAutoRoles(guild: Guild, rolesArray: string[]) {
@@ -57,19 +54,18 @@ export class Configuration {
             if(data) {
                 (data.AutoRoles as string[]) = rolesArray;
                 data.save();
-                autoRolesCollection.set(guild.id, rolesArray);
             } else {
                 new autoRolesSchema({
                     Guild: guild.id,
                     AutoRoles: rolesArray
                 }).save();
-                autoRolesCollection.set(guild.id, rolesArray);
             }
         });
     }
 
     public static getAutoRoles(guild: Guild) {
-        return autoRolesCollection.get(guild.id) || "";
+        const Schema = autoRolesSchema.findOne({ Guild: guild.id });
+        return Schema.get('AutoRoles') || "";
     }
 
     public static async setRanking(guild: Guild, enabled: boolean) {
@@ -79,22 +75,26 @@ export class Configuration {
                     Guild: guild.id,
                     Enabled: enabled
                 }).save();
-                rankingCollection.set(guild.id, enabled);
             } else {
                 data.Enabled = enabled;
                 data.save();
-                rankingCollection.set(guild.id, enabled);
             }
         });
     }
 
     public static getRanking(guild: Guild) {
         let activated: boolean;
-        if(!rankingCollection.get(guild.id)) {
-            activated = true
-        } else {
-            activated = rankingCollection.get(guild.id);
-        }
+        rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
+            if(!data) {
+                new rankingSchema({
+                    Guild: guild.id,
+                    Enabled: true
+                }).save();
+                activated = true;
+            } else {
+                activated = data.Enabled;
+            }
+        });
         return activated;
     }
 

@@ -1,13 +1,13 @@
 import { Task } from '../Interfaces';
 import { MessageEmbed, TextChannel } from 'discord.js';
-import { moderationLogsCollection as logsCollection } from '../Collections';
 import { partnersSchema as Schema } from '../Models/partners';
+import { moderationLogsSchema } from '../Models/moderationLogs';
 
 export const task: Task = {
     name: 'partnersCheck',
     interval: 21600,
     async execute(client) {
-        const logsChannel = client.channels.cache.find(ch => ch.id === logsCollection.get(client.config.partnership.mainGuild));
+        const logsChannel = client.channels.cache.find(ch => ch.id === moderationLogsSchema.findOne({ guild: client.config.partnership.mainGuild }).get('Channel'));
         if(!logsChannel) return;
         if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
         Schema.find().then((data) => {

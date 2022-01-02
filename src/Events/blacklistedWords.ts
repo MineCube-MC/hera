@@ -1,6 +1,7 @@
 import { Event } from '../Interfaces';
 import { ColorResolvable, Message, MessageEmbed, TextChannel } from 'discord.js';
-import { blacklistedWordsCollection as blacklistCollection, moderationLogsCollection as logsCollection } from '../Collections';
+import { blacklistedWordsSchema } from '../Models/blacklistedWords';
+import { moderationLogsSchema } from '../Models/moderationLogs';
 
 export const event: Event = {
     name: 'messageCreate',
@@ -9,16 +10,17 @@ export const event: Event = {
         if(message.author.id === client.user.id) return;
         const splittedMessage = message.content.split(" ");
         let deleting: boolean = false;
+        const Schema = blacklistedWordsSchema.findOne({ guild: message.guild.id });
 
         await Promise.all(
             splittedMessage.map((content) => {
-                if(blacklistCollection.get(message.guild.id)?.includes(content.toLowerCase())) deleting = true;
+                if(Schema.get('Words')?.includes(content.toLowerCase())) deleting = true;
             })
         );
 
         if(deleting) {
             message.delete();
-            const logsChannel = message.guild.channels.cache.find(ch => ch.id === logsCollection.get(message.guild.id));
+            const logsChannel = message.guild.channels.cache.find(ch => ch.id === moderationLogsSchema.findOne({ guild: message.guild.id }).get('Channel'));
             if(!logsChannel) return;
             if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
             logsChannel.send({ embeds: [

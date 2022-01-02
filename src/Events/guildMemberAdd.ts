@@ -1,18 +1,19 @@
 import { ColorResolvable, GuildMember, MessageEmbed, TextChannel } from 'discord.js';
 import { Event } from '../Interfaces';
-import { welcomeChannelCollection as welcomeCollection, autoRolesCollection } from '../Collections';
+import { autoRolesSchema } from '../Models/autoRoles';
+import { welcomeChannelSchema } from '../Models/welcomeChannel';
 
 export const event: Event = {
     name: 'guildMemberAdd',
     run: async(client, member: GuildMember) => {
-        const autoRoles = autoRolesCollection.get(member.guild.id);
+        const autoRoles = autoRolesSchema.findOne({ guild: member.guild.id }).get('AutoRoles');
         if(autoRoles) {
             autoRoles.forEach((roleId) => {
                 const role = member.guild.roles.cache.get(roleId);
                 member.roles.add(role);
             });
         }
-        const welcomeChannel = client.channels.cache.find(ch => ch.id === welcomeCollection.get(member.guild.id));
+        const welcomeChannel = client.channels.cache.find(ch => ch.id === welcomeChannelSchema.findOne({ guild: member.guild.id }).get('Channel'));
         if(welcomeChannel) {
             if(((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === 'GUILD_TEXT')(welcomeChannel)) {
                 welcomeChannel.send({ embeds: [

@@ -1,11 +1,11 @@
 import { Message, MessageEmbed, TextChannel } from 'discord.js';
 import { Event } from '../Interfaces';
-import { moderationLogsCollection as logsCollection } from '../Collections';
+import { moderationLogsSchema } from '../Models/moderationLogs';
 
 export const event: Event = {
     name: 'messageDelete',
     run: async(client, message: Message) => {
-        const logsChannel = client.channels.cache.find(ch => ch.id === logsCollection.get(message.guild.id));
+        const logsChannel = client.channels.cache.find(ch => ch.id === moderationLogsSchema.findOne({ guild: message.guild.id }).get('Channel'));
         if(!logsChannel) return;
         if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
         let logs = await message.guild.fetchAuditLogs({type: 72});

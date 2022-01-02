@@ -1,11 +1,11 @@
 import { GuildBan, MessageEmbed, TextChannel } from 'discord.js';
 import { Event } from '../Interfaces';
-import { moderationLogsCollection as logsCollection } from '../Collections';
+import { moderationLogsSchema } from '../Models/moderationLogs';
 
 export const event: Event = {
     name: 'guildBanAdd',
     run: async(client, ban: GuildBan) => {
-        const logsChannel = client.channels.cache.find(ch => ch.id === logsCollection.get(ban.guild.id));
+        const logsChannel = client.channels.cache.find(ch => ch.id === moderationLogsSchema.findOne({ guild: ban.guild.id }).get('Channel'));
         if(!logsChannel) return;
         if (!((logsChannel): logsChannel is TextChannel => logsChannel.type === 'GUILD_TEXT')(logsChannel)) return;
         logsChannel.send({ embeds: [

@@ -1,6 +1,5 @@
 import { ColorResolvable, GuildMember, MessageActionRow, MessageButton, MessageEmbed, Util } from 'discord.js';
 import { Command } from '../../Interfaces';
-import { rolesCollection as Collection } from '../../Collections';
 import { rolesSchema as Schema } from '../../Models/roles';
 
 export const command: Command = {
@@ -113,7 +112,6 @@ export const command: Command = {
                     Role: roleButton.customId,
                     Users: []
                 }).save();
-                Collection.set(roleButton.customId, []);
             });
 
             interaction.reply({ content: `The role button has been created in the current text channel.`, ephemeral: true });
@@ -124,7 +122,6 @@ export const command: Command = {
                 if(!data) return interaction.reply({ content: `This role isn't registered for a role button` });
                 
                 await Schema.deleteOne({ Role: role.id }, () => {
-                    Collection.delete(role.id);
                     interaction.reply({ content: `The role **${role.name}** is not used for a role button anymore. Delete the message that contains the role button.`, ephemeral: true });
                 });
             });

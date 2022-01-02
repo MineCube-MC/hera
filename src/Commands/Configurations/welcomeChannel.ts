@@ -1,6 +1,5 @@
 import { Command } from '../../Interfaces';
 import { welcomeChannelSchema as Schema } from '../../Models/welcomeChannel';
-import { welcomeChannelCollection as Collection } from '../../Collections';
 import { Configuration } from '../../Dashboard/Modules/Configuration';
 import { TextChannel } from 'discord.js';
 
@@ -44,11 +43,9 @@ export const command: Command = {
                         Guild: interaction.guild.id,
                         Channel: 'disabled'
                     }).save();
-                    Collection.set(interaction.guild.id, 'disabled');
                 } else {
                     data.Channel = 'disabled';
                     data.save();
-                    Collection.set(interaction.guild.id, 'disabled');
                 }
             });
 

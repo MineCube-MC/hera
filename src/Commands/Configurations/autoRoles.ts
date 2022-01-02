@@ -1,6 +1,5 @@
 import { Command } from "../../Interfaces";
 import { autoRolesSchema as Schema } from "../../Models/autoRoles";
-import { autoRolesCollection as Collection } from '../../Collections';
 
 export const command: Command = {
     name: "autoroles",
@@ -48,13 +47,11 @@ export const command: Command = {
 
                     (data.AutoRoles as string[]).push(roleId);
                     data.save();
-                    Collection.get(interaction.guild.id).push(roleId);
                 } else {
                     new Schema({
                         Guild: interaction.guild.id,
                         AutoRoles: [ roleId ]
                     }).save();
-                    Collection.set(interaction.guild.id, [ roleId ]);
                 }
                 interaction.reply({ content: `The role \`${role.name}\` has been added into the list.`, ephemeral: true });
             });
@@ -70,7 +67,6 @@ export const command: Command = {
                     Guild: interaction.guild.id,
                     AutoRoles: filtered
                 });
-                Collection.get(interaction.guild.id).filter((target) => target !== roleId);
 
                 interaction.reply({ content: `The role \`${role.name}\` has been removed from the list.`, ephemeral: true });
             });

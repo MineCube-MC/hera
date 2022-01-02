@@ -22,7 +22,7 @@ export const command: Command = {
     async execute(interaction) {
         let username = interaction.user.username;
         let avatar = interaction.user.displayAvatarURL({ dynamic: true, format: 'png' });
-        if(interaction.options.getUser('who', true)) {
+        if(interaction.options.getUser('who')) {
             username = interaction.options.getUser("who").username;
             avatar = interaction.options.getUser("who").displayAvatarURL({ dynamic: true, format: 'png' });
         }

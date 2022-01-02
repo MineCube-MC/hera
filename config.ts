@@ -39,7 +39,7 @@ export const config: Config = {
         "license": process.env.DASH_LICENSE
     },
     "testMode": {
-        "enabled": false,
+        "enabled": true,
         "guild": "924159913024958505"
     },
     "terminal": {

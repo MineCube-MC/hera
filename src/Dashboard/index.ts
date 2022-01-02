@@ -76,7 +76,7 @@ export class ClientDashboard {
                     card: {
                         category: "Plenus - Make everything easier",
                         title: "Plenus is a simple Discord bot that's quick to add and easy to setup.",
-                        image: "https://i.imgur.com/ROjAjqv.png",
+                        image: "https://i.imgur.com/DvZ30bB.png",
                     },
                     information: {
                         title: "Information",

@@ -3,7 +3,7 @@ import { MessageEmbed } from 'discord.js';
 
 export const command: Command = {
     name: 'shutdown',
-    description: 'Shuts down the client and all the database connections.',
+    description: 'Shuts down the client and all the database connections (bot owners only!)',
     async execute(interaction, client) {
         if (!client.config.owners.includes(interaction.user.id)) return interaction.reply({ content: "You are not allowed to execute this command.", ephemeral: true });
         interaction.reply({ embeds: [

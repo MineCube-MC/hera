@@ -12,7 +12,7 @@ export const command: Command = {
             required: true
         }
     ],
-    description: 'Evaluates the given JavaScript code',
+    description: 'Evaluates the given JavaScript code (bot owners only!)',
     async execute(interaction, client) {
         if (!client.config.owners.includes(interaction.user.id)) return interaction.reply({ content: "You are not allowed to execute this command.", ephemeral: true });
         const clean = text => {

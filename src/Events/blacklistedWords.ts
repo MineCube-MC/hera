@@ -19,6 +19,7 @@ export const event: Event = {
         );
 
         if(deleting) {
+            if(!message.guild.me.permissions.has('MANAGE_MESSAGES')) return;
             message.delete();
             const modSchema = await moderationLogsSchema.findOne({ guild: message.guild.id }).clone();
             const logsChannel = message.guild.channels.cache.find(ch => ch.id === modSchema.get('Channel'));

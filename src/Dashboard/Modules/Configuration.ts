@@ -69,7 +69,7 @@ export class Configuration {
 
     public static async getAutoRoles(guild: Guild) {
         const Schema = await autoRolesSchema.findOne({ Guild: guild.id }, async(err, data) => {
-            if(!data) return "";
+            if(!data) return [];
             return data.AutoRoles;
         }).clone();
     }

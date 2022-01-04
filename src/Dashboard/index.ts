@@ -156,7 +156,7 @@ export class ClientDashboard {
                         optionDescription: 'Choose which roles of your guild need to be added when a new member joins your guild.',
                         optionType: DBD.formTypes.rolesMultiSelect(false, false),
                         getActualSet: async({ guild }) => {
-                            return Configuration.getAutoRoles(guild);
+                            return Configuration.getAutoRoles(guild) || [];
                         },
                         setNew: async({ guild, newData }) => {
                             try {

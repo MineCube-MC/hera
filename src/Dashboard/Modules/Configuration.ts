@@ -26,7 +26,7 @@ export class Configuration {
     }
 
     public static async getLogChannel(guild: Guild) {
-        const Schema = await moderationLogsSchema.findOne({ Guild: guild.id }, async(err, data) => {
+        await moderationLogsSchema.findOne({ Guild: guild.id }, async(err, data) => {
             if(!data) return "";
             return data.Channel;
         }).clone();
@@ -47,7 +47,7 @@ export class Configuration {
     }
 
     public static async getWelcomeChannel(guild: Guild) {
-        const Schema = await welcomeChannelSchema.findOne({ Guild: guild.id }, async(err, data) => {
+        await welcomeChannelSchema.findOne({ Guild: guild.id }, async(err, data) => {
             if(!data) return "";
             return data.Channel;
         }).clone();
@@ -90,8 +90,8 @@ export class Configuration {
         }).clone();
     }
 
-    public static getRanking(guild: Guild): any {
-        rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
+    public static async getRanking(guild: Guild): Promise<any> {
+        await rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
             if(!data) {
                 new rankingSchema({
                     Guild: guild.id,

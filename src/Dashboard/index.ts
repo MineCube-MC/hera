@@ -41,7 +41,7 @@ export class ClientDashboard {
                 clientId: client.config.clientId,
                 scopes: [
                     'bot',
-                    'application.commands'
+                    'applications.commands'
                 ],
                 otherParams: ""
             },

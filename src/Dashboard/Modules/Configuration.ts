@@ -68,10 +68,12 @@ export class Configuration {
     }
 
     public static async getAutoRoles(guild: Guild) {
-        const Schema = await autoRolesSchema.findOne({ Guild: guild.id }, async(err, data) => {
-            if(!data) return [];
-            return data.AutoRoles;
+        let array: string[];
+        await autoRolesSchema.findOne({ Guild: guild.id }, async(err, data) => {
+            if(!data) array = [];
+            array = data.AutoRoles;
         }).clone();
+        return array;
     }
 
     public static async setRanking(guild: Guild, enabled: boolean) {

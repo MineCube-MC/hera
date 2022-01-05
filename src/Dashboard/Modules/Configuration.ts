@@ -29,7 +29,7 @@ export class Configuration {
         let channel: string;
         await moderationLogsSchema.findOne({ Guild: guild.id }, async(err, data) => {
             if(!data) channel = "";
-            channel = data.Channel;
+            if(data) channel = data.Channel;
         }).clone();
         return channel;
     }
@@ -52,7 +52,7 @@ export class Configuration {
         let channel: string;
         await welcomeChannelSchema.findOne({ Guild: guild.id }, async(err, data) => {
             if(!data) channel = "";
-            channel = data.Channel;
+            if(data) channel = data.Channel;
         }).clone();
         return channel;
     }

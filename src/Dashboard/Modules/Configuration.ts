@@ -26,10 +26,12 @@ export class Configuration {
     }
 
     public static async getLogChannel(guild: Guild) {
+        let channel: string;
         await moderationLogsSchema.findOne({ Guild: guild.id }, async(err, data) => {
-            if(!data) return "";
-            return data.Channel;
+            if(!data) channel = "";
+            channel = data.Channel;
         }).clone();
+        return channel;
     }
 
     public static async changeWelcomeChannel(guild: Guild, channel: TextChannel) {
@@ -47,10 +49,12 @@ export class Configuration {
     }
 
     public static async getWelcomeChannel(guild: Guild) {
+        let channel: string;
         await welcomeChannelSchema.findOne({ Guild: guild.id }, async(err, data) => {
-            if(!data) return "";
-            return data.Channel;
+            if(!data) channel = "";
+            channel = data.Channel;
         }).clone();
+        return channel;
     }
 
     public static async setAutoRoles(guild: Guild, rolesArray: string[]) {
@@ -91,17 +95,19 @@ export class Configuration {
     }
 
     public static async getRanking(guild: Guild): Promise<any> {
+        let ranking: boolean;
         await rankingSchema.findOne({ Guild: guild.id }, async (err, data) => {
             if(!data) {
                 new rankingSchema({
                     Guild: guild.id,
                     Enabled: true
                 }).save();
-                return true;
+                ranking = true;
             } else {
-                return data.Enabled;
+                ranking = data.Enabled;
             }
         }).clone();
+        return ranking;
     }
 
 }

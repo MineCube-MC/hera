@@ -26,11 +26,9 @@ export class Configuration {
     }
 
     public static async getLogChannel(guild: Guild) {
-        let channel: string;
-        await moderationLogsSchema.findOne({ Guild: guild.id }, async(err, data) => {
-            if(!data) channel = "";
-            if(data) channel = data.Channel;
-        }).clone();
+        let channel: string = "";
+        const Schema = await moderationLogsSchema.findOne({ Guild: guild.id }).clone();
+        channel = Schema.get('Channel');
         return channel;
     }
 
@@ -50,10 +48,8 @@ export class Configuration {
 
     public static async getWelcomeChannel(guild: Guild) {
         let channel: string;
-        await welcomeChannelSchema.findOne({ Guild: guild.id }, async(err, data) => {
-            if(!data) channel = "";
-            if(data) channel = data.Channel;
-        }).clone();
+        const Schema = await welcomeChannelSchema.findOne({ Guild: guild.id }).clone();
+        channel = Schema.get('Channel');
         return channel;
     }
 

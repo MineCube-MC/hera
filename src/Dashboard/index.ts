@@ -173,7 +173,7 @@ export class ClientDashboard {
                         optionDescription: 'Enable / Disable the ranking system in your guild.',
                         optionType: DBD.formTypes.switch(false),
                         getActualSet: async({ guild }) => {
-                            return await Configuration.getRanking(guild);
+                            return Configuration.getRanking(guild);
                         },
                         setNew: async({ guild, newData }) => {
                             try {

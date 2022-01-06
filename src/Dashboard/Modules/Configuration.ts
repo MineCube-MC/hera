@@ -26,9 +26,11 @@ export class Configuration {
     }
 
     public static async getLogChannel(guild: Guild) {
-        let channel: string = "";
-        const Schema = await moderationLogsSchema.findOne({ Guild: guild.id }).clone();
-        channel = Schema.get('Channel');
+        let channel: string;
+        const Schema = await moderationLogsSchema.findOne({ Guild: guild.id }, async(err, data) => {
+            if(!data) channel = "";
+            if(data) channel = data.Channel;
+        }).clone();
         return channel;
     }
 
@@ -48,8 +50,10 @@ export class Configuration {
 
     public static async getWelcomeChannel(guild: Guild) {
         let channel: string;
-        const Schema = await welcomeChannelSchema.findOne({ Guild: guild.id }).clone();
-        channel = Schema.get('Channel');
+        const Schema = await welcomeChannelSchema.findOne({ Guild: guild.id }, async(err, data) => {
+            if(!data) channel = "";
+            if(data) channel = data.Channel;
+        }).clone();
         return channel;
     }
 
@@ -71,7 +75,7 @@ export class Configuration {
         let array: string[];
         await autoRolesSchema.findOne({ Guild: guild.id }, async(err, data) => {
             if(!data) array = [];
-            array = data.AutoRoles;
+            if(data) array = data.AutoRoles;
         }).clone();
         return array;
     }

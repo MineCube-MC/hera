@@ -1,6 +1,7 @@
+// Original command (in JavaScript) by LukeBTW
+
 import { Command } from '../../Interfaces';
 import util from 'util';
-import chalk from 'chalk';
 
 export const command: Command = {
     name: 'evaluate',

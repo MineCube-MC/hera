@@ -104,7 +104,7 @@ export class ClientDashboard {
             }),
             settings: this.dashboardSettings()
         }
-
+        
         const db = new DBD.Dashboard(settings);
         db.init();
     }

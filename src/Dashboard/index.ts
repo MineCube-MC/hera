@@ -61,7 +61,7 @@ export class ClientDashboard {
                     websiteName: client.user.username,
                     websiteUrl: client.config.dashboard.domain + urlPort,
                     dashboardUrl: client.config.dashboard.domain + urlPort,
-                    supporteMail: "Sike!",
+                    supporteMail: "support@plenusbot.xyz",
                     supportServer: "https://discord.gg/CNTz9fDYYJ",
                     imageFavicon: "https://i.imgur.com/PXKhUSB.png",
                     iconURL: "https://i.imgur.com/PXKhUSB.png",

@@ -69,6 +69,7 @@ export class ClientDashboard {
                     mainColor: "#2CA8FF",
                     subColor: "#ebdbdb",
                 },
+                minimizedConsoleLogs: true,
                 privacyPolicy: {
                     pp: `<meta http-equiv="refresh" content="0; URL='https://www.iubenda.com/privacy-policy/12305593'" />`
                 },

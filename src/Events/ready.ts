@@ -28,8 +28,8 @@ export const event: Event = {
                     await task.execute(client);
                 }, task.interval * 1000);
             });
-            await DBD.useLicense(client.config.dashboard.license);
-            new ClientDashboard(client);
+            // await DBD.useLicense(client.config.dashboard.license);
+            // new ClientDashboard(client);
             new ClientPrompt(client);
         });
     }

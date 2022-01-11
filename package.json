@@ -1,11 +1,11 @@
 {
     "name": "plenus-rewrite",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "src/index.js",
     "scripts": {
         "start": "ts-node src/index.ts",
         "start:dev": "ts-node-dev src/index.ts",
-        "start:prod": "node dist/index.js",
+        "start:prod": "node dist/src/index.js",
         "build": "tsc",
         "watch": "tsc -w"
     },
@@ -14,7 +14,9 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
-        "discord.js": "^13.5.0",
+        "canvacord": "^5.2.3",
+        "discord-xp": "^1.1.16",
+        "discord.js": "^13.5.1",
         "dotenv": "^10.0.0",
         "glob": "^7.2.0"
     },

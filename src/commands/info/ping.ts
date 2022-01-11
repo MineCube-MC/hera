@@ -2,8 +2,8 @@ import { Command } from "../../structures/Command";
 
 export default new Command({
     name: "ping",
-    description: "replies with pong",
-    run: async ({ interaction }) => {
-        interaction.followUp("Pong3");
+    description: "Gets the latency between the host and the Discord API",
+    run: async ({ interaction, client }) => {
+        interaction.followUp(`**Discord API:** ${client.ws.ping}`);
     }
 });

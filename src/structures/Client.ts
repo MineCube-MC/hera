@@ -9,6 +9,7 @@ import glob from "glob";
 import { promisify } from "util";
 import { RegisterCommandsOptions } from "../typings/client";
 import { Event } from "./Event";
+import Levels from "discord-xp";
 
 const globPromise = promisify(glob);
 
@@ -69,5 +70,8 @@ export class ExtendedClient extends Client {
             );
             this.on(event.event, event.run);
         });
+
+        // Leveling
+        Levels.setURL(process.env.mongoUri);
     }
 }

@@ -4,28 +4,31 @@ import { ExtendedEmbed } from "../../structures/Embed";
 
 export default new Command({
     name: "activity",
-    description: "Generate an invite link to start any Discord activity",
+    description: "A workaround to start an activity in any voice channel.",
     options: [
         {
-            name: "channel",
-            description: "Choose the voice channel for the activity",
-            type: "CHANNEL",
-            required: true
-        },
-        {
-            name: "activity",
-            description: "Choose the activity you want to start",
-            type: "SUB_COMMAND_GROUP",
+            name: "youtube",
+            description: "Generate a Watch Together activity link",
+            type: "SUB_COMMAND",
             options: [
                 {
-                    name: "youtube",
-                    description: "Generate a YouTube Together activity link",
-                    type: "SUB_COMMAND"
-                },
+                    name: "channel",
+                    description: "Choose the voice channel for the activity",
+                    type: "CHANNEL",
+                    required: true
+                }
+            ]
+        },
+        {
+            name: "doodlecrew",
+            description: "Generate a Doodle Crew activity link",
+            type: "SUB_COMMAND",
+            options: [
                 {
-                    name: "doodlecrew",
-                    description: "Generate a Doodle Crew activity link",
-                    type: "SUB_COMMAND"
+                    name: "channel",
+                    description: "Choose the voice channel for the activity",
+                    type: "CHANNEL",
+                    required: true
                 }
             ]
         }
@@ -34,7 +37,11 @@ export default new Command({
         const channel = interaction.options.getChannel("channel") as VoiceChannel;
         if(!(channel instanceof VoiceChannel)) return interaction.followUp(`The channel must be a voice channel!`);
 
-        const activity = interaction.options.getSubcommandGroup(true);
+        const activity = interaction.options.getSubcommand();
+        let activityName = "a Discord activity";
+
+        if(activity === "youtube") activityName = "**Watch Together**";
+        if(activity === "doodlecrew") activityName = "**Doodle Crew**";
         
         client.activities.createTogetherCode(channel.id, activity).then(async invite => {
             if(!invite.code) return interaction.followUp({
@@ -46,11 +53,14 @@ export default new Command({
                 embeds: [
                     new ExtendedEmbed()
                         .setTitle("Discord Activity")
-                        .setDescription(`A temporary invite link has been generated to join a Discord activity in a voice channel. The voice channel the activity started is \`${channel.name}\`.`)
-                        .addField("How to join", `Just [click here](${invite.code})`)
-                        .setFooter(`Requested by ${interaction.user.username}`, interaction.user.displayAvatarURL({ dynamic: true }))
+                        .setDescription(`A temporary invite link has been generated to join ${activityName} in \`${channel.name}\`.`)
+                        .addField("How to join", `Just [click here](${invite.code}) and you'll be able to join both the voice channel and the activity.`)
+                        .setFooter({
+                            text: `Requested by ${interaction.user.username}`,
+                            iconURL: interaction.user.displayAvatarURL({ dynamic: true })
+                        })
                 ]
             })
         });
     }
-})
+});

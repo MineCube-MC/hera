@@ -23,5 +23,15 @@
         "server": "[Support Server](https://discord.gg/CNTz9fDYYJ)",
         "bot": "[Bot Invite](https://discord.com/api/oauth2/authorize?client_id=${client.application.id}&permissions=8&scope=bot%20applications.commands)",
         "github": "[GitHub Repository](https://github.com/ApexieCommunity/Plenus)"
+    },
+    "commands": {
+        "activity": {
+            "title": "Discord Activity",
+            "description": "A temporary invite link has been generated to join {activityName} in `{channelName}`.",
+            "tutorial": {
+                "title": "How to join",
+                "description": "Just [click here]({inviteCode}) and you'll be able to join both the voice channel and the activity."
+            }
+        }
     }
 }

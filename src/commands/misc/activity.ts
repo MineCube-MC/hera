@@ -1,6 +1,7 @@
 import { VoiceChannel } from "discord.js";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
+import { commands } from '../../../assets/locale.json';
 
 export default new Command({
     name: "activity",
@@ -52,9 +53,9 @@ export default new Command({
             interaction.followUp({
                 embeds: [
                     new ExtendedEmbed()
-                        .setTitle("Discord Activity")
-                        .setDescription(`A temporary invite link has been generated to join ${activityName} in \`${channel.name}\`.`)
-                        .addField("How to join", `Just [click here](${invite.code}) and you'll be able to join both the voice channel and the activity.`)
+                        .setTitle(commands.activity.title)
+                        .setDescription(commands.activity.description.replace("{activityName}", activityName).replace("{channelName}", channel.name))
+                        .addField(commands.activity.tutorial.title, commands.activity.tutorial.description.replace("{inviteCode}", invite.code))
                         .setFooter({
                             text: `Requested by ${interaction.user.username}`,
                             iconURL: interaction.user.displayAvatarURL({ dynamic: true })

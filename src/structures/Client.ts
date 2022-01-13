@@ -11,12 +11,14 @@ import { RegisterCommandsOptions } from "../typings/client";
 import { Event } from "./Event";
 import Levels from "discord-xp";
 import { DiscordTogether } from "discord-together";
+import { GiveawaysManager } from "discord-giveaways";
 
 const globPromise = promisify(glob);
 
 export class ExtendedClient extends Client {
     commands: Collection<string, CommandType> = new Collection();
     activities = new DiscordTogether(this);
+    giveaways: GiveawaysManager;
 
     constructor() {
         super({ intents: 32767 });
@@ -75,5 +77,16 @@ export class ExtendedClient extends Client {
 
         // Leveling
         Levels.setURL(process.env.mongoUri);
+
+        // Giveaways
+        this.giveaways = new GiveawaysManager(this, {
+            storage: "./giveaways.json",
+            default: {
+                botsCanWin: false,
+                embedColor: "BLURPLE",
+                embedColorEnd: "DARK_RED",
+                reaction: '🎉'
+            }
+        });
     }
 }

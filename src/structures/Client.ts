@@ -12,6 +12,7 @@ import { Event } from "./Event";
 import Levels from "discord-xp";
 import { DiscordTogether } from "discord-together";
 import { GiveawaysManager } from "discord-giveaways";
+import mongoose from 'mongoose';
 
 const globPromise = promisify(glob);
 
@@ -43,6 +44,15 @@ export class ExtendedClient extends Client {
     }
 
     async registerModules() {
+        // MongoDB
+        await mongoose.connect(process.env.mongoUri || "", {
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
+            keepAlive: true
+        }).then(() => {
+            console.log("Database connected!");
+        });
+
         // Commands
         const slashCommands: ApplicationCommandDataResolvable[] = [];
         const commandFiles = await globPromise(

@@ -1,5 +1,7 @@
 import { Event } from "../structures/Event";
 
-export default new Event("ready", () => {
-    console.log("Bot is online");
+export default new Event("ready", (client) => {
+    if(client.isReady) {
+        console.log("Bot is online");
+    }
 });

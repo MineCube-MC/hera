@@ -15,4 +15,4 @@ export default model("guild", new Schema({
             required: false
         }
     }
-}));
+}), "plenus");

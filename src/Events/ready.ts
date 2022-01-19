@@ -29,7 +29,7 @@ export const event: Event = {
                 }, task.interval * 1000);
             });
             await DBD.useLicense(client.config.dashboard.license);
-            new ClientDashboard(client);
+            // new ClientDashboard(client);
             new ClientPrompt(client);
         });
     }

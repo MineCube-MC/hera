@@ -18,12 +18,12 @@ export class ClientDashboard {
             commandAlias: "No Aliases"
         }));
 
-        DBD.Dashboard = DBD.UpdatedClass();
+        const Dashboard = DBD.UpdatedClass();
 
         let urlPort: string;
         if(client.config.dashboard.port === 3000) {urlPort = ":3000"} else urlPort = "";
-
-        const settings = {
+        
+        const db = new Dashboard({
             port: client.config.dashboard.port,
             client: {
                 id: client.config.clientId,
@@ -32,12 +32,10 @@ export class ClientDashboard {
             redirectUri: client.config.dashboard.redirectUri,
             domain: client.config.dashboard.domain,
             bot: client,
-            ownerIDs: client.config.owners,
             acceptPrivacyPolicy: true,
-            sessionFileStore: true,
             invite: {
                 redirectUri: client.config.dashboard.redirectUri,
-                permissions: 8,
+                permissions: "8",
                 clientId: client.config.clientId,
                 scopes: [
                     'bot',
@@ -104,9 +102,7 @@ export class ClientDashboard {
                 }]
             }),
             settings: this.dashboardSettings()
-        }
-        
-        const db = new DBD.Dashboard(settings);
+        });
         db.init();
     }
 

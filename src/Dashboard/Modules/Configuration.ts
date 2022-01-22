@@ -112,15 +112,15 @@ export class Configuration {
     }
 
     public static botStatistics(client: ExtendedClient, html: boolean): string {
-        const servers = client.guilds.cache.size;
+        const servers = client.guilds.cache;
         let users: number = 0;
         let channels: number = 0;
-        client.guilds.cache.forEach((guild) => {
+        servers.forEach((guild) => {
             users = users + guild.members.cache.size;
             channels = channels + guild.channels.cache.size;
         });
-        if(html) return `Plenus takes care of <b>${servers}</b> servers, <b>${users}</b> users and <b>${channels}</b> channels.`;
-        if(!html) return `Plenus takes care of **${servers}** servers, **${users}** users and **${channels}** channels.`
+        if(html) return `Plenus takes care of <b>${servers.size}</b> servers, <b>${users}</b> users and <b>${channels}</b> channels.`;
+        if(!html) return `Plenus takes care of **${servers.size}** servers, **${users}** users and **${channels}** channels.`
     }
 
 }

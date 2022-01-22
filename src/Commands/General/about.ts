@@ -1,4 +1,5 @@
 import { MessageEmbed } from 'discord.js';
+import { Configuration } from '../../Dashboard/Modules/Configuration';
 import { Command } from '../../Interfaces';
 
 export const command: Command = {
@@ -22,6 +23,7 @@ export const command: Command = {
                 .addField('Links', `
                 [Support Server](https://discord.gg/CNTz9fDYYJ) | [Bot Invite](https://discord.com/api/oauth2/authorize?client_id=${client.application.id}&permissions=8&scope=bot%20applications.commands) | [GitHub Repository](https://github.com/ApexieCommunity/Plenus)
                 `)
+                .addField('Community', Configuration.botStatistics(client, false))
                 .setFooter(`Created by the Plenus Team`, 'https://i.imgur.com/PXKhUSB.png')
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
             ]

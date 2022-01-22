@@ -3,6 +3,7 @@ import { moderationLogsSchema } from "../../Models/moderationLogs";
 import { autoRolesSchema } from "../../Models/autoRoles";
 import { welcomeChannelSchema } from "../../Models/welcomeChannel";
 import { rankingSchema } from "../../Models/ranking";
+import ExtendedClient from "../../Client";
 
 export class Configuration {
 
@@ -108,6 +109,18 @@ export class Configuration {
             }
         }).clone();
         return ranking;
+    }
+
+    public static botStatistics(client: ExtendedClient, html: boolean): string {
+        const servers = client.guilds.cache.size;
+        let users: number = 0;
+        let channels: number = 0;
+        client.guilds.cache.forEach((guild) => {
+            users = users + guild.members.cache.size;
+            channels = channels + guild.channels.cache.size;
+        });
+        if(html) return `Plenus takes care of <b>${servers}</b> servers, <b>${users}</b> users and <b>${channels}</b> channels.`;
+        if(!html) return `Plenus takes care of **${servers}** servers, **${users}** users and **${channels}** channels.`
     }
 
 }

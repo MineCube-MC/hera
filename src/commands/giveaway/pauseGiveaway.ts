@@ -24,14 +24,14 @@ export default new Command({
 
         // If no giveaway was found
         if (!giveaway) {
-            return interaction.followUp({
+            return interaction.reply({
                 content: 'Unable to find a giveaway for `'+ query + '`.',
                 ephemeral: true
             });
         }
 
         if (giveaway.ended) {
-            return interaction.followUp({
+            return interaction.reply({
                 content: 'This giveaway is already ended.',
                 ephemeral: true
             });
@@ -42,10 +42,10 @@ export default new Command({
             // Success message
             .then(() => {
                 // Success message
-                interaction.followUp('Giveaway unpaused!');
+                interaction.reply('Giveaway unpaused!');
             })
             .catch((e) => {
-                interaction.followUp({
+                interaction.reply({
                     content: e,
                     ephemeral: true
                 });
@@ -63,10 +63,10 @@ export default new Command({
         // Success message
         .then(() => {
             // Success message
-            interaction.followUp('Giveaway paused!');
+            interaction.reply('Giveaway paused!');
         })
         .catch((e) => {
-            interaction.followUp({
+            interaction.reply({
                 content: e,
                 ephemeral: true
             });

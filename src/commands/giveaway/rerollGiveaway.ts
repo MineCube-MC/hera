@@ -24,14 +24,14 @@ export default new Command({
 
         // If no giveaway was found
         if (!giveaway) {
-            return interaction.followUp({
+            return interaction.reply({
                 content: 'Unable to find a giveaway for `'+ query +'`.',
                 ephemeral: true
             });
         }
 
         if (!giveaway.ended) {
-            return interaction.followUp({
+            return interaction.reply({
                 content: 'The giveaway is not ended yet.',
                 ephemeral: true
             });
@@ -41,10 +41,10 @@ export default new Command({
         client.giveaways.reroll(giveaway.messageId)
         .then(() => {
             // Success message
-            interaction.followUp('Giveaway rerolled!');
+            interaction.reply('Giveaway rerolled!');
         })
         .catch((e) => {
-            interaction.followUp({
+            interaction.reply({
                 content: e,
                 ephemeral: true
             });

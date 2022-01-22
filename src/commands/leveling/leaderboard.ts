@@ -20,6 +20,6 @@ export default new Command({
             .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
             .setFooter(`Requested by ${interaction.user.username}`, interaction.user.displayAvatarURL({ dynamic: true }));
         
-        interaction.followUp({ embeds: [ leaderboardEmbed ] });
+        interaction.reply({ embeds: [ leaderboardEmbed ] });
     }
 });

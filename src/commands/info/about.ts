@@ -25,7 +25,7 @@ export default new Command({
                 iconURL: createdBy.icon
             })
             .setThumbnail(client.user.displayAvatarURL({ dynamic: true }));
-        interaction.followUp({
+        interaction.reply({
             embeds: [aboutEmbed]
         });
     }

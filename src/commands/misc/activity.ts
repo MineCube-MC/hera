@@ -36,7 +36,7 @@ export default new Command({
     ],
     run: async({ interaction, client }) => {
         const channel = interaction.options.getChannel("channel") as VoiceChannel;
-        if(!(channel instanceof VoiceChannel)) return interaction.followUp(`The channel must be a voice channel!`);
+        if(!(channel instanceof VoiceChannel)) return interaction.reply(`The channel must be a voice channel!`);
 
         const activity = interaction.options.getSubcommand();
         let activityName = "a Discord activity";
@@ -45,12 +45,12 @@ export default new Command({
         if(activity === "doodlecrew") activityName = "**Doodle Crew**";
         
         client.activities.createTogetherCode(channel.id, activity).then(async invite => {
-            if(!invite.code) return interaction.followUp({
+            if(!invite.code) return interaction.reply({
                 content: `Due to the slow Discord API, we can't send you the invite code`,
                 ephemeral: true
             });
 
-            interaction.followUp({
+            interaction.reply({
                 embeds: [
                     new ExtendedEmbed()
                         .setTitle(commands.activity.title)

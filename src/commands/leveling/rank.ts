@@ -29,7 +29,7 @@ export default new Command({
         rank.build({ "fontX": "Manrope", "fontY": "Manrope" })
             .then(data => {
                 const attachment = new MessageAttachment(data, `rankCard.png`);
-                interaction.followUp({ files: [attachment] });
+                interaction.reply({ files: [attachment] });
             });
     }
 });

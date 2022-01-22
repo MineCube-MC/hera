@@ -83,9 +83,9 @@ export default new Command({
                     hostedBy: interaction.user
                 });
             
-                interaction.followUp({ content: `Giveaway started in ${giveawayChannel}!`, ephemeral: true});
+                interaction.reply({ content: `Giveaway started in ${giveawayChannel}!`, ephemeral: true});
             } else {
-                return interaction.followUp({
+                return interaction.reply({
                     content: 'Selected channel is not text-based.',
                     ephemeral: true
                 });

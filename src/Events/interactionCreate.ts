@@ -1,4 +1,4 @@
-import { CommandInteractionOptionResolver } from "discord.js";
+import { CommandInteractionOptionResolver, GuildMember } from "discord.js";
 import { client } from "..";
 import { Event } from "../structures/Event";
 import { ExtendedInteraction } from "../typings/Command";
@@ -18,5 +18,35 @@ export default new Event("interactionCreate", async (interaction) => {
             client,
             interaction: interaction as ExtendedInteraction
         });
+    }
+    // Listening to buttons
+    if (interaction.isButton()) {
+        // Listening to button roles
+        if(interaction.customId.includes("role")) {
+            const roleID = interaction.customId.replace(/[^0-9]/g, '');
+            const member = interaction.member as GuildMember;
+
+            if(interaction.guild.roles.cache.find(role => role.id === roleID)) {
+                const role = interaction.guild.roles.cache.get(roleID);
+                if(member.roles.cache.some(role => role.id === roleID)) {
+                    member.roles.remove(role);
+                    return interaction.reply({
+                        content: `You've been removed the **${role.name}** role.`,
+                        ephemeral: true
+                    });
+                } else {
+                    member.roles.add(role);
+                    return interaction.reply({
+                        content: `You've been added the **${role.name}** role.`,
+                        ephemeral: true
+                    });
+                }
+            } else {
+                return interaction.reply({
+                    content: `This role doesn't exist, try contacting the server administrator.`,
+                    ephemeral: true
+                });
+            }
+        }
     }
 });

@@ -21,7 +21,7 @@ export default new Command({
             required: true
         }
     ],
-    run: async({ interaction, client }) => {
+    run: async({ interaction }) => {
         const from = interaction.options.getChannel("from") as VoiceChannel;
         const to = interaction.options.getChannel("to") as VoiceChannel;
 

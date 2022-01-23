@@ -71,9 +71,10 @@ export const command: Command = {
             const role = interaction.guild.roles.cache.get(interaction.options.getRole("role").id);
             const emoji = interaction.options.getString("emoji");
             const title = interaction.options.getString("title");
-            const color = (interaction.options.getString("color") as ColorResolvable);
+            var color: ColorResolvable = (interaction.options.getString("color") as ColorResolvable);
 
             const buttonEmbed = new MessageEmbed()
+                .setTitle(role.name)
                 .setDescription(description)
                 .setColor('RANDOM')
                 .setFooter(interaction.guild.name, interaction.guild.iconURL({ dynamic: true }));

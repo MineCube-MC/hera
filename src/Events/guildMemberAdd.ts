@@ -1,5 +1,6 @@
 import profileSchema from "../models/profileSchema";
 import { Event } from "../structures/Event";
+import Canvas from 'canvas';
 
 export default new Event("guildMemberAdd", async(member) => {
     if(member.user.bot) return;
@@ -9,4 +10,7 @@ export default new Event("guildMemberAdd", async(member) => {
         warnings: 0
     });
     profile.save();
+
+    // Work in progress: Welcome Cards
+    // var welcomeCanvas: { create, context: { font, fillStyle } };
 });

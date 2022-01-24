@@ -16,6 +16,7 @@ export default new Command({
                     name: "channel",
                     description: "Choose the voice channel for the activity",
                     type: "CHANNEL",
+                    channelTypes: ["GUILD_VOICE"],
                     required: true
                 }
             ]
@@ -29,6 +30,7 @@ export default new Command({
                     name: "channel",
                     description: "Choose the voice channel for the activity",
                     type: "CHANNEL",
+                    channelTypes: ["GUILD_VOICE"],
                     required: true
                 }
             ]

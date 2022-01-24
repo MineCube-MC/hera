@@ -19,16 +19,16 @@ export default new Command({
                     required: true
                 },
                 {
-                    name: "description",
-                    description: "The description of the embed for the button role",
-                    type: "STRING",
-                    required: true
-                },
-                {
                     name: "channel",
                     description: "The channel you want to send the embed with the button",
                     type: "CHANNEL",
                     channelTypes: ["GUILD_TEXT"],
+                    required: true
+                },
+                {
+                    name: "description",
+                    description: "The description of the embed for the button role",
+                    type: "STRING",
                     required: true
                 },
                 {
@@ -75,7 +75,7 @@ export default new Command({
         if(query === "create") {
             const buttonEmbed = new ExtendedEmbed()
                 .setTitle(role.name)
-                .setDescription(description)
+                .setDescription(`Click here to get the **${role.name}** role.`)
                 .setFooter({
                     text: interaction.guild.name,
                     iconURL: interaction.guild.iconURL({ dynamic: true })
@@ -90,6 +90,8 @@ export default new Command({
                 });
             }
             if(title) buttonEmbed.setTitle(title);
+
+            if(description) buttonEmbed.setDescription(description);
 
             const roleButton = new MessageButton()
                 .setLabel(role.name)
@@ -111,6 +113,11 @@ export default new Command({
                 new MessageActionRow()
                     .addComponents(roleButton)
             ] });
+
+            return interaction.reply({
+                content: `Button role created successfully.`,
+                ephemeral: true
+            });
         }
     }
 });

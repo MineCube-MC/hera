@@ -50,7 +50,7 @@ export default new Event("guildMemberAdd", async(member) => {
 
         var number = Math.floor(Math.random() * 6) + 1;
 
-        Canvas.loadImage(path.join(process.cwd(), `/assets/cards/card-${number}.png`)).then(async(img) => {
+        Canvas.loadImage(`../../assets/cards/card-${number}.png`).then(async(img) => {
             context.drawImage(img, 0, 0, 1024, 500);
             context.fillText("welcome", 360, 360);
             context.beginPath();

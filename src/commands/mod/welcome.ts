@@ -32,7 +32,7 @@ export default new Command({
             type: "SUB_COMMAND",
             options: [{
                 name: "text",
-                description: "The text that's going to be send. Available placeholders: {member}, {guild}",
+                description: "The text that's going to be sent. Available placeholders: {member}, {guild}",
                 type: "STRING",
                 required: true
             }]
@@ -69,7 +69,8 @@ export default new Command({
                 $set: {
                     welcome: {
                         enabled: true,
-                        channelID: channel.id
+                        channelID: channel.id,
+                        text: guildData.welcome.text
                     }
                 }
             });
@@ -97,6 +98,8 @@ export default new Command({
             }, {
                 $set: {
                     welcome: {
+                        enabled: guildData.welcome.enabled,
+                        channelID: guildData.welcome.channelID,
                         text: text
                     }
                 }

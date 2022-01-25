@@ -3,7 +3,8 @@ import { Event } from "../structures/Event";
 import Canvas from 'canvas';
 import { MessageAttachment, TextChannel } from "discord.js";
 import guildSchema from "../models/guildSchema";
-import path from 'path';
+import path from "path";
+import fs from "fs"
 
 export default new Event("guildMemberAdd", async(member) => {
     if(member.user.bot) return;
@@ -50,7 +51,14 @@ export default new Event("guildMemberAdd", async(member) => {
 
         var number = Math.floor(Math.random() * 6) + 1;
 
-        Canvas.loadImage(`../../assets/cards/card-${number}.png`).then(async(img) => {
+        const promise = fs.promises.readFile(path.join(process.cwd() + `/assets/cards/card-${number}.png`));
+        var imageBuffer;
+
+        Promise.resolve(promise).then(function(buffer){
+            imageBuffer = buffer;
+        });
+
+        Canvas.loadImage(imageBuffer).then(async(img) => {
             context.drawImage(img, 0, 0, 1024, 500);
             context.fillText("welcome", 360, 360);
             context.beginPath();

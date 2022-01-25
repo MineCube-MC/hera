@@ -4,7 +4,7 @@ import { Command } from "../../structures/Command";
 
 export default new Command({
     name: "welcome",
-    description: "Enable/Disable the welcome channel with cards",
+    description: "Enable/Disable the welcome channel with cards in your guild",
     userPermissions: ["MANAGE_CHANNELS"],
     options: [
         {
@@ -25,11 +25,23 @@ export default new Command({
             name: "disable",
             description: "Disable the welcome channel",
             type: "SUB_COMMAND"
+        },
+        {
+            name: "text",
+            description: "Change what's the text that's going to be sent along with the card",
+            type: "SUB_COMMAND",
+            options: [{
+                name: "text",
+                description: "The text that's going to be send. Available placeholders: {member}, {guild}",
+                type: "STRING",
+                required: true
+            }]
         }
     ],
     run: async({ interaction, client }) => {
         const query = interaction.options.getSubcommand();
         const channel = interaction.options.getChannel("channel") as TextChannel;
+        const text = interaction.options.getString("text");
 
         let guildData;
         try {
@@ -39,7 +51,8 @@ export default new Command({
                     serverID: interaction.guildId,
                     welcome: {
                         enabled: false,
-                        channelID: "none"
+                        channelID: "none",
+                        text: ":wave: Hello {member}, welcome to {guild}!"
                     }
                 });
                 guild.save();
@@ -76,6 +89,20 @@ export default new Command({
             });
             return interaction.reply({
                 content: `The welcome channel has been successfully disabled.`,
+                ephemeral: true
+            });
+        } else if(query === "text") {
+            const response = await guildSchema.findOneAndUpdate({
+                serverID: interaction.guildId
+            }, {
+                $set: {
+                    welcome: {
+                        text: text
+                    }
+                }
+            });
+            return interaction.reply({
+                content: `The welcome message has been successfully set to \`${text}\`.`,
                 ephemeral: true
             });
         }

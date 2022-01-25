@@ -31,7 +31,8 @@ export default new Event("guildMemberAdd", async(member) => {
                 serverID: member.guild.id,
                 welcome: {
                     enabled: false,
-                    channelID: "none"
+                    channelID: "none",
+                    text: ":wave: Hello {member}, welcome to {guild}!"
                 }
             });
             guild.save();
@@ -73,8 +74,9 @@ export default new Event("guildMemberAdd", async(member) => {
         });
         const welcomeChannel = member.guild.channels.cache.find(ch => ch.id === guildData.welcome.channelID) as TextChannel;
         if(welcomeChannel) {
+            let message = (guildData.welcome.text as string).replaceAll("{member}", `${member}`).replaceAll("{guild}", member.guild.name);
             welcomeChannel.send({
-                content: `:wave: Hello ${member}, welcome to ${member.guild.name}!`,
+                content: message,
                 files: [new MessageAttachment(canvas.toBuffer(), `welcome-${member.id}.png`)]
             });
         }

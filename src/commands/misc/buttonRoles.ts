@@ -29,7 +29,7 @@ export default new Command({
                     name: "description",
                     description: "The description of the embed for the button role",
                     type: "STRING",
-                    required: true
+                    required: false
                 },
                 {
                     name: "emoji",

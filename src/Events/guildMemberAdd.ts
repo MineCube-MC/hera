@@ -1,7 +1,7 @@
 import profileSchema from "../models/profileSchema";
 import { Event } from "../structures/Event";
 import Canvas from 'canvas';
-import { MessageAttachment, TextChannel } from "discord.js";
+import { MessageAttachment, RoleManager, TextChannel } from "discord.js";
 import guildSchema from "../models/guildSchema";
 import path from "path";
 import fs from "fs"
@@ -34,13 +34,25 @@ export default new Event("guildMemberAdd", async(member) => {
                     enabled: false,
                     channelID: "none",
                     text: ":wave: Hello {member}, welcome to {guild}!"
-                }
+                },
+                autoRoles: []
             });
             guild.save();
             guildData = await guildSchema.findOne({ serverID: member.guild.id });
         }
     } catch (e) {
             console.error(e);
+    }
+
+    if(member.guild.me.permissions.has("MANAGE_ROLES")) {
+        (guildData.autoRoles as string[]).forEach(roleID => {
+            const role = member.guild.roles.cache.find(role => role.id === roleID);
+            if(role) {
+                if(role.position >= member.guild.me.roles.highest.position) return;
+                if(member.roles.cache.has(role.id)) return;
+                member.roles.add(role);
+            }
+        });   
     }
 
     if(guildData.welcome.enabled) {

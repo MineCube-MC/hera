@@ -8,6 +8,7 @@ export default mongo.model(
             enabled: { type: Boolean },
             channelID: { type: String },
             text: { type: String }
-        }
+        },
+        autoRoles: { type: [String] }
     })
 );

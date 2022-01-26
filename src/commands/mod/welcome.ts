@@ -53,7 +53,8 @@ export default new Command({
                         enabled: false,
                         channelID: "none",
                         text: ":wave: Hello {member}, welcome to {guild}!"
-                    }
+                    },
+                    autoRoles: []
                 });
                 guild.save();
                 guildData = await guildSchema.findOne({ serverID: interaction.guildId });

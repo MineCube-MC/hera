@@ -26,8 +26,8 @@ export class ExtendedClient extends Client {
         super({ intents: 32767 });
     }
 
-    start() {
-        connect(process.env.mongoUri, {
+    async start() {
+        await connect(process.env.mongoUri, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }, () => {

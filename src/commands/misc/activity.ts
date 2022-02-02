@@ -56,8 +56,8 @@ export default new Command({
                 embeds: [
                     new ExtendedEmbed()
                         .setTitle(commands.activity.title)
-                        .setDescription(commands.activity.description.replace("{activityName}", activityName).replace("{channelName}", channel.name))
-                        .addField(commands.activity.tutorial.title, commands.activity.tutorial.description.replace("{inviteCode}", invite.code))
+                        .setDescription(commands.activity.description.replaceAll("{activityName}", activityName).replaceAll("{channelName}", channel.name))
+                        .addField(commands.activity.tutorial.title, commands.activity.tutorial.description.replaceAll("{inviteCode}", invite.code))
                         .setFooter({
                             text: `Requested by ${interaction.user.username}`,
                             iconURL: interaction.user.displayAvatarURL({ dynamic: true })

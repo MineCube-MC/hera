@@ -57,7 +57,6 @@ export default new Command({
             isPaused: true,
             content: '⚠️ **THIS GIVEAWAY IS PAUSED !** ⚠️',
             unPauseAfter: null,
-            durationAfterPause: giveaway.remainingTime,
             embedColor: '#FFFF00'
         })
         // Success message

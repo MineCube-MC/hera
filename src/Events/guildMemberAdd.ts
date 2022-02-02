@@ -1,7 +1,7 @@
 import profileSchema from "../models/profileSchema";
 import { Event } from "../structures/Event";
 import Canvas from 'canvas';
-import { MessageAttachment, RoleManager, TextChannel } from "discord.js";
+import { MessageAttachment, TextChannel } from "discord.js";
 import guildSchema from "../models/guildSchema";
 import path from "path";
 import fs from "fs"

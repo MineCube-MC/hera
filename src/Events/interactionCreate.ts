@@ -7,11 +7,17 @@ export default new Event("interactionCreate", async (interaction) => {
     // Chat Input Commands
     if (interaction.isCommand()) {
         const command = client.commands.get(interaction.commandName);
-        if (!command)
+        if (!command) {
+            if(process.env.guildId) {
+                client.guilds.cache.get(process.env.guildId).commands.cache.delete(interaction.commandId);
+            } else {
+                client.commands.delete(interaction.commandId);
+            }
             return interaction.reply({
-                content: "You have used a non existent command",
+                content: `The \`${interaction.commandName}\` command doesn't exist.`,
                 ephemeral: true
             });
+        }
 
         command.run({
             args: interaction.options as CommandInteractionOptionResolver,

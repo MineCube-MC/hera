@@ -19,7 +19,8 @@ export const event: Event = {
         }
 
         connect(client.config.mongoURI, {
-            
+            useNewUrlParser: true,
+            useUnifiedTopology: true
         }).then(() => {
             if (client.config.terminal.verbose) console.log(`Database => ${chalk.greenBright('Connected!')}`);
         }).finally(async () => {

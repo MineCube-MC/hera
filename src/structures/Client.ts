@@ -14,7 +14,6 @@ import { DiscordTogether } from "discord-together";
 import { GiveawaysManager } from "discord-giveaways";
 import { connect } from "mongoose";
 
-
 const globPromise = promisify(glob);
 
 export class ExtendedClient extends Client {

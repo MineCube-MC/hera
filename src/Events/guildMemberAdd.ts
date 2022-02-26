@@ -35,7 +35,8 @@ export default new Event("guildMemberAdd", async(member) => {
                     channelID: "none",
                     text: ":wave: Hello {member}, welcome to {guild}!"
                 },
-                autoRoles: []
+                autoRoles: [],
+                blacklist: []
             });
             guild.save();
             guildData = await guildSchema.findOne({ serverID: member.guild.id });

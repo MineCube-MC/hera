@@ -9,6 +9,7 @@ export default mongo.model(
             channelID: { type: String },
             text: { type: String }
         },
-        autoRoles: { type: [String] }
+        autoRoles: { type: [String] },
+        blacklist: { type: [String] }
     })
 );

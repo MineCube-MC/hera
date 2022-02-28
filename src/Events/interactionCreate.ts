@@ -1,4 +1,4 @@
-import { CommandInteractionOptionResolver, GuildMember } from "discord.js";
+import { CommandInteractionOptionResolver, GuildMember, PermissionResolvable } from "discord.js";
 import { client } from "..";
 import { Event } from "../structures/Event";
 import { ExtendedInteraction } from "../typings/Command";
@@ -19,15 +19,16 @@ export default new Event("interactionCreate", async (interaction) => {
             });
         }
 
-        if(interaction.channel.type == "DM") return interaction.reply({
-            content: `This bot's commands are executable in servers only!`,
+        let permissionsNeeded: PermissionResolvable[] = command.userPermissions;
+        if((interaction as ExtendedInteraction).memberPermissions.has([permissionsNeeded])) {
+            command.run({
+                args: interaction.options as CommandInteractionOptionResolver,
+                client,
+                interaction: interaction as ExtendedInteraction
+            });
+        } else return interaction.reply({
+            content: `You're missing the following permissions: ${permissionsNeeded.map(permission => `\`${permission}\``).join(", ")}`,
             ephemeral: true
-        });
-
-        command.run({
-            args: interaction.options as CommandInteractionOptionResolver,
-            client,
-            interaction: interaction as ExtendedInteraction
         });
     }
     // Listening to buttons

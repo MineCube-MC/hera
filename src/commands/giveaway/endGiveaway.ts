@@ -15,14 +15,10 @@ export default new Command({
     run: async({ client, interaction, args }) => {
         const query = args.getString('giveaway');
 
-        // try to found the giveaway with prize then with ID
         const giveaway = 
-            // Search with giveaway prize
             client.giveaways.giveaways.find((g) => g.prize === query && g.guildId === interaction.guild.id) ||
-            // Search with giveaway ID
             client.giveaways.giveaways.find((g) => g.messageId === query && g.guildId === interaction.guild.id);
 
-        // If no giveaway was found
         if (!giveaway) {
             return interaction.reply({
                 content: 'Unable to find a giveaway for `'+ query + '`.',
@@ -37,11 +33,8 @@ export default new Command({
             });
         }
 
-        // Edit the giveaway
         client.giveaways.end(giveaway.messageId)
-        // Success message
         .then(() => {
-            // Success message
             interaction.reply('Giveaway ended!');
         })
         .catch((e) => {

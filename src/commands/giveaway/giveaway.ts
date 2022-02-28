@@ -73,13 +73,9 @@ export default new Command({
         if(args.getSubcommand() === "normal") {
             if(((giveawayChannel): giveawayChannel is TextChannel => giveawayChannel.type === 'GUILD_TEXT' || giveawayChannel.type === 'GUILD_NEWS')(giveawayChannel)) {
                 client.giveaways.start(giveawayChannel, {
-                    // The giveaway duration
                     duration: ms(giveawayDuration),
-                    // The giveaway prize
                     prize: giveawayPrize,
-                    // The giveaway winner count
                     winnerCount: giveawayWinnerCount,
-                    // Who hosts this giveaway
                     hostedBy: interaction.user
                 });
             
@@ -93,13 +89,9 @@ export default new Command({
         } else if(args.getSubcommand() === "drop") {
             if(((giveawayChannel): giveawayChannel is TextChannel => giveawayChannel.type === 'GUILD_TEXT' || giveawayChannel.type === 'GUILD_NEWS')(giveawayChannel)) {
                 client.giveaways.start(giveawayChannel, {
-                    // The number of winners for this drop
                     winnerCount: giveawayWinnerCount,
-                    // The prize of the giveaway
                     prize: giveawayPrize,
-                    // Who hosts this giveaway
                     hostedBy: interaction.user,
-                    // specify drop
                     isDrop: true
                 });
             

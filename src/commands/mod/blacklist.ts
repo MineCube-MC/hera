@@ -100,14 +100,14 @@ export default new Command({
                 embeds: [
                     new ExtendedEmbed()
                     .setTitle(`${interaction.guild.name}'s blacklist`)
-                    .setDescription("This is the entire server blacklist.")
+                    .setDescription("The followings are the banned words in this Discord server. If a sent message contains one of the words below, the message will automatically be deleted.")
                     .addField("Words", `${blacklist.length ? blacklist.map(word => `\`${word}\``).join(", ") : "No words added"}`)
                     .setFooter({
                         text: createdBy.text,
                         iconURL: createdBy.icon
                     })
                 ]
-            })
+            });
         }
     }
 });

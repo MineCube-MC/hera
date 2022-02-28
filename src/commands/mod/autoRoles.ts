@@ -1,5 +1,8 @@
+import { Role, RoleResolvable } from "discord.js";
 import guildSchema from "../../models/guildSchema";
 import { Command } from "../../structures/Command";
+import { createdBy } from "../../../assets/locale.json";
+import { ExtendedEmbed } from "../../structures/Embed";
 
 export default new Command({
     name: "autoroles",
@@ -31,6 +34,11 @@ export default new Command({
                     required: true
                 }
             ]
+        },
+        {
+            name: "list",
+            description: "Shows the server auto-roles",
+            type: "SUB_COMMAND"
         }
     ],
     run: async({ interaction, args }) => {
@@ -87,6 +95,27 @@ export default new Command({
             return interaction.reply({
                 content: `The **${role.name}** role has been removed from the auto roles.`,
                 ephemeral: true
+            });
+        } else if(query === "list") {
+            let roles: Role[] = [];
+            (guildData.autoRoles as string[]).forEach((roleID) => {
+                const role = interaction.guild.roles.cache.get(roleID);
+                if(role) {
+                    roles.push(role);
+                }
+            });
+            return interaction.reply({
+                ephemeral: true,
+                embeds: [
+                    new ExtendedEmbed()
+                    .setTitle(`${interaction.guild.name}'s auto roles`)
+                    .setDescription("The followings are the roles added automatically when a member joins the server.")
+                    .addField("Roles", `${roles.length ? roles.map(role => `${role}`).join(", ") : "No roles added"}`)
+                    .setFooter({
+                        text: createdBy.text,
+                        iconURL: createdBy.icon
+                    })
+                ]
             });
         }
     }

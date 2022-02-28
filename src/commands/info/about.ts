@@ -9,13 +9,7 @@ export default new Command({
         const aboutEmbed = new ExtendedEmbed()
             .setTitle(title)
             .setDescription(description)
-            .addField("Features", `${features.description}
-            ${features.commands}
-            ${features.funCommands}
-            ${features.giveawayCommands}
-            ${features.activityCommands}
-            ${features.configCommands}
-            ${features.dashboard}`)
+            .addField("Features", `${features.description}\n${features.commands}\n${features.funCommands}\n${features.giveawayCommands}\n${features.activityCommands}\n${features.configCommands}\n${features.dashboard}`)
             .addField("Credits", `${credits.description}
             ${credits.discordjs}
             ${credits.reconlx}`)

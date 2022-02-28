@@ -1,4 +1,4 @@
-import { Role, RoleResolvable } from "discord.js";
+import { Role } from "discord.js";
 import guildSchema from "../../models/guildSchema";
 import { Command } from "../../structures/Command";
 import { createdBy } from "../../../assets/locale.json";
@@ -55,6 +55,10 @@ export default new Command({
                         enabled: false,
                         channelID: "none",
                         text: ":wave: Hello {member}, welcome to {guild}!"
+                    },
+                    logs: {
+                        enabled: false,
+                        channelID: "none"
                     },
                     autoRoles: [],
                     blacklist: []

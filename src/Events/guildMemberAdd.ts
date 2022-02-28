@@ -35,6 +35,10 @@ export default new Event("guildMemberAdd", async(member) => {
                     channelID: "none",
                     text: ":wave: Hello {member}, welcome to {guild}!"
                 },
+                logs: {
+                    enabled: false,
+                    channelID: "none"
+                },
                 autoRoles: [],
                 blacklist: []
             });

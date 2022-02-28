@@ -33,6 +33,10 @@ export default new Event("messageCreate", async (message) => {
                     channelID: "none",
                     text: ":wave: Hello {member}, welcome to {guild}!"
                 },
+                logs: {
+                    enabled: false,
+                    channelID: "none"
+                },
                 autoRoles: [],
                 blacklist: []
             });

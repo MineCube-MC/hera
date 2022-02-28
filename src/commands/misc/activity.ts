@@ -36,11 +36,11 @@ export default new Command({
             ]
         }
     ],
-    run: async({ interaction, client }) => {
-        const channel = interaction.options.getChannel("channel") as VoiceChannel;
+    run: async({ client, interaction, args }) => {
+        const channel = args.getChannel("channel") as VoiceChannel;
         if(!(channel instanceof VoiceChannel)) return interaction.reply(`The channel must be a voice channel!`);
 
-        const activity = interaction.options.getSubcommand();
+        const activity = args.getSubcommand();
         let activityName = "a Discord activity";
 
         if(activity === "youtube") activityName = "**Watch Together**";

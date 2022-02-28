@@ -38,10 +38,10 @@ export default new Command({
             }]
         }
     ],
-    run: async({ interaction, client }) => {
-        const query = interaction.options.getSubcommand();
-        const channel = interaction.options.getChannel("channel") as TextChannel;
-        const text = interaction.options.getString("text");
+    run: async({ interaction, args }) => {
+        const query = args.getSubcommand();
+        const channel = args.getChannel("channel") as TextChannel;
+        const text = args.getString("text");
 
         let guildData;
         try {

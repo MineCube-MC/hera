@@ -33,9 +33,9 @@ export default new Command({
             ]
         }
     ],
-    run: async({ interaction, client }) => {
-        const query = interaction.options.getSubcommand();
-        const role = interaction.options.getRole("role");
+    run: async({ interaction, args }) => {
+        const query = args.getSubcommand();
+        const role = args.getRole("role");
 
         let guildData;
         try {

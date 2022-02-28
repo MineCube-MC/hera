@@ -64,13 +64,13 @@ export default new Command({
             ]
         }
     ],
-    run: async({ interaction, client }) => {
-        const giveawayChannel = interaction.options.getChannel('channel');
-        const giveawayDuration = interaction.options.getString('duration');
-        const giveawayWinnerCount = interaction.options.getInteger('winners');
-        const giveawayPrize = interaction.options.getString('prize');
+    run: async({ client, interaction, args }) => {
+        const giveawayChannel = args.getChannel('channel');
+        const giveawayDuration = args.getString('duration');
+        const giveawayWinnerCount = args.getInteger('winners');
+        const giveawayPrize = args.getString('prize');
         
-        if(interaction.options.getSubcommand() === "normal") {
+        if(args.getSubcommand() === "normal") {
             if(((giveawayChannel): giveawayChannel is TextChannel => giveawayChannel.type === 'GUILD_TEXT' || giveawayChannel.type === 'GUILD_NEWS')(giveawayChannel)) {
                 client.giveaways.start(giveawayChannel, {
                     // The giveaway duration
@@ -90,7 +90,7 @@ export default new Command({
                     ephemeral: true
                 });
             }
-        } else if(interaction.options.getSubcommand() === "drop") {
+        } else if(args.getSubcommand() === "drop") {
             if(((giveawayChannel): giveawayChannel is TextChannel => giveawayChannel.type === 'GUILD_TEXT' || giveawayChannel.type === 'GUILD_NEWS')(giveawayChannel)) {
                 client.giveaways.start(giveawayChannel, {
                     // The number of winners for this drop

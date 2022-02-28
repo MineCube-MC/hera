@@ -19,6 +19,11 @@ export default new Event("interactionCreate", async (interaction) => {
             });
         }
 
+        if(interaction.channel.type == "DM") return interaction.reply({
+            content: `This bot's commands are executable in servers only!`,
+            ephemeral: true
+        });
+
         command.run({
             args: interaction.options as CommandInteractionOptionResolver,
             client,

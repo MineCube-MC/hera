@@ -58,15 +58,15 @@ export default new Command({
             ]
         }
     ],
-    run: async({ interaction }) => {
-        const query = interaction.options.getSubcommand();
-        const role = interaction.options.getRole("role");
-        const description = interaction.options.getString("description");
-        const channel = interaction.options.getChannel("channel") as TextChannel;
-        const emoji = interaction.options.getString("emoji");
-        const title = interaction.options.getString("title");
-        const label = interaction.options.getString("label");
-        var color: ColorResolvable = interaction.options.getString("color") as ColorResolvable;
+    run: async({ interaction, args }) => {
+        const query = args.getSubcommand();
+        const role = args.getRole("role");
+        const description = args.getString("description");
+        const channel = args.getChannel("channel") as TextChannel;
+        const emoji = args.getString("emoji");
+        const title = args.getString("title");
+        const label = args.getString("label");
+        var color: ColorResolvable = args.getString("color") as ColorResolvable;
 
         function isValidColor(str) {
             return str.match(/^#[a-f0-9]{6}$/i) !== null;

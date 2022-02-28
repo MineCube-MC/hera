@@ -42,7 +42,7 @@ export default new Event("guildMemberAdd", async(member) => {
             guildData = await guildSchema.findOne({ serverID: member.guild.id });
         }
     } catch (e) {
-            console.error(e);
+        console.error(e);
     }
 
     if(member.guild.me.permissions.has("MANAGE_ROLES")) {

@@ -21,9 +21,9 @@ export default new Command({
             required: true
         }
     ],
-    run: async({ interaction }) => {
-        const from = interaction.options.getChannel("from") as VoiceChannel;
-        const to = interaction.options.getChannel("to") as VoiceChannel;
+    run: async({ interaction, args }) => {
+        const from = args.getChannel("from") as VoiceChannel;
+        const to = args.getChannel("to") as VoiceChannel;
 
         from.members.forEach((member) => {
             member.voice.setChannel(to);

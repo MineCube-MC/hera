@@ -54,12 +54,12 @@ export default new Command({
             ]
         }
     ],
-    run: async({ interaction, client }) => {
-        const query = interaction.options.getSubcommand();
-        const member = interaction.options.getMember("member") as GuildMember;
+    run: async({ interaction, args }) => {
+        const query = args.getSubcommand();
+        const member = args.getMember("member") as GuildMember;
         let reason = " ";
-        if(interaction.options.getString("reason")) {
-            reason = ` for **${interaction.options.getString("reason")}**`;
+        if(args.getString("reason")) {
+            reason = ` for **${args.getString("reason")}**`;
         };
 
         let profileData;

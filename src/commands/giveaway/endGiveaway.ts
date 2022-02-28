@@ -12,8 +12,8 @@ export default new Command({
             required: true
         }
     ],
-    run: async({ interaction, client }) => {
-        const query = interaction.options.getString('giveaway');
+    run: async({ client, interaction, args }) => {
+        const query = args.getString('giveaway');
 
         // try to found the giveaway with prize then with ID
         const giveaway = 

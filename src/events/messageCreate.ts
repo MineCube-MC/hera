@@ -5,7 +5,7 @@ import Levels from 'discord-xp';
 
 export default new Event("messageCreate", async (message) => {
     const member = message.member;
-    if(member.user.bot) return;
+    if(member.user.bot || message.webhookId) return;
     let profileData;
     try {
         profileData = await profileSchema.findOne({ userID: member.id });

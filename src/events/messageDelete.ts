@@ -42,16 +42,22 @@ export default new Event("messageDelete", async (message) => {
     let entry = logs.entries.first();
 
     if(logChannel) {
-        logChannel.send({
-            embeds: [
-                new ExtendedEmbed()
-                .setTitle("Message deleted")
+        if(message.content) {
+            const deleteEmbed = new ExtendedEmbed()
+            .setTitle("Message deleted")
+            .setThumbnail(message.member.displayAvatarURL({ dynamic: true }) || message.author.displayAvatarURL({ dynamic: true }))
+            .addField("Author", `${message.member}`, true)
+            .addField("Content", `\`${message.content}\``);
+            if(message.author === entry.executor) {
+                deleteEmbed.setDescription("The author deleted his message for whatever reason.");
+            } else {
+                deleteEmbed
                 .setDescription(`Someone with the \`MANAGE_MESSAGES\` permission (probably one of these: ${rolesWithPerms.map(role => `${role}`).join(", ")}) deleted the message of a member in this server.`)
-                .setThumbnail(message.member.displayAvatarURL({ dynamic: true }) || message.author.displayAvatarURL({ dynamic: true }))
-                .addField("Author", `${message.member}`, true)
-                .addField("Deleted by", `${entry.executor}`, true)
-                .addField("Content", `\`${message.content}\``)
-            ]
-        });
+                .addField("Deleted by", `${entry.executor}`, true);
+            }
+            logChannel.send({
+                embeds: [deleteEmbed]
+            });
+        }
     }
 });

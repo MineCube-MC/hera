@@ -74,7 +74,7 @@ export default new Command({
                 embeds: [
                     new ExtendedEmbed()
                     .setTitle("Operation Successful")
-                    .setDescription(`The log channel has been successfully set to \`${channel}\``)
+                    .setDescription(`The log channel has been successfully set to ${channel}`)
                     .setFooter({
                         text: createdBy.text,
                         iconURL: createdBy.icon

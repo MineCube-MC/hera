@@ -45,6 +45,9 @@ export class ExtendedClient extends Client {
             if(process.env.enviroment === "dev" || process.env.enviroment === "debug") {
                 this.guilds.cache.get(guildId)?.commands.set(commands);
                 console.log(`Registering commands to ${this.guilds.cache.get(guildId).name}`);
+            } else {
+                this.application?.commands.set(commands);
+                console.log("Registering global commands");
             }
         } else {
             this.application?.commands.set(commands);

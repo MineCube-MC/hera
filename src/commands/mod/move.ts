@@ -1,7 +1,6 @@
 import { GuildMember, VoiceChannel } from "discord.js";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
-import { createdBy } from "../../../assets/locale.json";
 
 export default new Command({
     name: "move",
@@ -45,10 +44,6 @@ export default new Command({
                 .setTitle("Operation Successful")
                 .setDescription(`Successfully moved members from \`${from.name}\` to \`${to.name}\``)
                 .addField("Moved members", moved.map(member => `${member}`).join(", "))
-                .setFooter({
-                    text: createdBy.text,
-                    iconURL: createdBy.icon
-                })
             ]
         });
     }

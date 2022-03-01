@@ -115,7 +115,7 @@ export default new Command({
             ] });
 
             return interaction.reply({
-                content: `Button role created successfully.`,
+                content: `Button role created successfully. Be sure that the auto role is higher than my role so I can add it to those who click the button.`,
                 ephemeral: true
             });
         }

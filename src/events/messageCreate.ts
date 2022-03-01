@@ -2,6 +2,8 @@ import guildSchema from "../models/guildSchema";
 import profileSchema from "../models/profileSchema";
 import { Event } from "../structures/Event";
 import Levels from 'discord-xp';
+import { TextChannel } from "discord.js";
+import { ExtendedEmbed } from "../structures/Embed";
 
 export default new Event("messageCreate", async (message) => {
     const member = message.member;
@@ -47,16 +49,27 @@ export default new Event("messageCreate", async (message) => {
         console.error(e);
     }
 
+    const logChannel = message.guild.channels.cache.get(guildData.logs.channelID) as TextChannel;
+
     const msgWords = message.content.toLowerCase().split(" ");
     let toDelete: boolean = false;
 
     msgWords.map((content) => {
         if((guildData.blacklist as string[]).includes(content.toLowerCase())) toDelete = true;
-    })
+    });
 
     if(toDelete) {
         if(!message.guild.me.permissions.has("MANAGE_MESSAGES")) return;
         message.delete();
+        if(guildData.logs.enabled === true && logChannel) return logChannel.send({
+            embeds: [
+                new ExtendedEmbed()
+                .setTitle("Deleted message")
+                .setDescription("A message was automatically deleted by the bot because it included a word from the blacklist.")
+                .addField("Author", `${message.member}`)
+                .addField("Content", `\`${message.content}\``)
+            ]
+        })
         return;
     }
 

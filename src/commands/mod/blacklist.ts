@@ -1,7 +1,6 @@
 import guildSchema from "../../models/guildSchema";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
-import { createdBy } from "../../../assets/locale.json";
 
 export default new Command({
     name: "blacklist",
@@ -108,10 +107,6 @@ export default new Command({
                     .setTitle(`${interaction.guild.name}'s blacklist`)
                     .setDescription("The followings are the banned words in this Discord server. If a sent message contains one of the words below, the message will automatically be deleted.")
                     .addField("Words", `${blacklist.length ? blacklist.map(word => `\`${word}\``).join(", ") : "No words added"}`)
-                    .setFooter({
-                        text: createdBy.text,
-                        iconURL: createdBy.icon
-                    })
                 ]
             });
         }

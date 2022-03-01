@@ -2,7 +2,6 @@ import { TextChannel } from "discord.js";
 import guildSchema from "../../models/guildSchema";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
-import { createdBy } from "../../../assets/locale.json";
 
 export default new Command({
     name: "welcome",
@@ -88,10 +87,6 @@ export default new Command({
                     new ExtendedEmbed()
                     .setTitle("Operation Successful")
                     .setDescription(`The welcome channel has been successfully set to \`${channel}\`.`)
-                    .setFooter({
-                        text: createdBy.text,
-                        iconURL: createdBy.icon
-                    })
                 ]
             });
         } else if(query === "disable") {
@@ -110,10 +105,6 @@ export default new Command({
                     new ExtendedEmbed()
                     .setTitle("Operation Successful")
                     .setDescription(`The welcome channel has been successfully disabled.`)
-                    .setFooter({
-                        text: createdBy.text,
-                        iconURL: createdBy.icon
-                    })
                 ]
             });
         } else if(query === "text") {
@@ -135,10 +126,6 @@ export default new Command({
                     .setTitle("Operation Successful")
                     .setDescription(`The welcome channel text has been successfully changed.`)
                     .addField("Text", `\`${text}\``)
-                    .setFooter({
-                        text: createdBy.text,
-                        iconURL: createdBy.icon
-                    })
                 ]
             });
         }

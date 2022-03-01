@@ -4,6 +4,6 @@ export default new Event("ready", (client) => {
     if(client.isReady) {
         console.log("Bot is online");
 
-        client.user.setActivity("Discord", { type: "COMPETING" });
+        client.user.setActivity("with Discord", { type: "COMPETING" });
     }
 });

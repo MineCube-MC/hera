@@ -18,7 +18,8 @@ export default new Command({
                     name: "channel",
                     description: "The channel you want to set as logs channel",
                     type: "CHANNEL",
-                    channelTypes: ["GUILD_TEXT"]
+                    channelTypes: ["GUILD_TEXT"],
+                    required: true
                 }
             ]
         },

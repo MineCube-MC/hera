@@ -16,7 +16,8 @@ export default new Command({
                 {
                     name: "word",
                     description: "The word to be added to the blacklist",
-                    type: "STRING"
+                    type: "STRING",
+                    required: true
                 }
             ]
         },
@@ -28,7 +29,8 @@ export default new Command({
                 {
                     name: "word",
                     description: "The word to be removed to the blacklist",
-                    type: "STRING"
+                    type: "STRING",
+                    required: true
                 }
             ]
         },

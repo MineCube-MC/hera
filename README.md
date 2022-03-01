@@ -10,8 +10,8 @@
 
 ___
 ### Online on:
-- [Apexie's World](https://discord.gg/sN9YRQbBv7)
-- [Plenus Support](https://discord.gg/Tqtwtgh)
+- [Apexie's World](https://dsc.gg/apexie)
+- [Plenus Support](https://discord.gg/CNTz9fDYYJ)
 - Many other servers
 
 ___

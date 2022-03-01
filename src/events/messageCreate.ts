@@ -66,6 +66,7 @@ export default new Event("messageCreate", async (message) => {
                 new ExtendedEmbed()
                 .setTitle("Deleted message")
                 .setDescription("A message was automatically deleted by the bot because it included a word from the blacklist.")
+                .setThumbnail(message.member.displayAvatarURL({ dynamic: true }) || message.author.displayAvatarURL({ dynamic: true }))
                 .addField("Author", `${message.member}`, true)
                 .addField("Content", `\`${message.content}\``, true)
             ]

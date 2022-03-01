@@ -1,74 +1,72 @@
-import { GuildMember, Interaction, RoleResolvable } from 'discord.js';
-import { Event } from '../Interfaces';
-import { rolesSchema, rolesSchema as Schema } from '../Models/roles';
+import { CommandInteractionOptionResolver, GuildMember, PermissionResolvable } from "discord.js";
+import { client } from "..";
+import { Event } from "../structures/Event";
+import { ExtendedInteraction } from "../typings/Command";
 
-export const event: Event = {
-    name: 'interactionCreate',
-    run: async(client, interaction: Interaction) => {
-        if(interaction.isButton()) {
+export default new Event("interactionCreate", async (interaction) => {
+    // Chat Input Commands
+    if (interaction.isCommand()) {
+        const command = client.commands.get(interaction.commandName);
+        if (!command) {
+            if(process.env.guildId) {
+                client.guilds.cache.get(process.env.guildId).commands.cache.delete(interaction.commandId);
+            } else {
+                client.commands.delete(interaction.commandId);
+            }
+            return interaction.reply({
+                content: `The \`${interaction.commandName}\` command doesn't exist.`,
+                ephemeral: true
+            });
+        }
 
-			if(rolesSchema.findOne({ Role: interaction.customId }).clone()) {
-				const role = interaction.guild.roles.cache.get(interaction.customId);
-
-				await Schema.findOne({ Role: interaction.customId }, async(err, data) => {
-					if(data) {
-						if((data.Users as string[]).includes(interaction.user.id)) {
-							const filtered = (data.Users as string[]).filter((target) => target !== interaction.user.id);
-							await Schema.findOneAndUpdate({ Role: interaction.customId }, {
-								Role: interaction.customId,
-								Users: filtered
-							}).clone();
-							(interaction.member as GuildMember).roles.remove((interaction.customId as RoleResolvable));
-							return interaction.reply({ content: `You've been removed the **${role.name}** role.`, ephemeral: true });
-						}
-	
-						(data.Users as string[]).push(interaction.user.id);
-						data.save();
-						try {
-							(interaction.member as GuildMember).roles.add((interaction.customId as RoleResolvable));
-							interaction.reply({ content: `You got the **${role.name}** role.`, ephemeral: true });
-						} catch (e) {
-							if((data.Users as string[]).includes(interaction.user.id)) {
-								const filtered = (data.Users as string[]).filter((target) => target !== interaction.user.id);
-								await Schema.findOneAndUpdate({ Role: interaction.customId }, {
-									Role: interaction.customId,
-									Users: filtered
-								}).clone();
-								return interaction.reply({ content: `The bot hasn't enough permissions to add you the **${role.name}** role.`, ephemeral: true });
-							}
-						}
-					} else {
-						new Schema({
-							Role: interaction.customId,
-							Users: [ interaction.user.id ]
-						}).save();
-						try {
-							(interaction.member as GuildMember).roles.add((interaction.customId as RoleResolvable));
-							interaction.reply({ content: `You got the **${role.name}** role.`, ephemeral: true });
-						} catch (e) {
-							if((data.Users as string[]).includes(interaction.user.id)) {
-								const filtered = (data.Users as string[]).filter((target) => target !== interaction.user.id);
-								await Schema.findOneAndUpdate({ Role: interaction.customId }, {
-									Role: interaction.customId,
-									Users: filtered
-								}).clone();
-								return interaction.reply({ content: `The bot hasn't enough permissions to add you the **${role.name}** role.`, ephemeral: true });
-							}
-						}
-					}
-				}).clone();
-			}
-		}
-
-		if(interaction.isCommand()) {
-			if (!client.commands.has(interaction.commandName)) return;
-
-			try {
-				await client.commands.get(interaction.commandName).execute(interaction, client);
-			} catch (error) {
-				console.error(error);
-				await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-			}
-		}
+        let permissionsNeeded: PermissionResolvable[] = command.userPermissions;
+        if((interaction as ExtendedInteraction).memberPermissions.has([permissionsNeeded])) {
+            command.run({
+                args: interaction.options as CommandInteractionOptionResolver,
+                client,
+                interaction: interaction as ExtendedInteraction
+            });
+        } else return interaction.reply({
+            content: `You're missing the following permissions: ${permissionsNeeded.map(permission => `\`${permission}\``).join(", ")}`,
+            ephemeral: true
+        });
     }
-}
+    // Listening to buttons
+    if (interaction.isButton()) {
+        // Listening to button roles
+        if(interaction.customId.includes("role")) {
+            const roleID = interaction.customId.replace(/[^0-9]/g, '');
+            const member = interaction.member as GuildMember;
+
+            if(interaction.guild.roles.cache.find(role => role.id === roleID)) {
+                const role = interaction.guild.roles.cache.get(roleID);
+                if(!interaction.guild.me.permissions.has("MANAGE_ROLES")) return interaction.reply({
+                    content: `I'm missing the permission to manage roles in this guild. Contact the server administrator.`,
+                    ephemeral: true
+                });
+                if(role.position >= interaction.guild.me.roles.highest.position) return interaction.reply({
+                    content: `I can't assign/remove you this role because my highest role is below this role. Contact the server administrator.`,
+                    ephemeral: true
+                });
+                if(member.roles.cache.some(role => role.id === roleID)) {
+                    member.roles.remove(role);
+                    return interaction.reply({
+                        content: `You've been removed the **${role.name}** role.`,
+                        ephemeral: true
+                    });
+                } else {
+                    member.roles.add(role);
+                    return interaction.reply({
+                        content: `You've been added the **${role.name}** role.`,
+                        ephemeral: true
+                    });
+                }
+            } else {
+                return interaction.reply({
+                    content: `This role doesn't exist, try contacting the server administrator.`,
+                    ephemeral: true
+                });
+            }
+        }
+    }
+});

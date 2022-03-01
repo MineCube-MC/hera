@@ -4,7 +4,7 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "ESNext",
-        "outDir": "build",
+        "outDir": "dist",
         "sourceMap": false,
         "esModuleInterop": true,
         "experimentalDecorators": true,
@@ -15,6 +15,6 @@
         "resolveJsonModule": true,
         "importHelpers": true
     },
-    "include": ["src"],
+    "include": ["src", "assets", "enviroment.d.ts"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }

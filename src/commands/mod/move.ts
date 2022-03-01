@@ -26,7 +26,7 @@ export default new Command({
     run: async({ interaction, args }) => {
         const from = args.getChannel("from") as VoiceChannel;
         const to = args.getChannel("to") as VoiceChannel;
-        let moved: GuildMember[];
+        let moved: GuildMember[] = [];
 
         if(!interaction.guild.me.permissions.has("MOVE_MEMBERS")) return interaction.reply({
             content: `I haven't got the permission to move members`,

@@ -7,7 +7,7 @@ import {
 import { CommandType } from "../typings/Command";
 import glob from "glob";
 import { promisify } from "util";
-import { RegisterCommandsOptions } from "../typings/Client";
+import { RegisterCommandsOptions } from "../typings/client";
 import { Event } from "./Event";
 import Levels from "discord-xp";
 import { DiscordTogether } from "discord-together";

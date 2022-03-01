@@ -26,7 +26,7 @@ npm install
 - After installation, you will need to **[configure the bot](#bot-config)**.
 - To start the bot, write the following command in the console:
 ```console
-node .
+npm run start:dev
 ```
 
 ___

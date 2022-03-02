@@ -64,7 +64,7 @@ export default new Command({
 
         let profileData;
         try {
-            profileData = await profileSchema.findOne({ userID: member.id });
+            profileData = await profileSchema.findOne({ userID: member.id, serverID: interaction.guildId });
             if(!profileData) {
                 let profile = await profileSchema.create({
                     userID: member.id,
@@ -72,7 +72,7 @@ export default new Command({
                     warnings: 0
                 });
                 profile.save();
-                profileData = await profileSchema.findOne({ userID: member.id });
+                profileData = await profileSchema.findOne({ userID: member.id, serverID: interaction.guildId });
             }
         } catch (e) {
             console.error(e);
@@ -80,7 +80,8 @@ export default new Command({
 
         if(query === "add") {
             const response = await profileSchema.findOneAndUpdate({
-                userID: member.id
+                userID: member.id,
+                serverID: interaction.guildId
             }, {
                 $inc: {
                     warnings: 1
@@ -100,7 +101,8 @@ export default new Command({
                 ephemeral: true
             });
             const response = await profileSchema.findOneAndUpdate({
-                userID: member.id
+                userID: member.id,
+                serverID: interaction.guildId
             }, {
                 $inc: {
                     warnings: -1

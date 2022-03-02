@@ -10,7 +10,7 @@ export default new Event("guildMemberAdd", async(member) => {
     if(member.user.bot) return;
     let profileData;
     try {
-        profileData = await profileSchema.findOne({ userID: member.id });
+        profileData = await profileSchema.findOne({ userID: member.id, serverID: member.guild.id });
             if(!profileData) {
             let profile = await profileSchema.create({
                 userID: member.id,
@@ -18,7 +18,7 @@ export default new Event("guildMemberAdd", async(member) => {
                 warnings: 0
             });
             profile.save();
-            profileData = await profileSchema.findOne({ userID: member.id });
+            profileData = await profileSchema.findOne({ userID: member.id, serverID: member.guild.id });
         }
     } catch (e) {
         console.error(e);

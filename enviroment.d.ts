@@ -5,6 +5,7 @@ declare global {
             guildId: string;
             mongoUri: string;
             enviroment: "dev" | "prod" | "debug";
+            port: string;
         }
     }
 }

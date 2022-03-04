@@ -13,6 +13,7 @@ import Levels from "discord-xp";
 import { DiscordTogether } from "discord-together";
 import { GiveawaysManager } from "discord-giveaways";
 import { connect } from "mongoose";
+import { API } from "./API";
 
 const globPromise = promisify(glob);
 
@@ -35,6 +36,8 @@ export class ExtendedClient extends Client {
 
         this.registerModules();
         this.login(process.env.botToken);
+
+        new API(this).start(process.env.port);
     }
     async importFile(filePath: string) {
         return (await import(filePath))?.default;

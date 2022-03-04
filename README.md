@@ -46,3 +46,4 @@ ___
 |         guildId         |            "924159913024958505"            |              This is the guild used in a developer environment            |
 |        mongoUri         |     "mongodb://127.0.0.1:27017/plenus"     |                The MongoDB server URI, used for the database              |
 |       environment       |           "dev", "debug", "prod"           |      Sets the environment of the bot. Useful for guild only commands      |
+|          port           |                   "8080"                   |           Sets the port used for the bot API (server count, etc)          |

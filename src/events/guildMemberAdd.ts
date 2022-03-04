@@ -61,42 +61,56 @@ export default new Event("guildMemberAdd", async(member) => {
     }
 
     if(guildData.welcome.enabled) {
-        var canvas = Canvas.createCanvas(1024, 500);
-        var context = canvas.getContext('2d');
-        context.font = '72px sans-serif';
-        context.fillStyle = '#ffffff';
-
         var number = Math.floor(Math.random() * 6) + 1;
-
         const promise = fs.promises.readFile(path.join(process.cwd() + `/assets/cards/card-${number}.png`));
-        var imageBuffer;
+        
+        const dim = {
+            height: 500,
+            width: 1024,
+            margin: 50
+        }
 
-        Promise.resolve(promise).then(function(buffer){
-            imageBuffer = buffer;
-        });
+        const av = {
+            size: 256,
+            x: 480,
+            y: 170
+        }
 
-        Canvas.loadImage(imageBuffer).then(async(img) => {
-            context.drawImage(img, 0, 0, 1024, 500);
-            context.fillText("welcome", 360, 360);
-            context.beginPath();
-            context.arc(512, 166, 128, 0, Math.PI * 2, true);
-            context.stroke();
-            context.fill();
-        });
+        let username = member.user.username
+        let discrim = member.user.discriminator
+        let avatarURL = member.user.displayAvatarURL({format: "png", dynamic: false, size: av.size})
 
-        context.font = '42px sans-serif',
-        context.textAlign = 'center';
-        context.fillText(member.user.tag.toUpperCase(), 512, 410);
-        context.font = '32px sans-serif';
-        context.fillText(`You are the ${member.guild.memberCount}th`, 512, 455);
-        context.beginPath();
-        context.arc(512, 166, 119, 0, Math.PI * 2, true);
-        context.closePath();
-        context.clip();
-        await Canvas.loadImage(member.user.displayAvatarURL({format: 'png', size: 1024}))
-        .then(img => {
-            context.drawImage(img, 393, 47, 238, 238);
-        });
+        const canvas = Canvas.createCanvas(dim.width, dim.height)
+        const ctx = canvas.getContext("2d")
+
+        const backimg = await Canvas.loadImage(promise)
+        ctx.drawImage(backimg, 0, 0)
+
+        ctx.fillStyle = "rgba(0,0,0,0.8)"
+        ctx.fillRect(dim.margin, dim.margin, dim.width - 2 * dim.margin, dim.height - 2 * dim.margin)
+
+        const avimg = await Canvas.loadImage(avatarURL)
+        ctx.save()
+    
+        ctx.beginPath()
+        ctx.arc(av.x + av.size / 2, av.y + av.size / 2, av.size / 2, 0, Math.PI * 2, true)
+        ctx.closePath()
+        ctx.clip()
+
+        ctx.drawImage(avimg, av.x, av.y)
+        ctx.restore()
+
+        ctx.fillStyle = "white"
+        ctx.textAlign = "center"
+
+        ctx.font = "50px Sans Serif"
+        ctx.fillText("Welcome", dim.width/2, dim.margin + 70)
+
+        ctx.font = "60px Sans Serif"
+        ctx.fillText(username + discrim, dim.width/2, dim.height - dim.margin - 125)
+
+        ctx.font = "40px Sans Serif"
+        ctx.fillText("to the server", dim.width / 2, dim.height - dim.margin - 50)
         const welcomeChannel = member.guild.channels.cache.find(ch => ch.id === guildData.welcome.channelID) as TextChannel;
         if(welcomeChannel) {
             let message = (guildData.welcome.text as string).replaceAll("{member}", `${member}`).replaceAll("{guild}", member.guild.name);

@@ -70,9 +70,9 @@ export default new Event("guildMemberAdd", async(member) => {
         }
 
         const av = {
-            size: 1024,
-            x: 480,
-            y: 170
+            size: 96,
+            x: 393,
+            y: 47
         }
 
         let username = member.user.username
@@ -81,6 +81,7 @@ export default new Event("guildMemberAdd", async(member) => {
 
         const canvas = Canvas.createCanvas(dim.width, dim.height)
         const ctx = canvas.getContext("2d")
+        
 
         const backimg = await Canvas.loadImage(path.join(process.cwd() + `/assets/cards/card-${number}.png`))
         ctx.drawImage(backimg, 0, 0)

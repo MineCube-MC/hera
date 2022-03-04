@@ -71,8 +71,8 @@ export default new Event("guildMemberAdd", async(member) => {
 
         const av = {
             size: 128,
-            x: 495,
-            y: 50
+            x: 450,
+            y: 140
         }
 
         let username = member.user.username

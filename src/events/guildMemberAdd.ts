@@ -70,7 +70,7 @@ export default new Event("guildMemberAdd", async(member) => {
         }
 
         const av = {
-            size: 256,
+            size: 1024,
             x: 480,
             y: 170
         }
@@ -102,13 +102,13 @@ export default new Event("guildMemberAdd", async(member) => {
         ctx.fillStyle = "white"
         ctx.textAlign = "center"
 
-        ctx.font = "50px Sans Serif"
+        ctx.font = "50px Roboto"
         ctx.fillText("Welcome", dim.width/2, dim.margin + 70)
 
-        ctx.font = "60px Sans Serif"
+        ctx.font = "60px Roboto"
         ctx.fillText(username + discrim, dim.width/2, dim.height - dim.margin - 125)
 
-        ctx.font = "40px Sans Serif"
+        ctx.font = "40px Roboto"
         ctx.fillText("to the server", dim.width / 2, dim.height - dim.margin - 50)
         const welcomeChannel = member.guild.channels.cache.find(ch => ch.id === guildData.welcome.channelID) as TextChannel;
         if(welcomeChannel) {

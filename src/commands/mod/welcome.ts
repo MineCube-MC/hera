@@ -86,7 +86,7 @@ export default new Command({
                 embeds: [
                     new ExtendedEmbed()
                     .setTitle("Operation Successful")
-                    .setDescription(`The welcome channel has been successfully set to \`${channel}\`.`)
+                    .setDescription(`The welcome channel has been successfully set to ${channel}.`)
                 ]
             });
         } else if(query === "disable") {

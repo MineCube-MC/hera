@@ -62,7 +62,6 @@ export default new Event("guildMemberAdd", async(member) => {
 
     if(guildData.welcome.enabled) {
         var number = Math.floor(Math.random() * 6) + 1;
-        const promise = fs.promises.readFile(path.join(process.cwd() + `/assets/cards/card-${number}.png`));
         
         const dim = {
             height: 500,
@@ -83,7 +82,7 @@ export default new Event("guildMemberAdd", async(member) => {
         const canvas = Canvas.createCanvas(dim.width, dim.height)
         const ctx = canvas.getContext("2d")
 
-        const backimg = await Canvas.loadImage(promise)
+        const backimg = await Canvas.loadImage(path.join(process.cwd() + `/assets/cards/card-${number}.png`))
         ctx.drawImage(backimg, 0, 0)
 
         ctx.fillStyle = "rgba(0,0,0,0.8)"

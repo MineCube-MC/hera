@@ -71,7 +71,7 @@ export default new Event("guildMemberAdd", async(member) => {
 
         const av = {
             size: 128,
-            x: 512,
+            x: 495,
             y: 30
         }
 

@@ -71,8 +71,8 @@ export default new Event("guildMemberAdd", async(member) => {
 
         const av = {
             size: 128,
-            x: 350,
-            y: 47
+            x: 512,
+            y: 30
         }
 
         let username = member.user.username
@@ -107,7 +107,7 @@ export default new Event("guildMemberAdd", async(member) => {
         ctx.fillText("Welcome", dim.width/2, dim.margin + 70)
 
         ctx.font = "60px Roboto"
-        ctx.fillText(username + discrim, dim.width/2, dim.height - dim.margin - 125)
+        ctx.fillText(username + "#" + discrim, dim.width/2, dim.height - dim.margin - 125)
 
         ctx.font = "40px Roboto"
         ctx.fillText("to the server", dim.width / 2, dim.height - dim.margin - 50)

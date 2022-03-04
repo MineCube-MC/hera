@@ -1,7 +1,7 @@
 import profileSchema from "../models/profileSchema";
 import { Event } from "../structures/Event";
 import Canvas from 'canvas';
-import { MessageAttachment, TextChannel } from "discord.js";
+import { AllowedImageSize, MessageAttachment, TextChannel } from "discord.js";
 import guildSchema from "../models/guildSchema";
 import path from "path";
 import fs from "fs"
@@ -77,7 +77,7 @@ export default new Event("guildMemberAdd", async(member) => {
 
         let username = member.user.username
         let discrim = member.user.discriminator
-        let avatarURL = member.user.displayAvatarURL({format: "png", dynamic: false, size: av.size})
+        let avatarURL = member.user.displayAvatarURL({format: "png", dynamic: false, size: (av.size as AllowedImageSize)})
 
         const canvas = Canvas.createCanvas(dim.width, dim.height)
         const ctx = canvas.getContext("2d")

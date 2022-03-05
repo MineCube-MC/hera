@@ -47,6 +47,7 @@ router.get("/:guild/:user", async(req, res) => {
             }
             res.status(200).json({
                 status: 200,
+                name: member.nickname,
                 ranking: {
                     level: user.level,
                     xp: user.xp,

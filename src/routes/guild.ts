@@ -62,8 +62,7 @@ router.get("/:guild", async(req, res) => {
                 enabled: guildData.logs.enabled,
                 channel_id: guildData.logs.channelID
             },
-            autoRoles: guildData.autoRoles,
-            blacklist: guildData.blacklist
+            autoRoles: guildData.autoRoles
         });
     } else {
         res.status(404).json({

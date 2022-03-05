@@ -6,7 +6,14 @@ import profileSchema from "../models/profileSchema";
 
 const router = express.Router();
 
-router.get("/:guild/:user", async (req, res) => {
+router.get("/", async(req, res) => {
+    res.json({
+        status: 403,
+        error: "GUILD_AND_USER_NOT_GIVEN"
+    });
+});
+
+router.get("/:guild/:user", async(req, res) => {
     if(!req.params.guild) return res.json({
         status: 404,
         error: "GUILD_NOT_GIVEN"

@@ -5,7 +5,7 @@ import profileRouter from "./profile";
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    res.sendStatus(200).json({
+    res.status(200).json({
         status: 200,
         message: "Congratulations! You have access to the API, try one of the routes available.",
         availableRoutes: [

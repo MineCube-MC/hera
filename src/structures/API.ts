@@ -12,7 +12,7 @@ export class API {
     async start(port: string) {
         const app = express();
 
-        app.use("/api", routes);
+        app.use("/", routes);
 
         app.listen(port, () => {
             console.log(`API running on port ${port}`);

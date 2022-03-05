@@ -7,15 +7,15 @@ import profileSchema from "../models/profileSchema";
 const router = express.Router();
 
 router.get("/", async(req, res) => {
-    res.json({
-        status: 404,
+    res.sendStatus(403).json({
+        status: 403,
         error: "GUILD_NOT_GIVEN"
     });
 });
 
 router.get("/:guild", async(req, res) => {
-    res.json({
-        status: 404,
+    res.sendStatus(403).json({
+        status: 403,
         error: "USER_NOT_GIVEN"
     });
 });
@@ -45,7 +45,7 @@ router.get("/:guild/:user", async(req, res) => {
             } catch (e) {
                 console.error(e);
             }
-            res.json({
+            res.sendStatus(200).json({
                 status: 200,
                 ranking: {
                     level: user.level,
@@ -55,13 +55,13 @@ router.get("/:guild/:user", async(req, res) => {
                 warnings: profileData.warnings
             });
         } else {
-            res.json({
+            res.sendStatus(404).json({
                 status: 404,
                 error: "MEMBER_NOT_FOUND"
             });
         }
     } else {
-        res.json({
+        res.sendStatus(404).json({
             status: 404,
             error: "GUILD_NOT_FOUND"
         });

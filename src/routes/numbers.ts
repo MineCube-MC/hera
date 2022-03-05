@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
     API.client.guilds.cache.forEach((guild) => {
         users = users + guild.members.cache.size;
     });
-    res.json({
+    res.sendStatus(200).json({
         status: 200,
         servers: API.client.guilds.cache.size,
         users: users

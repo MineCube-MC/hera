@@ -105,7 +105,7 @@ export default new Event("guildMemberAdd", async(member) => {
         ctx.fillText("Welcome", dim.width/2, dim.margin + 70);
 
         ctx.font = "60px Roboto";
-        ctx.fillText(`${member.user.tag}#`, dim.width/2, dim.height - dim.margin - 125);
+        ctx.fillText(`${member.user.tag}`, dim.width/2, dim.height - dim.margin - 125);
 
         ctx.font = "40px Roboto";
         ctx.fillText("to the server", dim.width / 2, dim.height - dim.margin - 50);

@@ -12,6 +12,10 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:guild", async(req, res) => {
+    if(!req.params.guild) return res.status(403).json({
+        status: 403,
+        error: "GUILD_NOT_GIVEN"
+    });
     if(API.client.guilds.cache.get(req.params.guild)) {
         const guild = API.client.guilds.cache.get(req.params.guild);
         let guildData;

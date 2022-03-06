@@ -6,15 +6,7 @@ import guildRouter from "./guild";
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    res.status(200).json({
-        status: 200,
-        message: "Congratulations! You have access to the API, try one of the routes available.",
-        availableRoutes: [
-            "numbers",
-            "profile",
-            "guild"
-        ]
-    });
+    return res.redirect("https://documenter.getpostman.com/view/19883426/UVkvJYLp");
 });
 
 router.use("/numbers", numbersRouter);

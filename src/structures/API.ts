@@ -15,7 +15,9 @@ export class API {
 
         app.use("/", routes);
 
-        app.use(cors());
+        app.use(cors({
+            origin: '*'
+        }));
 
         app.listen(port, () => {
             console.log(`API running on port ${port}`);

@@ -1,6 +1,7 @@
 import express from "express";
 import routes from "../routes";
 import { ExtendedClient } from "./Client";
+import cors from "cors";
 
 export class API {
     static client: ExtendedClient;
@@ -13,6 +14,10 @@ export class API {
         const app = express();
 
         app.use("/", routes);
+
+        app.use(cors({
+            origin: "https://plenusbot.xyz"
+        }));
 
         app.listen(port, () => {
             console.log(`API running on port ${port}`);

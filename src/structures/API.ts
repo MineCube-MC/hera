@@ -15,9 +15,7 @@ export class API {
 
         app.use("/", routes);
 
-        app.use(cors({
-            origin: "https://plenusbot.xyz"
-        }));
+        app.use(cors());
 
         app.listen(port, () => {
             console.log(`API running on port ${port}`);

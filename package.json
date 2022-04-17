@@ -12,7 +12,7 @@
     },
     "keywords": [],
     "author": "",
-    "license": "ISC",
+    "license": "GPL 3.0",
     "description": "",
     "dependencies": {
         "canvacord": "^5.2.3",

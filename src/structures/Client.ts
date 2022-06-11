@@ -14,6 +14,7 @@ import { DiscordTogether } from "discord-together";
 import { GiveawaysManager } from "discord-giveaways";
 import { connect } from "mongoose";
 import { API } from "./API";
+import { Player } from "discord-player";
 
 const globPromise = promisify(glob);
 
@@ -21,6 +22,8 @@ export class ExtendedClient extends Client {
     commands: Collection<string, CommandType> = new Collection();
     activities = new DiscordTogether(this);
     giveaways: GiveawaysManager;
+    player: Player;
+    public static client = this;
 
     constructor() {
         super({ intents: 32767 });
@@ -38,6 +41,19 @@ export class ExtendedClient extends Client {
         this.login(process.env.botToken);
 
         this.on("ready", () => new API(this).start(process.env.port));
+
+        this.player = new Player(this, {
+            ytdlOptions: {
+                quality: "highestaudio",
+                highWaterMark: 1 << 25
+            }
+        });
+
+        this.player.on("error", (err) => {
+            if(process.env.environment === "dev" || process.env.environment === "debug") {
+                console.error(err);
+            }
+        });
     }
     async importFile(filePath: string) {
         return (await import(filePath))?.default;
@@ -45,7 +61,7 @@ export class ExtendedClient extends Client {
 
     async registerCommands({ commands, guildId }: RegisterCommandsOptions) {
         if (guildId) {
-            if(process.env.enviroment === "dev" || process.env.enviroment === "debug") {
+            if(process.env.environment === "dev" || process.env.environment === "debug") {
                 this.guilds.cache.get(guildId)?.commands.set(commands);
                 console.log(`Registering commands to ${this.guilds.cache.get(guildId).name}`);
             } else {

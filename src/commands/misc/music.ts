@@ -1,7 +1,6 @@
 import { Command } from "../../structures/Command";
 import { client } from "../..";
 import { QueryType, Queue } from "discord-player";
-import { title, description, createdBy, features, credits, links } from "../../../assets/locale.json";
 import { MusicEmbed } from "../../structures/Embed";
 
 export default new Command({
@@ -80,13 +79,13 @@ export default new Command({
             type: "SUB_COMMAND"
         },
         {
-            name: "clear",
-            description: "Clear the current queue",
+            name: "shuffle",
+            description: "Shuffle the current queue",
             type: "SUB_COMMAND"
         },
         {
-            name: "shuffle",
-            description: "Shuffle the current queue",
+            name: "earrape",
+            description: "Have fun with your ears",
             type: "SUB_COMMAND"
         }
     ],
@@ -148,7 +147,7 @@ export default new Command({
                         .setTitle("Queue updated")
                         .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
                         .setThumbnail(song.thumbnail)
-                        .setFooter({ text: `Duration: ${song.duration} | Music offered by Spotify`, iconURL: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/571e5943-4616-4654-bf99-10b3c98f8686/d98301o-426f05ca-8fe5-4636-9009-db9dd1fca1f3.png" });
+                        .setFooter({ text: `Duration: ${song.duration}` });
                 } else if (args.getString("type") === "playlist") {
                     const result = await client.player.search(url, {
                         requestedBy: interaction.user,
@@ -236,7 +235,7 @@ export default new Command({
                     embed.addField("Now Playing", `[${queue.nowPlaying().title}](${queue.nowPlaying().url})`);
                 }
                 embed.setTitle("Queue")
-                    .setFooter({ text: `${queue.tracks.length} songs in the queue | Music offered by Spotify`, iconURL: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/571e5943-4616-4654-bf99-10b3c98f8686/d98301o-426f05ca-8fe5-4636-9009-db9dd1fca1f3.png" });
+                    .setFooter({ text: `${queue.tracks.length} songs in the queue` });
                 for (let i = 0; i < 10; i++) {
                     const song = queue.tracks[i];
                     if (!song) break;
@@ -259,6 +258,15 @@ export default new Command({
                 if (!queue) return await interaction.reply("There are no songs in the queue");
                 queue.shuffle();
                 await interaction.reply("Queue shuffled!");
+                break;
+            case "earrape":
+                queue = client.player.getQueue(interaction.guildId);
+                if (!queue) return await interaction.reply("There are no songs in the queue");
+                await queue.setFilters({
+                    bassboost: !queue.getFiltersEnabled().includes('bassboost'),
+                    normalizer2: !queue.getFiltersEnabled().includes('bassboost') // because we need to toggle it with bass
+                });
+                await interaction.reply(`Earrape successfully ${queue.getFiltersEnabled().includes('bassboost') ? 'enabled' : 'disabled'}!`)
         }
     }
 });

@@ -84,7 +84,7 @@ export default new Command({
             type: "SUB_COMMAND"
         },
         {
-            name: "earrape",
+            name: "bassboost",
             description: "Have fun with your ears",
             type: "SUB_COMMAND"
         }
@@ -259,14 +259,14 @@ export default new Command({
                 queue.shuffle();
                 await interaction.reply("Queue shuffled!");
                 break;
-            case "earrape":
+            case "bassboost":
                 queue = client.player.getQueue(interaction.guildId);
                 if (!queue) return await interaction.reply("There are no songs in the queue");
                 await queue.setFilters({
                     bassboost: !queue.getFiltersEnabled().includes('bassboost'),
                     normalizer2: !queue.getFiltersEnabled().includes('bassboost') // because we need to toggle it with bass
                 });
-                await interaction.reply(`Earrape successfully ${queue.getFiltersEnabled().includes('bassboost') ? 'enabled' : 'disabled'}!`)
+                await interaction.reply(`Bass boost successfully ${queue.getFiltersEnabled().includes('bassboost') ? 'enabled' : 'disabled'}!`)
         }
     }
 });

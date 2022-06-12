@@ -8,7 +8,7 @@
         "start:prod": "node dist/src/index.js",
         "build": "tsc",
         "watch": "tsc -w",
-        "pm2": "rm -rf dist && git pull && npm install && npm run build && npm run start:prod"
+        "pm2": "rm -rf dist && ./checkForUpdates.sh && npm run build && npm run start:prod"
     },
     "keywords": [],
     "author": "",

@@ -18,7 +18,6 @@ export default new Command({
                     description: "The type of query to use",
                     type: "STRING",
                     required: true,
-                    // Command choices discord.js 13
                     choices: [
                         {
                             name: "song",
@@ -180,7 +179,14 @@ export default new Command({
                         return interaction.reply("No results found");
                     }
                     const playlist = result.playlist;
-                    await queue.addTracks(result.tracks);
+                    try {
+                        await queue.addTracks(result.tracks);
+                    } catch (e) {
+                        if (process.env.environment === "dev" || process.env.environment === "debug") {
+                            console.error(e);
+                        }
+                        return interaction.reply("We can't add some tracks from the playlist.");
+                    }
                     embed
                         .setTitle("Queue updated")
                         .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been successfully added to the Queue.`)

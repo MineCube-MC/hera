@@ -47,7 +47,6 @@ export default new Command({
         }
 
         client.giveaways.pause(giveaway.messageId, {
-            isPaused: true,
             content: '⚠️ **THIS GIVEAWAY IS PAUSED !** ⚠️',
             unPauseAfter: null,
             embedColor: '#FFFF00'

@@ -15,6 +15,9 @@ if ! [ -x "$(command -v npm)" ]; then
 fi
 
 # If git pull is successful, also install the npm dependencies, else, exit
+git stash --include-untracked
+git reset --hard
+git clean -fd
 if git pull; then
     echo "Successfully downloaded the latest version of the codebase, now installing the required dependencies..."
     npm install

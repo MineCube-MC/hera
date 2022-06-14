@@ -14,7 +14,7 @@ router.get("/discord/redirect", async (req: Request, res: Response) => {
                 client_secret: process.env.clientSecret,
                 grant_type: "authorization_code",
                 code: code.toString(),
-                redirect_uri: `http://${req.headers.host}/auth/discord/redirect`
+                redirect_uri: `https://api.plenusbot.xyz/auth/discord/redirect`
             });
             const response = await axios.post(
                 "https://discord.com/api/v10/oauth2/token",

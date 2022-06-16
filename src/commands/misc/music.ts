@@ -90,7 +90,7 @@ export default new Command({
         let embed: MusicEmbed = new MusicEmbed();
         switch (query) {
             case "play":
-                const string = await interaction.options.getString("song", true);
+                const string = await interaction.options.getString("query", true);
 
                 const guildQueue = client.player.getQueue(interaction.guild.id);
 
@@ -140,7 +140,7 @@ export default new Command({
                 result.playlist ? queue.addTracks(result.tracks) : queue.addTrack(result.tracks[0]);
 
                 if (!queue.playing) await queue.play();
-                
+
                 break;
             case "pause":
                 queue = client.player.getQueue(interaction.guildId);

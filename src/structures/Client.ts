@@ -68,8 +68,9 @@ export class ExtendedClient extends Client {
 
         this.player.on("tracksAdd", (queue, tracks) => {
             let musicEmbed = new MusicEmbed()
-            .setTitle("Queue updated")
-            .setDescription(`**${tracks.length} songs have been successfully added to the Queue.`)
+                .setTitle("Queue updated")
+                .setDescription(`**${tracks.length} songs from [${tracks[0].playlist.title}](${tracks[0].playlist.url})** have been successfully added to the Queue.`)
+                .setThumbnail(tracks[0].playlist.thumbnail);
             let interaction = queue.metadata as ExtendedInteraction;
             interaction.reply({ embeds: [musicEmbed] });
         });

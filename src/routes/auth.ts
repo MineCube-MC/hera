@@ -26,9 +26,9 @@ router.get("/discord/redirect", async (req: Request, res: Response) => {
                 }
             );
             if(process.env.environment === "dev" || process.env.environment === "debug") {
-                res.redirect(`https://localhost:53134?access_token=${response.data.access_token}`);
+                res.redirect(`https://localhost:53134?access_token=${response.data.access_token}&expires_in=${response.data.expires_in}`);
             } else {
-                res.redirect(`https://apexie.eu?access_token=${response.data.access_token}`);
+                res.redirect(`https://apexie.eu?access_token=${response.data.access_token}&expires_in=${response.data.expires_in}`);
             }
         } catch (e) {
             console.error(e);

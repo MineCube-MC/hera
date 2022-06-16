@@ -40,10 +40,12 @@ ___
 - Open the **.env** file using any text editor.
 - This file contains general bot settings in this format:
 
-|       Field name        |               Example value                |                                Description                                |
-|:-----------------------:|:------------------------------------------:|:-------------------------------------------------------------------------:|
-|         botToken        |                    "-"                     |  The token you copied from the Developer Portal, used to login the bot.   |
-|         guildId         |            "924159913024958505"            |              This is the guild used in a developer environment            |
-|        mongoUri         |     "mongodb://127.0.0.1:27017/plenus"     |                The MongoDB server URI, used for the database              |
-|       environment       |           "dev", "debug", "prod"           |      Sets the environment of the bot. Useful for guild only commands      |
-|          port           |                   "8080"                   |           Sets the port used for the bot API (server count, etc)          |
+|       Field name        |               Example value                |                                Description                                     |
+|:-----------------------:|:------------------------------------------:|:------------------------------------------------------------------------------:|
+|         botToken        |                    "-"                     |  The token you copied from the Developer Portal, used to login the bot.        |
+|         clientId        |                    "-"                     |  The client ID you copied from the Developer Portal, used for the auth.        |
+|       clientSecret      |                         "-"                |  The client secret you copied from the Developer Portal, also used for auth.   |
+|         guildId         |            "924159913024958505"            |              This is the guild used in a developer environment                 |
+|        mongoUri         |     "mongodb://127.0.0.1:27017/plenus"     |                The MongoDB server URI, used for the database                   |
+|       environment       |           "dev", "debug", "prod"           |      Sets the environment of the bot. Useful for guild only commands           |
+|          port           |                   "8080"                   |           Sets the port used for the bot API (server count, etc)               |

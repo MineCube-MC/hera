@@ -13,28 +13,8 @@ export default new Command({
             type: "SUB_COMMAND",
             options: [
                 {
-                    name: "type",
-                    description: "The type of query to use",
-                    type: "STRING",
-                    required: true,
-                    choices: [
-                        {
-                            name: "song",
-                            value: "song"
-                        },
-                        {
-                            name: "playlist",
-                            value: "playlist"
-                        },
-                        {
-                            name: "album",
-                            value: "album"
-                        }
-                    ]
-                },
-                {
-                    name: "url",
-                    description: "The url of the song/playlist from Spotify",
+                    name: "query",
+                    description: "The query/url for the song/playlist",
                     type: "STRING",
                     required: true
                 }
@@ -110,93 +90,57 @@ export default new Command({
         let embed: MusicEmbed = new MusicEmbed();
         switch (query) {
             case "play":
-                queue = await client.player.createQueue(interaction.guild);
-                if (!queue.connection) await queue.connect(interaction.member.voice.channel);
+                const string = await interaction.options.getString("song", true);
 
-                embed = new MusicEmbed()
-                let url = args.getString("url");
+                const guildQueue = client.player.getQueue(interaction.guild.id);
 
-                if (args.getString("type") === "song") {
-                    const result = await client.player.search(url, {
-                        requestedBy: interaction.user,
-                        searchEngine: QueryType.SPOTIFY_SONG
-                    });
-                    if (!result || !result.tracks.length) {
-                        return interaction.reply("No results found");
-                    }
+                const channel = interaction.member?.voice?.channel;
 
-                    const song = result.tracks[0];
-                    try {
-                        const youtubeResult = await client.player.search(song.url, {
-                            requestedBy: interaction.user
-                        });
-
-                        if (!youtubeResult || !youtubeResult.tracks.length) {
-                            return interaction.reply("No corresponding results found");
-                        }
-
-                        await queue.addTrack(youtubeResult.tracks[0]);
-                    } catch (e) {
-                        if (process.env.environment === "dev" || process.env.environment === "debug") {
-                            console.error(e);
-                        }
-                        return interaction.reply("We can't play that song from Spotify.");
-                    }
-
-                    embed
-                        .setTitle("Queue updated")
-                        .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
-                        .setThumbnail(song.thumbnail)
-                        .setFooter({ text: `Duration: ${song.duration}` });
-                } else if (args.getString("type") === "playlist") {
-                    const result = await client.player.search(url, {
-                        requestedBy: interaction.user,
-                        searchEngine: QueryType.SPOTIFY_PLAYLIST
-                    });
-                    if (!result || !result.tracks.length) {
-                        return interaction.reply("No results found");
-                    }
-                    const playlist = result.playlist;
-                    try {
-                        await queue.addTracks(result.tracks);
-                    } catch (e) {
-                        if (process.env.environment === "dev" || process.env.environment === "debug") {
-                            console.error(e);
-                        }
-                        return interaction.reply("We can't add some tracks from the playlist.");
-                    }
-                    embed
-                        .setTitle("Queue updated")
-                        .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been successfully added to the Queue.`)
-                        .setThumbnail(playlist.thumbnail);
-                } else if (args.getString("type") === "album") {
-                    const result = await client.player.search(url, {
-                        requestedBy: interaction.user,
-                        searchEngine: QueryType.SPOTIFY_ALBUM
-                    });
-                    if (!result || !result.tracks.length) {
-                        return interaction.reply("No results found");
-                    }
-                    const playlist = result.playlist;
-                    try {
-                        await queue.addTracks(result.tracks);
-                    } catch (e) {
-                        if (process.env.environment === "dev" || process.env.environment === "debug") {
-                            console.error(e);
-                        }
-                        return interaction.reply("We can't add some tracks from the playlist.");
-                    }
-                    embed
-                        .setTitle("Queue updated")
-                        .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been successfully added to the Queue.`)
-                        .setThumbnail(playlist.thumbnail);
+                if (!channel)
+                    return interaction.reply("You have to join a voice channel first.");
+                
+                if (channel.type === "GUILD_STAGE_VOICE") {
+                    return interaction.reply("You can't play music in a stage channel.");
                 }
 
-                if (!queue.playing) await queue.play();
+                if (guildQueue) {
+                    if (channel.id !== interaction.guild.me?.voice?.channelId)
+                        return interaction.reply("I'm already playing in a different voice channel!");
+                } else {
+                    if (!channel.viewable)
+                        return interaction.reply("I need **\`VIEW_CHANNEL\`** permission.");
+                    if (!channel.joinable)
+                        return interaction.reply("I need **\`CONNECT_CHANNEL\`** permission.");
+                    if (!channel.speakable)
+                        return interaction.reply("I need **\`SPEAK\`** permission.");
+                    if (channel.full)
+                        return interaction.reply("Can't join, the voice channel is full.");
+                }
 
-                await interaction.reply({
-                    embeds: [embed]
-                });
+                let result = await client.player.search(string, { requestedBy: interaction.user }).catch(() => { });
+                if (!result || !result.tracks.length)
+                    return interaction.reply(`No result was found for \`${string}\`.`);
+                
+                if (guildQueue) {
+                    queue = guildQueue;
+                    queue.metadata = interaction;
+                } else {
+                    queue = await client.player.createQueue(interaction.guild, {
+                        metadata: interaction
+                    });
+                }
+
+                try {
+                    if (!queue.connection) await queue.connect(channel);
+                } catch (error) {
+                    client.player.deleteQueue(interaction.guild.id);
+                    return interaction.reply(`Could not join your voice channel!\n\`${error}\``);
+                }
+
+                result.playlist ? queue.addTracks(result.tracks) : queue.addTrack(result.tracks[0]);
+
+                if (!queue.playing) await queue.play();
+                
                 break;
             case "pause":
                 queue = client.player.getQueue(interaction.guildId);

@@ -4,7 +4,7 @@ import {
     ClientEvents,
     Collection
 } from "discord.js";
-import { CommandType } from "../typings/Command";
+import { CommandType, ExtendedInteraction } from "../typings/Command";
 import glob from "glob";
 import { promisify } from "util";
 import { RegisterCommandsOptions } from "../typings/client";
@@ -15,6 +15,7 @@ import { GiveawaysManager } from "discord-giveaways";
 import { connect } from "mongoose";
 import { API } from "./API";
 import { Player } from "discord-player";
+import { MusicEmbed } from "./Embed";
 
 const globPromise = promisify(glob);
 
@@ -50,9 +51,27 @@ export class ExtendedClient extends Client {
         });
 
         this.player.on("error", (err) => {
-            if(process.env.environment === "dev" || process.env.environment === "debug") {
+            if (process.env.environment === "dev" || process.env.environment === "debug") {
                 console.error(err);
             }
+        });
+
+        this.player.on("trackAdd", (queue, track) => {
+            let musicEmbed = new MusicEmbed()
+                .setTitle("Queue updated")
+                .setDescription(`**[${track.title}](${track.url})** has been added to the Queue`)
+                .setThumbnail(track.thumbnail)
+                .setFooter({ text: `Duration: ${track.duration}` });
+            let interaction = queue.metadata as ExtendedInteraction;
+            interaction.reply({ embeds: [musicEmbed] });
+        });
+
+        this.player.on("tracksAdd", (queue, tracks) => {
+            let musicEmbed = new MusicEmbed()
+            .setTitle("Queue updated")
+            .setDescription(`**${tracks.length} songs have been successfully added to the Queue.`)
+            let interaction = queue.metadata as ExtendedInteraction;
+            interaction.reply({ embeds: [musicEmbed] });
         });
     }
     async importFile(filePath: string) {
@@ -61,7 +80,7 @@ export class ExtendedClient extends Client {
 
     async registerCommands({ commands, guildId }: RegisterCommandsOptions) {
         if (guildId) {
-            if(process.env.environment === "dev" || process.env.environment === "debug") {
+            if (process.env.environment === "dev" || process.env.environment === "debug") {
                 this.guilds.cache.get(guildId)?.commands.set(commands);
                 console.log(`Registering commands to ${this.guilds.cache.get(guildId).name}`);
             } else {

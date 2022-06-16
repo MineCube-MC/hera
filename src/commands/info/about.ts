@@ -9,7 +9,7 @@ export default new Command({
         const aboutEmbed = new ExtendedEmbed()
             .setTitle(`${title}`)
             .setDescription(description)
-            .addField("Features", `${features.description}\n${features.commands}\n${features.funCommands}\n${features.giveawayCommands}\n${features.activityCommands}\n${features.configCommands}\n${features.dashboard}`)
+            .addField("Features", `${features.description}\n${features.commands}\n${features.funCommands}\n${features.giveawayCommands}\n${features.activityCommands}\n${features.configCommands}\n${features.musicCommands}`)
             .addField("Credits", `${credits.description}\n${credits.discordjs}\n${credits.reconlx}`)
             .addField("Links", `${links.server} | ${links.bot} | ${links.github}`)
             .setFooter({

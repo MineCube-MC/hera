@@ -11,8 +11,8 @@
         "funCommands": "- **Fun commands**, helpful for the chat to not die and to express yourself with the funniest commands",
         "giveawayCommands": "- **Giveaway commands**, helpful to start a giveaway and manage it easily",
         "activityCommands": "- **Activity commands**, such as YouTube Together and Doodle Crew to entertain yourself and your friends in a voice chat",
-        "configCommands": "- **Configuration commands**, which help with things like logging, words blacklist and so much more...",
-        "dashboard": "- A **Dashboard**, that helps you to change some of the guild settings with Plenus easily"
+        "configCommands": "- **Configuration commands**, which help with things like logging, and so much more...",
+        "musicCommands": "- **Music commands**, which help you to play music in a voice chat"
     },
     "credits": {
         "description": "These are the people which deserve credit for their hard work:",

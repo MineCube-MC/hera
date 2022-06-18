@@ -13,7 +13,11 @@
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "resolveJsonModule": true,
-        "importHelpers": true
+        "importHelpers": true,
+        "typeRoots": [
+            "node_modules/@types",
+            "src/@types"
+        ],
     },
     "include": ["src", "assets", "enviroment.d.ts"],
     "exclude": ["node_modules", "**/*.spec.ts"]

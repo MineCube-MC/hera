@@ -7,9 +7,16 @@ const router = express.Router();
 router.get("/", (req: Request, res: Response) => {
     const { country } = req.query;
     if(country) {
-        getGames(country as Country, true).then(data => {
-            res.json(data);
-        })
+        try {
+            getGames(country as Country, true).then(data => {
+                res.json(data);
+            });
+        } catch (e) {
+            if(process.env.environment === "dev" || process.env.environment === "debug") {
+                console.error(e);
+            }
+            res.sendStatus(400);
+        }
     } else {
         res.sendStatus(400);
     }

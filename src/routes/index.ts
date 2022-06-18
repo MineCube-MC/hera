@@ -3,6 +3,7 @@ import numbersRouter from "./numbers";
 import profileRouter from "./profile";
 import guildRouter from "./guild";
 import authRouter from "./auth";
+import epicGamesRouter from "./epic_games";
 
 const router = express.Router();
 
@@ -17,5 +18,7 @@ router.use("/profile", profileRouter);
 router.use("/guild", guildRouter);
 
 router.use("/auth", authRouter);
+
+router.use("/epic_games", epicGamesRouter);
 
 export default router;

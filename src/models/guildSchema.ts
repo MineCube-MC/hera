@@ -13,7 +13,6 @@ export default mongo.model(
             enabled: { type: Boolean },
             channelID: { type: String }
         },
-        autoRoles: { type: [String] },
-        blacklist: { type: [String] }
+        autoRoles: { type: [String] }
     })
 );

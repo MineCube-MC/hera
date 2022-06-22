@@ -51,29 +51,6 @@ export default new Event("messageCreate", async (message) => {
 
     const logChannel = message.guild.channels.cache.get(guildData.logs.channelID) as TextChannel;
 
-    const msgWords = message.content.toLowerCase().split(" ");
-    let toDelete: boolean = false;
-
-    msgWords.map((content) => {
-        if((guildData.blacklist as string[]).includes(content.toLowerCase())) toDelete = true;
-    });
-
-    if(toDelete) {
-        if(!message.guild.me.permissions.has("MANAGE_MESSAGES")) return;
-        message.delete();
-        if(guildData.logs.enabled === true && logChannel) return logChannel.send({
-            embeds: [
-                new ExtendedEmbed()
-                .setTitle("Deleted message")
-                .setDescription("A message was automatically deleted by the bot because it included a word from the blacklist.")
-                .setThumbnail(message.member.displayAvatarURL({ dynamic: true }) || message.author.displayAvatarURL({ dynamic: true }))
-                .addField("Author", `${message.member}`, true)
-                .addField("Content", `\`${message.content}\``, true)
-            ]
-        })
-        return;
-    }
-
     const randomXp = Math.floor(Math.random() * 9) + 1;
     const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomXp);
     if(hasLeveledUp) {

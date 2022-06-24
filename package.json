@@ -3,12 +3,13 @@
     "version": "1.0.0",
     "main": "src/index.js",
     "scripts": {
+        "pc": "nodemon scripts/pcAPI.js",
         "start": "ts-node src/index.ts",
         "start:dev": "ts-node-dev src/index.ts",
         "start:prod": "node dist/src/index.js",
         "build": "tsc",
         "watch": "tsc -w",
-        "pm2": "rm -rf dist && sh checkForUpdates.sh && npm run build && npm run start:prod"
+        "pm2": "rm -rf dist && sh scripts/checkForUpdates.sh && npm run build && npm run start:prod"
     },
     "keywords": [],
     "author": "",

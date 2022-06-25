@@ -103,7 +103,7 @@ export class ExtendedClient extends Client {
         commandFiles.forEach(async (filePath) => {
             const command: CommandType = await this.importFile(filePath);
             if (!command.name) return;
-            if (process.env.enviroment === "debug") console.log(command);
+            if (process.env.environment === "debug") console.log(command);
 
             this.commands.set(command.name, command);
             slashCommands.push(command);

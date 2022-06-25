@@ -56,14 +56,24 @@ export default new Command({
                 console.error(e);
             }
 
-            await axios.get(`${url}/status?password=${password}`).then((res) => {
+            await axios.get(`${url}/status?password=${password}`).then(async (res) => {
                 if (res.status === 200) {
                     const embed = new ExtendedEmbed()
                     .setTitle("Remote Control")
-                    .setDescription("The bot is now connected with your PC and can be used to control it remotely :tada:")
+                    .setDescription("The bot is now connected with your PC and can be used to control it remotely :tada:");
+
+                    const response = await pcSchema.findOneAndUpdate({ userID: interaction.user.id }, {
+                        $set: {
+                            url: url,
+                            password: password
+                        }
+                    });
+
                     interaction.reply({ embeds: [embed], ephemeral: true });
                 }
-            }).catch(() => {
+            }).catch((err) => {
+                // If environment is dev or debug, show the error
+                if(process.env.environment === "dev" || process.env.environment === "debug") console.error(err);
                 const embed = new ExtendedEmbed()
                 .setTitle("Remote Control")
                 .setDescription("The bot was unable to connect to your PC :sob:")

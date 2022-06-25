@@ -95,15 +95,15 @@ app.listen(80, () => {
 const logger = {
     info: (message) => {
         const date = new Date();
-        console.log(`[INFO] [${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}] ${message}`);
+        console.log(`[INFO] [${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}] ${message}`);
     },
     warn: (message) => {
         const date = new Date();
-        console.warn(`[WARN] [${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}] ${message}`);
+        console.warn(`[WARN] [${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}] ${message}`);
     },
     error: (message) => {
         const date = new Date();
-        console.error(`[ERROR] [${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}] ${message}`);
+        console.error(`[ERROR] [${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}] ${message}`);
     }
 }
 

@@ -19,6 +19,6 @@
             "src/@types"
         ],
     },
-    "include": ["src", "assets", "enviroment.d.ts"],
+    "include": ["src", "assets", "environment.d.ts"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }

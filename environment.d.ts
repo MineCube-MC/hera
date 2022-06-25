@@ -6,7 +6,7 @@ declare global {
             clientSecret: string;
             guildId: string;
             mongoUri: string;
-            enviroment: "dev" | "prod" | "debug";
+            environment: "dev" | "prod" | "debug";
             port: string;
         }
     }

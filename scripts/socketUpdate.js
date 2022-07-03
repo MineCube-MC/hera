@@ -1,4 +1,6 @@
-const socket = new WebSocket("ws://api.plenusbot.xyz:5944");
+const ws = require("ws");
+
+const socket = new ws.WebSocket("ws://api.plenusbot.xyz:5944");
 const key = process.env.socketKey;
 
 socket.onopen = () => {

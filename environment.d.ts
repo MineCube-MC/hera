@@ -8,6 +8,8 @@ declare global {
             mongoUri: string;
             environment: "dev" | "prod" | "debug";
             port: string;
+            socketPort: string;
+            socketKey: string;
         }
     }
 }

@@ -16,6 +16,7 @@ import { connect } from "mongoose";
 import { API } from "./API";
 import { Player } from "discord-player";
 import { MusicEmbed } from "./Embed";
+import { WebSocket } from "./WebSocket";
 
 const globPromise = promisify(glob);
 
@@ -41,7 +42,10 @@ export class ExtendedClient extends Client {
         this.registerModules();
         this.login(process.env.botToken);
 
-        this.on("ready", () => new API(this).start(process.env.port));
+        this.on("ready", () => {
+            new API(this).start(process.env.port);
+            new WebSocket(this).start(process.env.socketPort);
+        });
 
         this.player = new Player(this, {
             ytdlOptions: {

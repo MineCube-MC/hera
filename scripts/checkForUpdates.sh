@@ -20,7 +20,7 @@ git reset --hard
 git clean -fd
 if git pull; then
     echo "Successfully downloaded the latest version of the codebase, now installing the required dependencies..."
-    npm install
+    npm ci
 else
     echo "No updates available."
     exit 0

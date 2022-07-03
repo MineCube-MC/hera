@@ -19,7 +19,7 @@ git stash --include-untracked
 git reset --hard
 git clean -fd
 if git pull; then
-    echo "Successfully downloaded the latest version of the codebase, now installing the required dependencies..."
+    echo "Running npm ci"
     npm ci
 else
     echo "No updates available."

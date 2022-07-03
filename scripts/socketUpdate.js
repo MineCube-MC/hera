@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const ws = require("ws");
-const socket = new ws.WebSocket("ws://api.plenusbot.xyz:5944");
+const socket = new ws.WebSocket("ws://ws.plenusbot.xyz");
 const key = process.env.socketKey;
 
 socket.onopen = () => {

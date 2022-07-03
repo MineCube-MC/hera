@@ -11,8 +11,8 @@ export class WebSocket {
     }
 
     async start(port: string) {
-        let privateKey = fs.readFileSync("certs/ws.plenusbot.xyz.key", 'utf8');
-        let certificate = fs.readFileSync("certs/ws.plenusbot.xyz.pem", 'utf8');
+        let privateKey = fs.readFileSync("certs/plenusbot.xyz.key", 'utf8');
+        let certificate = fs.readFileSync("certs/plenusbot.xyz.pem", 'utf8');
         let credentials = {
             key: privateKey,
             cert: certificate

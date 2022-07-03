@@ -12,14 +12,14 @@ socket.onopen = () => {
     }));
 }
 
-socket.onmessage = (message) => {
-    const data = JSON.parse(message);
+socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
     if (data.message === "INVALID_KEY") {
         console.log("Invalid key");
         socket.close();
         process.exit(1);
     }
-    if (data.message === "RESTARTING") {
+    if (data.message === "CLIENT_RESTARTING") {
         console.log("Successfully restarted the bot with the updated version");
         socket.close();
         process.exit(0);

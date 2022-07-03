@@ -17,6 +17,7 @@ import { API } from "./API";
 import { Player } from "discord-player";
 import { MusicEmbed } from "./Embed";
 import { WebSocket } from "./WebSocket";
+import { PlenusDashboard } from "./Dashboard";
 
 const globPromise = promisify(glob);
 
@@ -45,6 +46,7 @@ export class ExtendedClient extends Client {
         this.on("ready", () => {
             new API(this).start(process.env.port);
             new WebSocket(this).start(process.env.socketPort);
+            new PlenusDashboard(this);
         });
 
         this.player = new Player(this, {

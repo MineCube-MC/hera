@@ -23,7 +23,7 @@ jobs:
     - name: Create the .env file
       run: |
         touch .env
-        echo socketKey=${{ secrets.WEBSOCKET_KEY }} >> .env
+        echo socketKey="${{ secrets.WEBSOCKET_KEY }}" >> .env
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:

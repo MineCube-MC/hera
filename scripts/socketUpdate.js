@@ -1,5 +1,6 @@
-const ws = require("ws");
+require("dotenv").config();
 
+const ws = require("ws");
 const socket = new ws.WebSocket("ws://api.plenusbot.xyz:5944");
 const key = process.env.socketKey;
 
@@ -13,6 +14,11 @@ socket.onopen = () => {
 
 socket.onmessage = (message) => {
     const data = JSON.parse(message.data);
+    if (data.message === "INVALID_KEY") {
+        console.log("Invalid key");
+        socket.close();
+        process.exit(1);
+    }
     if (data.message === "RESTARTING") {
         console.log("Successfully restarted the bot with the updated version");
         socket.close();

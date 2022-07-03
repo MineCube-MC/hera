@@ -20,6 +20,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Create the .env file
+      run: |
+        touch .env
+        echo ENGINE_API_KEY=${{ secrets.ENGINE_API_KEY }} >> .env
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:

@@ -20,7 +20,7 @@ export class WebSocket {
                 const response = JSON.parse(message.toString());
                 if(response.key !== process.env.socketKey) {
                     socket.send(JSON.stringify({
-                        message: "Invalid key"
+                        message: "INVALID_KEY"
                     }));
                 }
                 if (response.type === "update") {

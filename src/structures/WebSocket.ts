@@ -1,5 +1,7 @@
 import { ExtendedClient } from "./Client";
 import ws from "ws";
+import https from "https";
+import fs from "fs";
 
 export class WebSocket {
     static client: ExtendedClient;
@@ -9,7 +11,16 @@ export class WebSocket {
     }
 
     async start(port: string) {
-        const server = new ws.Server({ port: parseInt(port) });
+        let privateKey = fs.readFileSync("certs/ws.plenusbot.xyz.key", 'utf8');
+        let certificate = fs.readFileSync("certs/ws.plenusbot.xyz.pem", 'utf8');
+        let credentials = {
+            key: privateKey,
+            cert: certificate
+        };
+        const httpsServer = https.createServer(credentials);
+        httpsServer.listen(port);
+
+        const server = new ws.Server({ server: httpsServer });
 
         server.on("listening", () => {
             console.log(`WebSocket running on port ${port}`);
@@ -18,7 +29,7 @@ export class WebSocket {
         server.on("connection", socket => {
             socket.on("message", message => {
                 const response = JSON.parse(message.toString());
-                if(response.key !== process.env.socketKey) {
+                if (response.key !== process.env.socketKey) {
                     socket.send(JSON.stringify({
                         message: "INVALID_KEY"
                     }));

@@ -9,9 +9,7 @@ export class PlenusDashboard {
     constructor(client: ExtendedClient) {
         PlenusDashboard.client = client;
 
-        PlenusDashboard.client.on("ready", () => {
-            this.registerDashboard();
-        });
+        PlenusDashboard.client.on("ready", () => this.registerDashboard());
     }
 
     async registerDashboard() {
@@ -48,6 +46,7 @@ export class PlenusDashboard {
                     ]
                 }
             ]
-        }).init();
+        })
+        PlenusDashboard.Dashboard.init();
     }
 }

@@ -1,6 +1,6 @@
 import { Command } from "../../structures/Command";
 import { client } from "../..";
-import { QueryType, Queue } from "discord-player";
+import { QueryType, Queue, QueueRepeatMode } from "discord-player";
 import { MusicEmbed } from "../../structures/Embed";
 
 export default new Command({
@@ -67,6 +67,37 @@ export default new Command({
             name: "bassboost",
             description: "Have fun with your ears",
             type: "SUB_COMMAND"
+        },
+        {
+            name: "loop",
+            description: "Loop the current song",
+            type: "SUB_COMMAND",
+            options: [
+                {
+                    name: "queue_mode",
+                    description: "The mode you want to set the loop to",
+                    type: "INTEGER",
+                    required: true,
+                    choices: [
+                        {
+                            name: "off",
+                            value: QueueRepeatMode.OFF
+                        },
+                        {
+                            name: "track",
+                            value: QueueRepeatMode.TRACK
+                        },
+                        {
+                            name: "queue",
+                            value: QueueRepeatMode.QUEUE
+                        },
+                        {
+                            name: "autoplay",
+                            value: QueueRepeatMode.AUTOPLAY
+                        }
+                    ]
+                }
+            ]
         }
     ],
     run: async ({ interaction, args }) => {
@@ -210,7 +241,29 @@ export default new Command({
                     bassboost: !queue.getFiltersEnabled().includes('bassboost'),
                     normalizer2: !queue.getFiltersEnabled().includes('bassboost') // because we need to toggle it with bass
                 });
-                await interaction.reply(`Bass boost successfully ${queue.getFiltersEnabled().includes('bassboost') ? 'enabled' : 'disabled'}!`)
+                await interaction.reply(`Bass boost successfully ${queue.getFiltersEnabled().includes('bassboost') ? 'enabled' : 'disabled'}!`);
+                break;
+            case "loop":
+                queue = client.player.getQueue(interaction.guildId);
+                if (!queue) return await interaction.reply("There are no songs in the queue");
+                let queueMode = args.getInteger("queue_mode");
+                let queueMsg: string;
+                if (queueMode === QueueRepeatMode.OFF) {
+                    queue.setRepeatMode(QueueRepeatMode.OFF);
+                    queueMsg = "Off";
+                } else if (queueMode === QueueRepeatMode.TRACK) {
+                    queue.setRepeatMode(QueueRepeatMode.TRACK);
+                    queueMsg = "Track";
+                } else if (queueMode === QueueRepeatMode.QUEUE) {
+                    queue.setRepeatMode(QueueRepeatMode.QUEUE);
+                    queueMsg = "Queue";
+                } else if (queueMode === QueueRepeatMode.AUTOPLAY) {
+                    queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
+                    queueMsg = "Autoplay";
+                }
+                interaction.reply({
+                    embeds: [new MusicEmbed().setTitle("Looping").setDescription(`Looping mode set to **${queueMsg}**!`)]
+                });
         }
     }
 });

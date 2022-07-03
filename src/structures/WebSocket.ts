@@ -22,6 +22,7 @@ export class WebSocket {
                     socket.send(JSON.stringify({
                         message: "INVALID_KEY"
                     }));
+                    return true;
                 }
                 if (response.type === "update") {
                     socket.send(JSON.stringify({ message: "CLIENT_RESTARTING" }));

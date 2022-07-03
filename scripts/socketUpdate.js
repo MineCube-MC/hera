@@ -5,7 +5,7 @@ const socket = new ws.WebSocket("ws://ws.plenusbot.xyz:5944");
 const key = process.env.socketKey;
 
 socket.onopen = () => {
-    console.log("Socket connected");
+    console.log("Restarting the bot...");
     socket.send(JSON.stringify({
         type: "update",
         key: key
@@ -13,7 +13,7 @@ socket.onopen = () => {
 }
 
 socket.onmessage = (message) => {
-    const data = JSON.parse(message.data);
+    const data = JSON.parse(message);
     if (data.message === "INVALID_KEY") {
         console.log("Invalid key");
         socket.close();

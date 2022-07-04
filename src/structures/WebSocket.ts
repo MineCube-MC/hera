@@ -42,6 +42,7 @@ export class WebSocket {
                             ping: WebSocket.client.ws.ping
                         }
                     }));
+                    return true;
                 }
                 // Queries that are protected by a secret key
                 if (response.key !== process.env.socketKey) {

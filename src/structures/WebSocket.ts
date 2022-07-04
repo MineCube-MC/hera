@@ -29,6 +29,21 @@ export class WebSocket {
         server.on("connection", socket => {
             socket.on("message", message => {
                 const response = JSON.parse(message.toString());
+                // Queries that everyone can use
+                if (response.type === "numbers") {
+                    socket.send(JSON.stringify({
+                        message: "RETURNED_NUMBERS",
+                        data: {
+                            users: WebSocket.client.users.cache.size,
+                            guilds: WebSocket.client.guilds.cache.size,
+                            channels: WebSocket.client.channels.cache.size,
+                            commands: WebSocket.client.commands.size,
+                            uptime: WebSocket.client.uptime,
+                            ping: WebSocket.client.ws.ping
+                        }
+                    }));
+                }
+                // Queries that are protected by a secret key
                 if (response.key !== process.env.socketKey) {
                     socket.send(JSON.stringify({
                         message: "INVALID_KEY"

@@ -60,7 +60,7 @@ export class WebSocket {
                             }));
                         } else {
                             if (!response.username) return socket.send(JSON.stringify({
-                                message: "USER_PREVIEW_INFO",
+                                message: "GENERATED_PREVIEW_KEY",
                                 previewKey: alphaPreviewData.previewKey,
                                 username: alphaPreviewData.username
                             }));

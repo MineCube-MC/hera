@@ -102,7 +102,7 @@ export class ExtendedClient extends Client {
     }
 
     async registerPrivateCommands({ commands, guildId }: RegisterCommandsOptions) {
-        if(guildId) {
+        if(guildId !== undefined) {
             this.guilds.cache.get(guildId)?.commands.set(commands);
             console.log(`Registering private commands to ${this.guilds.cache.get(guildId).name}`);
         }

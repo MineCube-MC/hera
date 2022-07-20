@@ -30,6 +30,20 @@ export class WebSocket {
             socket.on("message", async (message) => {
                 const response = JSON.parse(message.toString());
                 if (response.type === "alpha-1.2.6_10") {
+                    if (response.previewKey) {
+                        const preview = await alphaPreviewSchema.findOne({ previewKey: response.previewKey });
+                        if (preview) {
+                            return socket.send(JSON.stringify({
+                                message: "USER_PREVIEW_INFO",
+                                username: preview.username,
+                                userID: preview.userID
+                            }));
+                        } else {
+                            return socket.send(JSON.stringify({
+                                message: "USER_PREVIEW_NOT_FOUND"
+                            }));
+                        }
+                    }
                     if (!response.accessToken) return socket.send(JSON.stringify({
                         message: "PREVIEW_ACCESS_TOKEN_MISSING"
                     }));

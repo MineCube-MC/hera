@@ -101,12 +101,12 @@ export class ExtendedClient extends Client {
         }
     }
 
-    async registerPrivateCommands({ commands, guildId }: RegisterCommandsOptions) {
+    /* async registerPrivateCommands({ commands, guildId }: RegisterCommandsOptions) {
         if(guildId !== undefined) {
             this.guilds.cache.get(guildId)?.commands.set(commands);
             console.log(`Registering private commands to ${this.guilds.cache.get(guildId).name}`);
         }
-    }
+    } */
 
     async registerModules() {
         // Commands
@@ -141,10 +141,10 @@ export class ExtendedClient extends Client {
                 commands: slashCommands,
                 guildId: process.env.guildId
             });
-            this.registerPrivateCommands({
+            /* this.registerPrivateCommands({
                 commands: privateSlashCommands,
                 guildId: process.env.guildId
-            });
+            }); */
         });
 
         // Event

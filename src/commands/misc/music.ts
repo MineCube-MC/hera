@@ -129,7 +129,7 @@ export default new Command({
 
                 if (!channel)
                     return interaction.reply("You have to join a voice channel first.");
-                
+
                 if (channel.type === "GUILD_STAGE_VOICE") {
                     return interaction.reply("You can't play music in a stage channel.");
                 }
@@ -148,10 +148,15 @@ export default new Command({
                         return interaction.reply("Can't join, the voice channel is full.");
                 }
 
-                let result = await client.player.search(string, { requestedBy: interaction.user }).catch(() => { });
-                if (!result || !result.tracks.length)
+                let result;
+                try {
+                    result = await client.player.search(string, { requestedBy: interaction.user }).catch(() => { });
+                    if (!result || !result.tracks.length)
+                        return interaction.reply(`No result was found for \`${string}\`.`);
+                } catch {
                     return interaction.reply(`No result was found for \`${string}\`.`);
-                
+                }
+
                 if (guildQueue) {
                     queue = guildQueue;
                     queue.metadata = interaction;

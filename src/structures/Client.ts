@@ -23,6 +23,7 @@ const globPromise = promisify(glob);
 
 export class ExtendedClient extends Client {
     commands: Collection<string, CommandType> = new Collection();
+    privateCommands: Collection<string, CommandType> = new Collection();
     activities = new DiscordTogether(this);
     giveaways: GiveawaysManager;
     player: Player;
@@ -100,6 +101,13 @@ export class ExtendedClient extends Client {
         }
     }
 
+    async registerPrivateCommands({ commands, guildId }: RegisterCommandsOptions) {
+        if(guildId) {
+            this.guilds.cache.get(guildId)?.commands.set(commands);
+            console.log(`Registering private commands to ${this.guilds.cache.get(guildId).name}`);
+        }
+    }
+
     async registerModules() {
         // Commands
         const slashCommands: ApplicationCommandDataResolvable[] = [];
@@ -115,9 +123,26 @@ export class ExtendedClient extends Client {
             slashCommands.push(command);
         });
 
+        const privateSlashCommands: ApplicationCommandDataResolvable[] = [];
+        const privateCommandFiles = await globPromise(
+            `${__dirname}/../modules/*/*{.ts,.js}`
+        );
+        privateCommandFiles.forEach(async (filePath) => {
+            const command: CommandType = await this.importFile(filePath);
+            if (!command.name) return;
+            if (process.env.environment === "debug") console.log(command);
+
+            this.privateCommands.set(command.name, command);
+            privateSlashCommands.push(command);
+        });
+
         this.on("ready", () => {
             this.registerCommands({
                 commands: slashCommands,
+                guildId: process.env.guildId
+            });
+            this.registerPrivateCommands({
+                commands: privateSlashCommands,
                 guildId: process.env.guildId
             });
         });

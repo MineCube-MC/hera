@@ -2,7 +2,7 @@ import { ExtendedClient } from "./Client";
 import ws from "ws";
 import https from "https";
 import fs from "fs";
-
+import alphaPreviewSchema from "../models/alphaPreviewSchema";
 export class WebSocket {
     static client: ExtendedClient;
 
@@ -27,8 +27,60 @@ export class WebSocket {
         });
 
         server.on("connection", socket => {
-            socket.on("message", message => {
+            socket.on("message", async (message) => {
                 const response = JSON.parse(message.toString());
+                if (response.type === "alpha-1.2.6_10") {
+                    if (!response.accessToken) return socket.send(JSON.stringify({
+                        message: "PREVIEW_ACCESS_TOKEN_MISSING"
+                    }));
+                    if (!response.userID) return socket.send(JSON.stringify({
+                        message: "PREVIEW_USER_ID_MISSING"
+                    }));
+
+                    // Generate a preview key
+                    let previewKey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                    // Store the preview key in the mongo schema
+                    let alphaPreviewData;
+                    try {
+                        alphaPreviewData = await alphaPreviewSchema.findOne({ userID: response.userID });
+                        if (!alphaPreviewData) {
+                            if (!response.username) return socket.send(JSON.stringify({
+                                message: "PREVIEW_USERNAME_MISSING"
+                            }));
+                            let profile = await alphaPreviewSchema.create({
+                                userID: response.userID,
+                                username: response.username,
+                                previewKey: previewKey
+                            });
+                            profile.save();
+                            alphaPreviewData = await alphaPreviewData.findOne({ userID: response.userID });
+                            return socket.send(JSON.stringify({
+                                message: "GENERATED_PREVIEW_KEY",
+                                previewKey: previewKey
+                            }));
+                        } else {
+                            if (!response.username) return socket.send(JSON.stringify({
+                                message: "USER_PREVIEW_INFO",
+                                previewKey: alphaPreviewData.previewKey,
+                                username: alphaPreviewData.username
+                            }));
+                            alphaPreviewSchema.findOneAndUpdate({
+                                userID: response.userID
+                            }, {
+                                $set: {
+                                    username: response.username
+                                }
+                            });
+                            return socket.send(JSON.stringify({
+                                message: "GENERATED_PREVIEW_KEY",
+                                username: response.username,
+                                previewKey: alphaPreviewData.previewKey
+                            }));
+                        }
+                    } catch (e) {
+                        console.error(e);
+                    }
+                }
                 // Queries that everyone can use
                 if (response.type === "numbers") {
                     socket.send(JSON.stringify({

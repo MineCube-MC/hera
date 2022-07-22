@@ -4,6 +4,7 @@ import profileRouter from "./profile";
 import guildRouter from "./guild";
 import authRouter from "./auth";
 import epicGamesRouter from "./epic_games";
+import previewUserRouter from "./preview_user";
 
 const router = express.Router();
 
@@ -20,5 +21,7 @@ router.use("/guild", guildRouter);
 router.use("/auth", authRouter);
 
 router.use("/epic_games", epicGamesRouter);
+
+router.use("/preview_user", previewUserRouter);
 
 export default router;

@@ -77,7 +77,7 @@ export default new Command({
                 {
                     name: "queue_mode",
                     description: "The mode you want to set the loop to",
-                    type: ApplicationCommandOptionType.String,
+                    type: ApplicationCommandOptionType.Integer,
                     required: true,
                     choices: [
                         {

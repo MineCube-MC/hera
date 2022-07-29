@@ -19,8 +19,8 @@ git stash --include-untracked
 git reset --hard
 git clean -fd
 if git pull; then
-    echo "Running npm ci"
-    npm ci
+    echo "Installing dependencies..."
+    yarn install --immutable --immutable-cache --check-cache
 else
     echo "No updates available."
     exit 0

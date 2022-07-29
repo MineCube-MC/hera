@@ -1,4 +1,4 @@
-import { GuildMember } from "discord.js";
+import { ApplicationCommandOptionType, GuildMember } from "discord.js";
 import profileSchema from "../../models/profileSchema";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
@@ -6,23 +6,23 @@ import { ExtendedEmbed } from "../../structures/Embed";
 export default new Command({
     name: "warn",
     description: "Warn a member and check his warnings",
-    userPermissions: ["KICK_MEMBERS", "BAN_MEMBERS", "MANAGE_MESSAGES"],
+    userPermissions: ["KickMembers", "BanMembers", "ManageMessages"],
     options: [
         {
             name: "add",
             description: "Add a warning to a member",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "member",
                     description: "The member you want to add a warn.",
-                    type: "USER",
+                    type: ApplicationCommandOptionType.User,
                     required: true
                 },
                 {
                     name: "reason",
                     description: "The reason why you warned the member",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false
                 }
             ]
@@ -30,12 +30,12 @@ export default new Command({
         {
             name: "remove",
             description: "Remove a warning from a member",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "member",
                     description: "The member you want to remove the warn.",
-                    type: "USER",
+                    type: ApplicationCommandOptionType.User,
                     required: true
                 }
             ]
@@ -43,12 +43,12 @@ export default new Command({
         {
             name: "number",
             description: "Check how many warning did a member get",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "member",
                     description: "The member you want to get the number of warnings.",
-                    type: "USER",
+                    type: ApplicationCommandOptionType.User,
                     required: true
                 }
             ]

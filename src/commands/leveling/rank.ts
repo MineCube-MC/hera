@@ -1,4 +1,4 @@
-import { MessageAttachment, PresenceStatus } from "discord.js";
+import { AttachmentBuilder, PresenceStatus } from "discord.js";
 import { Command } from "../../structures/Command";
 import Levels from 'discord-xp';
 import Canvacord from "canvacord";
@@ -18,7 +18,7 @@ export default new Command({
         const turnToCanvacordStatus = (s: PresenceStatus): "online"|"idle"|"dnd"|"offline"|"streaming" => s === "invisible" ? "offline" : s;
 
         const rank = new Canvacord.Rank()
-            .setAvatar(interaction.user.displayAvatarURL({ dynamic: false, format: 'png' }))
+            .setAvatar(interaction.user.displayAvatarURL({ forceStatic: true, extension: 'png' }))
             .setCurrentXP(user.xp)
             .setRequiredXP(neededXp)
             .setLevel(user.level)
@@ -28,7 +28,7 @@ export default new Command({
             .setDiscriminator(interaction.user.discriminator);
         rank.build({ "fontX": "Manrope", "fontY": "Manrope" })
             .then(data => {
-                const attachment = new MessageAttachment(data, `rankCard.png`);
+                const attachment = new AttachmentBuilder(data, { name: `rankCard.png` });
                 interaction.reply({ files: [attachment] });
             });
     }

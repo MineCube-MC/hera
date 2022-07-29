@@ -1,4 +1,4 @@
-import { TextChannel } from "discord.js";
+import { ApplicationCommandOptionType, ChannelType, TextChannel } from "discord.js";
 import guildSchema from "../../models/guildSchema";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
@@ -6,18 +6,18 @@ import { ExtendedEmbed } from "../../structures/Embed";
 export default new Command({
     name: "welcome",
     description: "Enable/Disable the welcome channel with cards in your guild",
-    userPermissions: ["MANAGE_CHANNELS"],
+    userPermissions: ["ManageChannels"],
     options: [
         {
             name: "enable",
             description: "Enable the welcome channel",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "channel",
                     description: "The channel where the welcome cards are going to be sent",
-                    type: "CHANNEL",
-                    channelTypes: ["GUILD_TEXT"],
+                    type: ApplicationCommandOptionType.Channel,
+                    channelTypes: [ChannelType.GuildText],
                     required: true
                 }
             ]
@@ -25,16 +25,16 @@ export default new Command({
         {
             name: "disable",
             description: "Disable the welcome channel",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "text",
             description: "Change what's the text that's going to be sent along with the card",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [{
                 name: "text",
                 description: "The text that's going to be sent. Available placeholders: {member}, {guild}",
-                type: "STRING",
+                type: ApplicationCommandOptionType.String,
                 required: true
             }]
         }
@@ -125,7 +125,10 @@ export default new Command({
                     new ExtendedEmbed()
                     .setTitle("Operation Successful")
                     .setDescription(`The welcome channel text has been successfully changed.`)
-                    .addField("Text", `\`${text}\``)
+                    .addFields([{
+                        name: "Text",
+                        value: `\`${text}\``
+                    }])
                 ]
             });
         }

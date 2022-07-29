@@ -35,7 +35,7 @@ export default new Event("messageDelete", async (message) => {
     let rolesWithPerms: Role[] = [];
 
     message.guild.roles.cache.forEach((role) => {
-        if(role.permissions.has("MANAGE_MESSAGES") && !role.managed) rolesWithPerms.push(role);
+        if(role.permissions.has("ManageMessages") && !role.managed) rolesWithPerms.push(role);
     });
 
     let logs = await message.guild.fetchAuditLogs({type: 72});
@@ -45,15 +45,30 @@ export default new Event("messageDelete", async (message) => {
         if(message.content) {
             const deleteEmbed = new ExtendedEmbed()
             .setTitle("Message deleted")
-            .setThumbnail(message.member.displayAvatarURL({ dynamic: true }) || message.author.displayAvatarURL({ dynamic: true }))
-            .addField("Author", `${message.member}`, true)
-            .addField("Content", `\`${message.content}\``);
+            .setThumbnail(message.member.displayAvatarURL() || message.author.displayAvatarURL())
+            .addFields([
+                {
+                    name: "Author",
+                    value: `${message.member}`,
+                    inline: true
+                },
+                {
+                    name: "Content",
+                    value: `\`${message.content}\``,
+                }
+            ]);
             if(message.author === entry.executor) {
                 deleteEmbed.setDescription("The author deleted his message for whatever reason.");
             } else {
                 deleteEmbed
                 .setDescription(`Someone with the \`MANAGE_MESSAGES\` permission (probably one of these: ${rolesWithPerms.map(role => `${role}`).join(", ")}) deleted the message of a member in this server.`)
-                .addField("Deleted by", `${entry.executor}`, true);
+                .addFields(
+                    {
+                        name: "Deleted by",
+                        value: `${entry.executor}`,
+                        inline: true
+                    }
+                );
             }
             logChannel.send({
                 embeds: [deleteEmbed]

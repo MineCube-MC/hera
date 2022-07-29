@@ -1,7 +1,7 @@
 import profileSchema from "../models/profileSchema";
 import { Event } from "../structures/Event";
 import Canvas from 'canvas';
-import { AllowedImageSize, MessageAttachment, TextChannel } from "discord.js";
+import { AttachmentBuilder, ImageSize, TextChannel } from "discord.js";
 import guildSchema from "../models/guildSchema";
 import path from "path";
 
@@ -49,11 +49,11 @@ export default new Event("guildMemberAdd", async(member) => {
         console.error(e);
     }
 
-    if(member.guild.me.permissions.has("MANAGE_ROLES")) {
+    if(member.guild.members.me.permissions.has("ManageRoles")) {
         (guildData.autoRoles as string[]).forEach(roleID => {
             const role = member.guild.roles.cache.find(role => role.id === roleID);
             if(role) {
-                if(role.position >= member.guild.me.roles.highest.position) return;
+                if(role.position >= member.guild.members.me.roles.highest.position) return;
                 if(member.roles.cache.has(role.id)) return;
                 member.roles.add(role);
             }
@@ -75,7 +75,7 @@ export default new Event("guildMemberAdd", async(member) => {
             y: 140
         };
 
-        let avatarURL = member.user.displayAvatarURL({format: "png", dynamic: false, size: (av.size as AllowedImageSize)});
+        let avatarURL = member.user.displayAvatarURL({ extension: "png", forceStatic: true, size: (av.size as ImageSize)});
 
         const canvas = Canvas.createCanvas(dim.width, dim.height);
         const ctx = canvas.getContext("2d");
@@ -114,7 +114,7 @@ export default new Event("guildMemberAdd", async(member) => {
             let message = (guildData.welcome.text as string).replaceAll("{member}", `${member}`).replaceAll("{guild}", member.guild.name);
             welcomeChannel.send({
                 content: message,
-                files: [new MessageAttachment(canvas.toBuffer(), `welcome-${member.id}.png`)]
+                files: [new AttachmentBuilder(canvas.toBuffer(), { name: `welcome-${member.id}.png` })]
             });
         }
     }

@@ -3,7 +3,6 @@ import profileSchema from "../models/profileSchema";
 import { Event } from "../structures/Event";
 import Levels from 'discord-xp';
 import { TextChannel } from "discord.js";
-import { ExtendedEmbed } from "../structures/Embed";
 
 export default new Event("messageCreate", async (message) => {
     const member = message.member;

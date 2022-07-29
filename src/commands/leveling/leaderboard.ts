@@ -17,8 +17,11 @@ export default new Command({
         const leaderboardEmbed = new ExtendedEmbed()
             .setTitle(`${interaction.guild.name}'s leaderboard`)
             .setDescription(`${lb.join("\n\n")}`)
-            .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
-            .setFooter(`Requested by ${interaction.user.username}`, interaction.user.displayAvatarURL({ dynamic: true }));
+            .setThumbnail(interaction.guild.iconURL())
+            .setFooter({
+                text: `Requested by ${interaction.user.tag}`,
+                iconURL: interaction.user.displayAvatarURL()
+            });
         
         interaction.reply({ embeds: [ leaderboardEmbed ] });
     }

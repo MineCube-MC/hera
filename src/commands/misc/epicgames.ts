@@ -1,6 +1,7 @@
 import { Command } from "../../structures/Command";
 import { Country, getGames } from "epic-free-games/dist";
 import { ExtendedEmbed } from "../../structures/Embed";
+import { ApplicationCommandOptionType } from "discord.js";
 
 const countries = ["TR", "US", "GB", "DE", "AR", "ES", "MX", "FR", "IT", "JP", "KR", "PL", "BR", "RU", "TH", "CN"];
 const countryChoices = [];
@@ -18,7 +19,7 @@ export default new Command({
         {
             name: "country",
             description: "The country you want to check for free games",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
             choices: countryChoices
         }

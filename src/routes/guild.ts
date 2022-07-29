@@ -1,3 +1,4 @@
+import { ChannelType } from "discord.js";
 import express from "express";
 import guildSchema from "../models/guildSchema";
 import { API } from "../structures/API";
@@ -52,10 +53,10 @@ router.get("/:guild", async(req, res) => {
             },
             channels: {
                 total: guild.channels.cache.size,
-                text: guild.channels.cache.filter(channel => channel.type === "GUILD_TEXT").size,
-                news: guild.channels.cache.filter(channel => channel.type === "GUILD_NEWS").size,
-                voice: guild.channels.cache.filter(channel => channel.type === "GUILD_VOICE").size,
-                stage: guild.channels.cache.filter(channel => channel.type === "GUILD_STAGE_VOICE").size
+                text: guild.channels.cache.filter(channel => channel.type === ChannelType.GuildText).size,
+                news: guild.channels.cache.filter(channel => channel.type === ChannelType.GuildNews).size,
+                voice: guild.channels.cache.filter(channel => channel.type === ChannelType.GuildVoice).size,
+                stage: guild.channels.cache.filter(channel => channel.type === ChannelType.GuildStageVoice).size
             },
             welcome: {
                 enabled: guildData.welcome.enabled,

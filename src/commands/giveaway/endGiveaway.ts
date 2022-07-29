@@ -1,14 +1,15 @@
+import { ApplicationCommandOptionType } from "discord.js";
 import { Command } from "../../structures/Command";
 
 export default new Command({
     name: "endgiveaway",
     description: "End an existing giveaway",
-    userPermissions: ["MANAGE_EVENTS", "MODERATE_MEMBERS", "MANAGE_MESSAGES"],
+    userPermissions: ["ManageEvents", "ModerateMembers", "ManageMessages"],
     options: [
         {
             name: 'giveaway',
             description: 'The giveaway to end (message ID or giveaway prize)',
-            type: 'STRING',
+            type: ApplicationCommandOptionType.String,
             required: true
         }
     ],

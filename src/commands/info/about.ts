@@ -9,14 +9,25 @@ export default new Command({
         const aboutEmbed = new ExtendedEmbed()
             .setTitle(`${title}`)
             .setDescription(description)
-            .addField("Features", `${features.description}\n${features.commands}\n${features.funCommands}\n${features.giveawayCommands}\n${features.activityCommands}\n${features.configCommands}\n${features.musicCommands}`)
-            .addField("Credits", `${credits.description}\n${credits.discordjs}\n${credits.reconlx}`)
-            .addField("Links", `${links.server} | ${links.bot} | ${links.github}`)
+            .addFields([
+                {
+                    name: "Features",
+                    value: JSON.parse(features.toString()).join("\n")
+                },
+                {
+                    name: "Credits",
+                    value: JSON.parse(credits.toString()).join("\n")
+                },
+                {
+                    name: "Links",
+                    value: `${links.server} | ${links.bot} | ${links.github}`
+                }
+            ])
             .setFooter({
                 text: createdBy.text,
                 iconURL: createdBy.icon
             })
-            .setThumbnail(client.user.displayAvatarURL({ dynamic: true }));
+            .setThumbnail(client.user.displayAvatarURL());
         interaction.reply({
             embeds: [aboutEmbed]
         });

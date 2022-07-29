@@ -1,10 +1,10 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { createdBy } from "../../assets/locale.json";
 
-export class ExtendedEmbed extends MessageEmbed {
+export class ExtendedEmbed extends EmbedBuilder {
     constructor() {
         super();
-        this.setColor('BLURPLE');
+        this.setColor("Blurple");
         this.setFooter({
             text: createdBy.text,
             iconURL: createdBy.icon
@@ -12,7 +12,7 @@ export class ExtendedEmbed extends MessageEmbed {
     }
 }
 
-export class MusicEmbed extends MessageEmbed {
+export class MusicEmbed extends EmbedBuilder {
     constructor() {
         super();
         this.setAuthor({ name: "Plenus Music System", iconURL: createdBy.icon });

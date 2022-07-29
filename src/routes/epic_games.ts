@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { API } from "../structures/API";
 import { Country, getGames } from "epic-free-games/dist";
 
 const router = express.Router();

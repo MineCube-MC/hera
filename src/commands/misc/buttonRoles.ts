@@ -1,58 +1,58 @@
-import { ColorResolvable, MessageActionRow, MessageButton, TextChannel, Util } from "discord.js";
+import { ColorResolvable, ActionRowBuilder, ButtonBuilder, TextChannel, ApplicationCommandOptionType, ChannelType, ButtonStyle, parseEmoji } from "discord.js";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
 
 export default new Command({
     name: "btnroles",
     description: "Manage the button roles in your current guild",
-    userPermissions: ["MANAGE_ROLES"],
+    userPermissions: ["ManageRoles"],
     options: [
         {
             name: "create",
             description: "Create a button role in your guild",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "role",
                     description: "The role for the button",
-                    type: "ROLE",
+                    type: ApplicationCommandOptionType.Role,
                     required: true
                 },
                 {
                     name: "channel",
                     description: "The channel you want to send the embed with the button",
-                    type: "CHANNEL",
-                    channelTypes: ["GUILD_TEXT"],
+                    type: ApplicationCommandOptionType.Channel,
+                    channelTypes: [ChannelType.GuildText],
                     required: true
                 },
                 {
                     name: "description",
                     description: "The description of the embed for the button role",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false
                 },
                 {
                     name: "emoji",
                     description: "The emoji for the button",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false
                 },
                 {
                     name: "title",
                     description: "The title of the embed",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false
                 },
                 {
                     name: "label",
                     description: "The label of the button",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false
                 },
                 {
                     name: "color",
                     description: "The color of the embed (needs to be in HEX format)",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false
                 }
             ]
@@ -78,7 +78,7 @@ export default new Command({
                 .setDescription(`Click here to get the **${role.name}** role.`)
                 .setFooter({
                     text: interaction.guild.name,
-                    iconURL: interaction.guild.iconURL({ dynamic: true })
+                    iconURL: interaction.guild.iconURL()
                 });
             
             if(color) {
@@ -93,15 +93,15 @@ export default new Command({
 
             if(description) buttonEmbed.setDescription(description);
 
-            const roleButton = new MessageButton()
+            const roleButton = new ButtonBuilder()
                 .setLabel(role.name)
-                .setStyle("PRIMARY")
+                .setStyle(ButtonStyle.Primary)
                 .setCustomId(`role-${role.id}`);
             
             if(label) roleButton.setLabel(label);
             
             if(emoji) {
-                if(Util.parseEmoji(emoji)) {
+                if(parseEmoji(emoji)) {
                     roleButton.setEmoji(emoji);
                 } else return interaction.reply({
                     content: `The emoji doesn't use a valid format. A valid Discord format emoji should be like this: \`:joy:\``,
@@ -109,10 +109,13 @@ export default new Command({
                 });
             }
 
-            channel.send({ embeds: [buttonEmbed], components: [
-                new MessageActionRow()
-                    .addComponents(roleButton)
-            ] });
+            const row: ActionRowBuilder<ButtonBuilder> = new ActionRowBuilder<ButtonBuilder>()
+                .addComponents(roleButton);
+
+            channel.send({
+                embeds: [buttonEmbed],
+                components: [row]
+            })
 
             return interaction.reply({
                 content: `Button role created successfully. Be sure that the auto role is higher than my role so I can add it to those who click the button.`,

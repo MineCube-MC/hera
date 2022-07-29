@@ -2,6 +2,7 @@ import { Command } from "../../structures/Command";
 import { client } from "../..";
 import { QueryType, Queue, QueueRepeatMode } from "discord-player";
 import { MusicEmbed } from "../../structures/Embed";
+import { ApplicationCommandOptionType, ChannelType } from "discord.js";
 
 export default new Command({
     name: "music",
@@ -10,12 +11,12 @@ export default new Command({
         {
             name: "play",
             description: "Play a song",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "query",
                     description: "The query/url for the song/playlist",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true
                 }
             ]
@@ -23,32 +24,32 @@ export default new Command({
         {
             name: "pause",
             description: "Pause the current song",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "resume",
             description: "Resume the current song",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "skip",
             description: "Skip the current song",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "stop",
             description: "Stop the current song",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "volume",
             description: "Change the volume of the current song",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "volume",
                     description: "The volume you want to set the song to",
-                    type: "NUMBER",
+                    type: ApplicationCommandOptionType.Number,
                     required: true
                 }
             ]
@@ -56,27 +57,27 @@ export default new Command({
         {
             name: "queue",
             description: "View the current queue",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "shuffle",
             description: "Shuffle the current queue",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "bassboost",
             description: "Have fun with your ears",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         },
         {
             name: "loop",
             description: "Loop the current song",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "queue_mode",
                     description: "The mode you want to set the loop to",
-                    type: "INTEGER",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     choices: [
                         {
@@ -121,7 +122,7 @@ export default new Command({
         let embed: MusicEmbed = new MusicEmbed();
         switch (query) {
             case "play":
-                const string = await interaction.options.getString("query", true);
+                const string = await args.getString("query", true);
 
                 const guildQueue = client.player.getQueue(interaction.guild.id);
 
@@ -130,12 +131,12 @@ export default new Command({
                 if (!channel)
                     return interaction.reply("You have to join a voice channel first.");
 
-                if (channel.type === "GUILD_STAGE_VOICE") {
+                if (channel.type === ChannelType.GuildStageVoice) {
                     return interaction.reply("You can't play music in a stage channel.");
                 }
 
                 if (guildQueue) {
-                    if (channel.id !== interaction.guild.me?.voice?.channelId)
+                    if (channel.id !== interaction.guild.members.me?.voice?.channelId)
                         return interaction.reply("I'm already playing in a different voice channel!");
                 } else {
                     if (!channel.viewable)
@@ -212,14 +213,20 @@ export default new Command({
                 if (!queue) return await interaction.reply("There are no songs in the queue");
                 embed = new MusicEmbed()
                 if (queue.playing) {
-                    embed.addField("Now Playing", `[${queue.nowPlaying().title}](${queue.nowPlaying().url})`);
+                    embed.addFields([{
+                        name: "Now Playing",
+                        value: `[${queue.nowPlaying().title}](${queue.nowPlaying().url})`
+                    }]);
                 }
                 embed.setTitle("Queue")
                     .setFooter({ text: `${queue.tracks.length} songs in the queue` });
                 for (let i = 0; i < 10; i++) {
                     const song = queue.tracks[i];
                     if (!song) break;
-                    embed.addField(`${i + 1}. ${song.title}`, `Duration: ${song.duration}`);
+                    embed.addFields([{
+                        name: `${i + 1}. [${song.title}](${song.url})`,
+                        value: `Duration: ${song.duration}`
+                    }]);
                 }
                 await interaction.reply({
                     embeds: [embed]

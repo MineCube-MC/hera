@@ -40,11 +40,11 @@ export default new Event("interactionCreate", async (interaction) => {
 
             if(interaction.guild.roles.cache.find(role => role.id === roleID)) {
                 const role = interaction.guild.roles.cache.get(roleID);
-                if(!interaction.guild.me.permissions.has("MANAGE_ROLES")) return interaction.reply({
+                if(!interaction.guild.members.me.permissions.has("ManageRoles")) return interaction.reply({
                     content: `I'm missing the permission to manage roles in this guild. Contact the server administrator.`,
                     ephemeral: true
                 });
-                if(role.position >= interaction.guild.me.roles.highest.position) return interaction.reply({
+                if(role.position >= interaction.guild.members.me.roles.highest.position) return interaction.reply({
                     content: `I can't assign/remove you this role because my highest role is below this role. Contact the server administrator.`,
                     ephemeral: true
                 });

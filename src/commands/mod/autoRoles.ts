@@ -1,4 +1,4 @@
-import { Role } from "discord.js";
+import { ApplicationCommandOptionType, Role } from "discord.js";
 import guildSchema from "../../models/guildSchema";
 import { Command } from "../../structures/Command";
 import { createdBy } from "../../../assets/locale.json";
@@ -7,17 +7,17 @@ import { ExtendedEmbed } from "../../structures/Embed";
 export default new Command({
     name: "autoroles",
     description: "Manage the roles added on to a new member in this guild",
-    userPermissions: ["MANAGE_ROLES"],
+    userPermissions: ["ManageRoles"],
     options: [
         {
             name: "add",
             description: "Add an auto role",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "role",
                     description: "The role you want to add as an auto role",
-                    type: "ROLE",
+                    type: ApplicationCommandOptionType.Role,
                     required: true
                 }
             ]
@@ -25,12 +25,12 @@ export default new Command({
         {
             name: "remove",
             description: "Remove an auto role",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "role",
                     description: "The role you want to remove from the auto roles",
-                    type: "ROLE",
+                    type: ApplicationCommandOptionType.Role,
                     required: true
                 }
             ]
@@ -38,7 +38,7 @@ export default new Command({
         {
             name: "list",
             description: "Shows the server auto-roles",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         }
     ],
     run: async({ interaction, args }) => {
@@ -114,7 +114,12 @@ export default new Command({
                     new ExtendedEmbed()
                     .setTitle(`${interaction.guild.name}'s auto roles`)
                     .setDescription("The followings are the roles added automatically when a member joins the server.")
-                    .addField("Roles", `${roles.length ? roles.map(role => `${role}`).join(", ") : "No roles added"}`)
+                    .addFields([
+                        {
+                            name: "Roles",
+                            value: `${roles.length ? roles.map(role => `${role}`).join(", ") : "No roles added"}`
+                        }
+                    ])
                     .setFooter({
                         text: createdBy.text,
                         iconURL: createdBy.icon

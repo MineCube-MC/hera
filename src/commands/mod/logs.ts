@@ -1,4 +1,4 @@
-import { TextChannel } from "discord.js";
+import { ApplicationCommandOptionType, ChannelType, TextChannel } from "discord.js";
 import guildSchema from "../../models/guildSchema";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
@@ -6,18 +6,18 @@ import { ExtendedEmbed } from "../../structures/Embed";
 export default new Command({
     name: "logs",
     description: "Manage the server logs",
-    userPermissions: ["ADMINISTRATOR"],
+    userPermissions: ["Administrator"],
     options: [
         {
             name: "enable",
             description: "Enable the server log channel",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "channel",
                     description: "The channel you want to set as logs channel",
-                    type: "CHANNEL",
-                    channelTypes: ["GUILD_TEXT"],
+                    type: ApplicationCommandOptionType.Channel,
+                    channelTypes: [ChannelType.GuildText],
                     required: true
                 }
             ]
@@ -25,7 +25,7 @@ export default new Command({
         {
             name: "disable",
             description: "Disable the server log channel",
-            type: "SUB_COMMAND"
+            type: ApplicationCommandOptionType.Subcommand
         }
     ],
     run: async({ interaction, args }) => {

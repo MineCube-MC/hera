@@ -10,27 +10,26 @@ import { promisify } from "util";
 import { RegisterCommandsOptions } from "../typings/client";
 import { Event } from "./Event";
 import Levels from "discord-xp";
-import { DiscordTogether } from "discord-together";
 import { GiveawaysManager } from "discord-giveaways";
 import { connect } from "mongoose";
 import { API } from "./API";
 import { Player } from "discord-player";
 import { MusicEmbed } from "./Embed";
 import { WebSocket } from "./WebSocket";
-import { PlenusDashboard } from "./Dashboard";
 
 const globPromise = promisify(glob);
 
 export class ExtendedClient extends Client {
     commands: Collection<string, CommandType> = new Collection();
     privateCommands: Collection<string, CommandType> = new Collection();
-    activities = new DiscordTogether(this);
+    sweepMessages = this.sweepers.sweepMessages;
     giveaways: GiveawaysManager;
     player: Player;
     public static client = this;
 
     constructor() {
         super({ intents: 32767 });
+        this.sweepers.sweepMessages
     }
 
     async start() {
@@ -47,7 +46,6 @@ export class ExtendedClient extends Client {
         this.on("ready", () => {
             new API(this).start(process.env.port);
             new WebSocket(this).start(process.env.socketPort);
-            new PlenusDashboard(this);
         });
 
         this.player = new Player(this, {
@@ -166,8 +164,8 @@ export class ExtendedClient extends Client {
             storage: "./giveaways.json",
             default: {
                 botsCanWin: false,
-                embedColor: "BLURPLE",
-                embedColorEnd: "DARK_RED",
+                embedColor: "Blurple",
+                embedColorEnd: "DarkRed",
                 reaction: '🎉'
             }
         });

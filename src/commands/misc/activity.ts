@@ -1,4 +1,4 @@
-import { VoiceChannel } from "discord.js";
+import { ApplicationCommandOptionType, ChannelType, VoiceChannel } from "discord.js";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
 import { commands } from '../../../assets/locale.json';
@@ -10,13 +10,13 @@ export default new Command({
         {
             name: "youtube",
             description: "Generate a Watch Together activity link",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "channel",
                     description: "Choose the voice channel for the activity",
-                    type: "CHANNEL",
-                    channelTypes: ["GUILD_VOICE"],
+                    type: ApplicationCommandOptionType.Channel,
+                    channelTypes: [ChannelType.GuildVoice],
                     required: true
                 }
             ]
@@ -24,20 +24,21 @@ export default new Command({
         {
             name: "doodlecrew",
             description: "Generate a Doodle Crew activity link",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "channel",
                     description: "Choose the voice channel for the activity",
-                    type: "CHANNEL",
-                    channelTypes: ["GUILD_VOICE"],
+                    type: ApplicationCommandOptionType.Channel,
+                    channelTypes: [ChannelType.GuildVoice],
                     required: true
                 }
             ]
         }
     ],
     run: async({ client, interaction, args }) => {
-        const channel = args.getChannel("channel") as VoiceChannel;
+        return interaction.reply("This command is temporarily disabled.");
+        /* const channel = args.getChannel("channel") as VoiceChannel;
         if(!(channel instanceof VoiceChannel)) return interaction.reply(`The channel must be a voice channel!`);
 
         const activity = args.getSubcommand();
@@ -57,13 +58,16 @@ export default new Command({
                     new ExtendedEmbed()
                         .setTitle(commands.activity.title)
                         .setDescription(commands.activity.description.replaceAll("{activityName}", activityName).replaceAll("{channelName}", channel.name))
-                        .addField(commands.activity.tutorial.title, commands.activity.tutorial.description.replaceAll("{inviteCode}", invite.code))
+                        .addFields([{
+                            name: commands.activity.tutorial.title,
+                            value: commands.activity.tutorial.description.replaceAll("{inviteCode}", invite.code)
+                        }])
                         .setFooter({
                             text: `Requested by ${interaction.user.username}`,
-                            iconURL: interaction.user.displayAvatarURL({ dynamic: true })
+                            iconURL: interaction.user.displayAvatarURL()
                         })
                 ]
             })
-        });
+        }); */
     }
 });

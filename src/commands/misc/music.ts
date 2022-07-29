@@ -1,6 +1,6 @@
 import { Command } from "../../structures/Command";
 import { client } from "../..";
-import { QueryType, Queue, QueueRepeatMode } from "discord-player";
+import { Queue, QueueRepeatMode } from "discord-player";
 import { MusicEmbed } from "../../structures/Embed";
 import { ApplicationCommandOptionType, ChannelType } from "discord.js";
 

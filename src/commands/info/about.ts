@@ -12,11 +12,11 @@ export default new Command({
             .addFields([
                 {
                     name: "Features",
-                    value: JSON.parse(features.toString()).join("\n")
+                    value: `${features.description}\n${features.commands}\n${features.funCommands}\n${features.giveawayCommands}\n${features.activityCommands}\n${features.configCommands}\n${features.musicCommands}`
                 },
                 {
                     name: "Credits",
-                    value: JSON.parse(credits.toString()).join("\n")
+                    value: `${credits.description}\n${credits.discordjs}\n${credits.reconlx}`
                 },
                 {
                     name: "Links",

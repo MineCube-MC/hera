@@ -24,7 +24,6 @@
         "canvacord": "^5.4.2",
         "canvas": "^2.9.3",
         "cors": "^2.8.5",
-        "dbd-dark-dashboard": "^1.6.591",
         "discord-giveaways": "^6.0.0",
         "discord-player": "^5.3.0-dev.3",
         "discord-xp": "^1.1.16",

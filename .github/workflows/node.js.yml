@@ -17,6 +17,10 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - name: Install required packages
+      with:
+        apt: build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+      uses: ConorMacBride/install-package@v1
     - uses: actions/checkout@v3
     - name: Create the .env file
       run: |

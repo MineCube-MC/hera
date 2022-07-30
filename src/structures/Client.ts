@@ -17,6 +17,7 @@ import { Player } from "discord-player";
 import { MusicEmbed } from "./Embed";
 import { WebSocket } from "./WebSocket";
 import { DiscordActivityType, DiscordActivityValues } from "../typings/Activity";
+import axios from "axios";
 
 const globPromise = promisify(glob);
 
@@ -90,33 +91,31 @@ export class ExtendedClient extends Client {
         if (option && DiscordActivityValues[option.toLowerCase()]) {
             let applicationID = DiscordActivityValues[option.toLowerCase()];
             try {
-                await fetch(`https://discord.com/api/v8/channels/${voiceChannelId}/invites`, {
-                    method: 'POST',
-                    body: JSON.stringify({
+                const response = await axios.post(`https://discord.com/api/v10/channels/${voiceChannelId}/invites`,
+                    JSON.stringify({
                         max_age: 86400,
                         max_uses: 0,
                         target_application_id: applicationID,
                         target_type: 2,
                         temporary: false,
-                        validate: null,
+                        validate: null
                     }),
-                    headers: {
-                        Authorization: `Bot ${this.token}`,
-                        'Content-Type': 'application/json',
-                    },
-                })
-                    .then((res) => res.json())
-                    .then((invite) => {
-                        if (invite.error || !invite.code) throw new Error('An error occured while retrieving data !');
-                        if (Number(invite.code) === 50013) console.warn('Your bot lacks permissions to perform that action');
-                        returnData.code = `https://discord.com/invite/${invite.code}`;
-                    });
+                    {
+                        headers: {
+                            Authorization: `Bot ${this.token}`,
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                );
+                if (response.data.error || !response.data.code) throw new Error("An error occured while retrieving data!");
+                if (Number(response.data.code) === 50013) console.warn("The bot lacks permissions to generate the activity code.");
+                returnData.code = response.data.code;
             } catch (err) {
-                throw new Error('An error occured while starting Youtube together !');
+                throw new Error('An error occured while starting the Discord Activity!');
             }
             return returnData;
         } else {
-            throw new SyntaxError('Invalid option !');
+            throw new SyntaxError('Invalid option!');
         }
     }
 

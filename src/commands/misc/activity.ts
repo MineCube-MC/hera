@@ -38,7 +38,7 @@ export default new Command({
         const channel = args.getChannel("channel") as VoiceChannel;
         if(!(channel instanceof VoiceChannel)) return interaction.reply(`The channel must be a voice channel!`);
 
-        const activity = (args.getSubcommand() as DiscordActivityType);
+        const activity = (args.getString("activity") as DiscordActivityType);
         let activityName = "a Discord activity";
         
         client.activities.createTogetherCode(channel.id, activity).then(async invite => {

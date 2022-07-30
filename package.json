@@ -14,7 +14,7 @@
     },
     "keywords": [],
     "author": "",
-    "license": "GPL 3.0",
+    "license": "GPL-3.0-or-later",
     "description": "",
     "dependencies": {
         "@discordjs/opus": "^0.8.0",
@@ -35,6 +35,7 @@
         "glob": "^8.0.3",
         "mongoose": "^6.5.0",
         "ms": "^2.1.3",
+        "nodemon": "^2.0.19",
         "simply-djs": "^3.0.2",
         "ws": "^8.8.1"
     },

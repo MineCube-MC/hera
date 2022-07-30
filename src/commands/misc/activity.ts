@@ -41,7 +41,7 @@ export default new Command({
         const activity = (args.getString("activity") as DiscordActivityType);
         let activityName = "a Discord activity";
         
-        client.activities.createTogetherCode(channel.id, activity).then(async invite => {
+        client.createTogetherCode(channel.id, activity).then(async invite => {
             if(!invite.code) return interaction.reply({
                 content: `Due to the slow Discord API, we can't send you the invite code`,
                 ephemeral: true

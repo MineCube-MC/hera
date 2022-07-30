@@ -40,7 +40,10 @@ export default new Command({
     ],
     run: async ({ interaction, args }) => {
         if (args.getSubcommand() === "config") {
-            const url = args.getString("url");
+            let url = args.getString("url");
+            if(!url.includes("http://") && !url.includes("https://")) {
+                url = `http://${url}`;
+            }
             const password = args.getString("password");
 
             let pc;

@@ -30,7 +30,7 @@
             "description": "A temporary invite link has been generated to join {activityName} in `{channelName}`.",
             "tutorial": {
                 "title": "How to join",
-                "description": "Just [click here]({inviteCode}) and you'll be able to join both the voice channel and the activity."
+                "description": "Just [click here](https://discord.com/invite/{inviteCode}) and you'll be able to join both the voice channel and the activity."
             }
         }
     }

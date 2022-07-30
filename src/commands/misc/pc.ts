@@ -74,7 +74,7 @@ export default new Command({
                 }
             }).catch((err) => {
                 // If environment is dev or debug, show the error
-                if(process.env.environment === "dev" || process.env.environment === "debug") console.error(err);
+                console.error(err);
                 const embed = new ExtendedEmbed()
                 .setTitle("Remote Control")
                 .setDescription("The bot was unable to connect to your PC :sob:")

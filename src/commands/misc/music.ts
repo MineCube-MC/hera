@@ -60,6 +60,11 @@ export default new Command({
             type: ApplicationCommandOptionType.Subcommand
         },
         {
+            name: "nowplaying",
+            description: "View the current song",
+            type: ApplicationCommandOptionType.Subcommand
+        },
+        {
             name: "shuffle",
             description: "Shuffle the current queue",
             type: ApplicationCommandOptionType.Subcommand
@@ -228,6 +233,26 @@ export default new Command({
                         value: `Duration: ${song.duration}`
                     }]);
                 }
+                await interaction.reply({
+                    embeds: [embed]
+                });
+                break;
+            case "nowplaying":
+                queue = client.player.getQueue(interaction.guildId);
+                if (!queue) return await interaction.reply("There are no songs in the queue");
+                embed = new MusicEmbed()
+                if (!queue.playing) return await interaction.reply("There's no music playing right now!");
+                embed.setTitle("Now Playing")
+                    .setTitle(queue.nowPlaying().title)
+                    .setURL(queue.nowPlaying().url)
+                    .setThumbnail(queue.nowPlaying().thumbnail)
+                    .addFields([{
+                        name: "Duration",
+                        value: queue.nowPlaying().duration
+                    }, {
+                        name: "Requested by",
+                        value: queue.nowPlaying().requestedBy.toString()
+                    }]);
                 await interaction.reply({
                     embeds: [embed]
                 });

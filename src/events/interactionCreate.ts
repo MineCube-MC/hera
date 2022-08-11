@@ -19,7 +19,7 @@ export default new Event("interactionCreate", async (interaction) => {
             });
         }
 
-        let permissionsNeeded: PermissionResolvable[] = command.userPermissions;
+        let permissionsNeeded: PermissionResolvable[] = command.userPermissions?.length ? command.userPermissions : [];
         if((interaction as ExtendedInteraction).memberPermissions.has([permissionsNeeded])) {
             command.run({
                 args: interaction.options as CommandInteractionOptionResolver,

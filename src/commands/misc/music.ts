@@ -239,9 +239,8 @@ export default new Command({
                 break;
             case "nowplaying":
                 queue = client.player.getQueue(interaction.guildId);
-                if (!queue) return await interaction.reply("There are no songs in the queue");
+                if (!queue && !queue.playing) return await interaction.reply("There's no music playing right now!");
                 embed = new MusicEmbed()
-                if (!queue.playing) return await interaction.reply("There's no music playing right now!");
                 embed.setTitle("Now Playing")
                     .setTitle(queue.nowPlaying().title)
                     .setURL(queue.nowPlaying().url)

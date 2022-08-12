@@ -3,7 +3,7 @@
     "description": "Plenus is a multi-purpose Discord bot with plenty of features. Plenus is coded in the TypeScript language using the **discord.js** library, mostly used for JavaScript Discord bots.",
     "createdBy": {
         "text": "Created by the Plenus Team",
-        "icon": "https://i.imgur.com/PXKhUSB.png"
+        "icon": "https://raw.githubusercontent.com/ApexieCommunity/Plenus/main/assets/logo_nobg.png"
     },
     "features": {
         "description": "The bot has the following features:",

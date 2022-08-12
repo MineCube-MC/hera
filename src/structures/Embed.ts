@@ -4,7 +4,7 @@ import { createdBy } from "../../assets/locale.json";
 export class ExtendedEmbed extends EmbedBuilder {
     constructor() {
         super();
-        this.setColor("Blurple");
+        this.setColor("#ECAF0D");
         this.setFooter({
             text: createdBy.text,
             iconURL: createdBy.icon

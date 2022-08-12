@@ -1,4 +1,4 @@
-<img src="/assets/logo.png" alt="Plenus Logo" align="right" height="256px">
+<img src="/assets/logo_nobg.png" alt="Plenus Logo" align="right" height="256px">
 <div align="center">
   <h1>Plenus</h1>
   <h3>A new multi-purpose Discord Bot made in TypeScript</h3>

@@ -156,7 +156,9 @@ export default new Command({
 
                 let result;
                 try {
-                    result = await client.player.search(string, { requestedBy: interaction.user }).catch(() => { });
+                    result = await client.player.search(string, { requestedBy: interaction.user }).catch(() => { 
+                        return interaction.reply(`No result was found for \`${string}\`.`);
+                    });
                     if (!result || !result.tracks.length)
                         return interaction.reply(`No result was found for \`${string}\`.`);
                 } catch {
@@ -229,8 +231,8 @@ export default new Command({
                     const song = queue.tracks[i];
                     if (!song) break;
                     embed.addFields([{
-                        name: `${i + 1}. [${song.title}](${song.url})`,
-                        value: `Duration: ${song.duration}`
+                        name: `${i + 1}. ${song.title}`,
+                        value: `Link: ${song.url}\nRequested by: ${song.requestedBy.toString()}\nDuration: ${song.duration}`
                     }]);
                 }
                 await interaction.reply({

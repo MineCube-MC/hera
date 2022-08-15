@@ -29,7 +29,7 @@ export class ExtendedClient extends Client {
     player: Player;
 
     constructor() {
-        super({ intents: 32767 });
+        super({ intents: 98303 });
     }
 
     async start() {

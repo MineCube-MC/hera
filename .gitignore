@@ -6,3 +6,5 @@ giveaways.json
 password.txt
 
 certs
+
+src/events/apexieSmpMsg.ts

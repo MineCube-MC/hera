@@ -314,10 +314,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
 
-"@types/node@^18.6.5":
-  version "18.6.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.6.5.tgz#06caea822caf9e59d5034b695186ee74154d2802"
-  integrity sha512-Xjt5ZGUa5WusGZJ4WJPbOT8QOqp6nDynVFRKcUt32bOgvXEoc6o085WNkYTMO7ifAj2isEfQQ2cseE+wT6jsRw==
+"@types/node@^18.7.6":
+  version "18.7.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.6.tgz#31743bc5772b6ac223845e18c3fc26f042713c83"
+  integrity sha512-EdxgKRXgYsNITy5mjjXjVE/CS8YENSdhiagGrLqjG0pvA2owgJ6i4l7wy/PFZGC0B1/H20lWKN7ONVDNYDZm7A==
 
 "@types/qs@*":
   version "6.9.7"
@@ -578,10 +578,10 @@ call-bind@^1.0.0:
     function-bind "^1.1.1"
     get-intrinsic "^1.0.2"
 
-canvacord@^5.4.4:
-  version "5.4.4"
-  resolved "https://registry.yarnpkg.com/canvacord/-/canvacord-5.4.4.tgz#56212f7cf4f9446b50f419636a3f44a1bf4fac11"
-  integrity sha512-7tRS3ZQygkPmemcUZNEvmq6OygJO4jhmWy6hpRw2+7NIFk9p4PosVi+MBzxWAakjT5MnBFz4Gg+zl3S2Thb0zQ==
+canvacord@^5.4.6:
+  version "5.4.6"
+  resolved "https://registry.yarnpkg.com/canvacord/-/canvacord-5.4.6.tgz#bc1863b5f23c8311822f3bee325b0bfd081a46ad"
+  integrity sha512-cog8FWDDh25DWBiWFqcjx8IXZBa6BRpb1iclfz6HwN++c4GhRBuEKlkhTVLr+rfkJ6ujaghN04BFLspiKmPP4w==
   dependencies:
     "@napi-rs/canvas" "^0.1.26"
     "@skyra/gifenc" "^1.0.0"
@@ -881,10 +881,10 @@ discord-xp@^1.1.16:
   dependencies:
     mongoose "^5.11.11"
 
-discord.js@^14.1.2:
-  version "14.1.2"
-  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.1.2.tgz#6897f9019be3213388950c1cf6d7c9ea4661d42a"
-  integrity sha512-apdWNLkjAkeEnuNpB8H6rS/4OgrXQlSAjuuzeodjCOdIXy3OwOjD314V/HiSttcAlr9+r3ONhaT5qvbDad5SIg==
+discord.js@^14.2.0:
+  version "14.2.0"
+  resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.2.0.tgz#42f5669a267bf29f355f4b2b8db02bd84c40a601"
+  integrity sha512-kIGhEeOB1d9k7whL9HCCuRuzK2GL7i/hTesYINOZ2szWm4TOsBVwRU+i9O/zDb2M+Gvff4SJ4EpAtCVV0okgVw==
   dependencies:
     "@discordjs/builders" "^1.1.0"
     "@discordjs/collection" "^1.0.1"
@@ -895,7 +895,7 @@ discord.js@^14.1.2:
     fast-deep-equal "^3.1.3"
     lodash.snakecase "^4.1.1"
     tslib "^2.4.0"
-    undici "^5.8.0"
+    undici "^5.8.2"
     ws "^8.8.1"
 
 dom-serializer@^2.0.0:
@@ -2311,6 +2311,11 @@ undici@^5.8.0:
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/undici/-/undici-5.8.0.tgz#dec9a8ccd90e5a1d81d43c0eab6503146d649a4f"
   integrity sha512-1F7Vtcez5w/LwH2G2tGnFIihuWUlc58YidwLiCv+jR2Z50x0tNXpRRw7eOIJ+GvqCqIkg9SB7NWAJ/T9TLfv8Q==
+
+undici@^5.8.2:
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-5.9.1.tgz#fc9fd85dd488f965f153314a63d9426a11f3360b"
+  integrity sha512-6fB3a+SNnWEm4CJbgo0/CWR8RGcOCQP68SF4X0mxtYTq2VNN8T88NYrWVBAeSX+zb7bny2dx2iYhP3XHi00omg==
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"

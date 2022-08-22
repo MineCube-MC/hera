@@ -3,6 +3,7 @@ import { client } from "../..";
 import { Queue, QueueRepeatMode } from "discord-player";
 import { MusicEmbed } from "../../structures/Embed";
 import { ApplicationCommandOptionType, ChannelType } from "discord.js";
+import playdl from 'play-dl';
 
 export default new Command({
     name: "music",
@@ -172,7 +173,10 @@ export default new Command({
                     queue.metadata = interaction;
                 } else {
                     queue = await client.player.createQueue(interaction.guild, {
-                        metadata: interaction
+                        metadata: interaction,
+                        async onBeforeCreateStream(track, source, _queue) {
+                            return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;
+                        }
                     });
                 }
 

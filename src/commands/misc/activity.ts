@@ -24,7 +24,7 @@ export default new Command({
             description: "The activity to start",
             type: ApplicationCommandOptionType.String,
             required: true,
-            choices: activities
+            choices: (activities as ApplicationCommandOptionChoiceData<string>[])
         },
         {
             name: "channel",

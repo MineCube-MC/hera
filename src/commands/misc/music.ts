@@ -156,12 +156,14 @@ export default new Command({
 
                 let result;
                 try {
-                    result = await client.player.search(string, { requestedBy: interaction.user }).catch(() => { 
+                    result = await client.player.search(string, { requestedBy: interaction.user }).catch((e) => {
+                        console.error(e);
                         return interaction.reply(`No result was found for \`${string}\`.`);
                     });
                     if (!result || !result.tracks.length)
                         return interaction.reply(`No result was found for \`${string}\`.`);
-                } catch {
+                } catch (e) {
+                    console.error(e);
                     return interaction.reply(`No result was found for \`${string}\`.`);
                 }
 

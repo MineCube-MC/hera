@@ -128,7 +128,7 @@ export default new Command({
         let embed: MusicEmbed = new MusicEmbed();
         switch (query) {
             case "play":
-                const string = await args.getString("query", true);
+                const string = args.getString("query", true);
 
                 const guildQueue = client.player.getQueue(interaction.guild.id);
 
@@ -157,7 +157,7 @@ export default new Command({
 
                 let result;
                 try {
-                    result = await client.player.search(string, { requestedBy: interaction.user }).catch((e) => {
+                    result = await client.player.search(playdl.search(string, { limit: 1 })[0].title, { requestedBy: interaction.user }).catch((e) => {
                         console.error(e);
                         return interaction.reply(`No result was found for \`${string}\`.`);
                     });
@@ -172,7 +172,7 @@ export default new Command({
                     queue = guildQueue;
                     queue.metadata = interaction;
                 } else {
-                    queue = await client.player.createQueue(interaction.guild, {
+                    queue = client.player.createQueue(interaction.guild, {
                         metadata: interaction,
                         async onBeforeCreateStream(track, source, _queue) {
                             return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;

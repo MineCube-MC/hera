@@ -157,7 +157,7 @@ export default new Command({
 
                 let result;
                 try {
-                    result = await client.player.search(playdl.search(string, { limit: 1 })[0].title, { requestedBy: interaction.user }).catch((e) => {
+                    result = await client.player.search(args.getString("query"), { requestedBy: interaction.user }).catch((e) => {
                         console.error(e);
                         return interaction.reply(`No result was found for \`${string}\`.`);
                     });

@@ -175,7 +175,7 @@ export default new Command({
                     queue = client.player.createQueue(interaction.guild, {
                         metadata: interaction,
                         async onBeforeCreateStream(track, source, _queue) {
-                            return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;
+                            if (source === "youtube") return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;
                         }
                     });
                 }

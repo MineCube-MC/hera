@@ -1,6 +1,6 @@
 import { Command } from "../../structures/Command";
 import { client } from "../..";
-import { Queue, QueueRepeatMode } from "discord-player";
+import { QueryType, Queue, QueueRepeatMode } from "discord-player";
 import { MusicEmbed } from "../../structures/Embed";
 import { ApplicationCommandOptionType, ChannelType } from "discord.js";
 import playdl from 'play-dl';
@@ -15,7 +15,7 @@ export default new Command({
             type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
-                    name: "query",
+                    name: "url",
                     description: "The query/url for the song/playlist",
                     type: ApplicationCommandOptionType.String,
                     required: true
@@ -128,7 +128,7 @@ export default new Command({
         let embed: MusicEmbed = new MusicEmbed();
         switch (query) {
             case "play":
-                const string = args.getString("query", true);
+                const string: string = args.getString("url", true);
 
                 const guildQueue = client.player.getQueue(interaction.guild.id);
 
@@ -157,7 +157,7 @@ export default new Command({
 
                 let result;
                 try {
-                    result = await client.player.search(args.getString("query"), { requestedBy: interaction.user }).catch((e) => {
+                    result = await client.player.search(string, { requestedBy: interaction.user, searchEngine: QueryType.AUTO }).catch((e) => {
                         console.error(e);
                         return interaction.reply(`No result was found for \`${string}\`.`);
                     });

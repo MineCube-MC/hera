@@ -13,6 +13,11 @@ export default mongo.model(
             enabled: { type: Boolean },
             channelID: { type: String }
         },
+        tickets: {
+            enabled: { type: Boolean },
+            channelID: { type: String },
+            categoryID: { type: String }
+        },
         autoRoles: { type: [String] }
     })
 );

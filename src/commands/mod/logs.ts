@@ -47,6 +47,11 @@ export default new Command({
                         enabled: false,
                         channelID: "none"
                     },
+                    tickets: {
+                        enabled: false,
+                        channelID: 'none',
+                        categoryID: 'none'
+                    },
                     autoRoles: [],
                     blacklist: []
                 });

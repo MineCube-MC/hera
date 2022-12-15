@@ -12,10 +12,8 @@ import { Event } from "./Event";
 import Levels from "discord-xp";
 import { GiveawaysManager } from "discord-giveaways";
 import { connect } from "mongoose";
-import { API } from "./API";
 import { Player } from "discord-player";
 import { MusicEmbed } from "./Embed";
-import { WebSocket } from "./WebSocket";
 import { DiscordActivityType, DiscordActivityValues } from "../typings/Activity";
 import axios from "axios";
 
@@ -44,8 +42,6 @@ export class ExtendedClient extends Client {
         this.login(process.env.botToken);
 
         this.on("ready", () => {
-            new API(this).start(process.env.port);
-            new WebSocket(this).start(process.env.socketPort);
         });
 
         this.player = new Player(this, {

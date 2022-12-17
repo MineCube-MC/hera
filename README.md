@@ -3,9 +3,9 @@
   <h1>Plenus</h1>
   <h3>A new multi-purpose Discord Bot made in TypeScript</h3>
 
-![Repository Size](https://img.shields.io/github/repo-size/ApexieCommunity/Plenus)
-![Issues](https://img.shields.io/github/issues/ApexieCommunity/Plenus)
-![Pull Requests](https://img.shields.io/github/issues-pr/ApexieCommunity/Plenus)
+![Repository Size](https://img.shields.io/github/repo-size/apexiedev/plenus)
+![Issues](https://img.shields.io/github/issues/apexiedev/plenus)
+![Pull Requests](https://img.shields.io/github/issues-pr/apexiedev/plenus)
 </div>
 
 ___
@@ -17,16 +17,21 @@ ___
 ___
 ### Installation and launching:
 - Install **[Node.js](https://nodejs.org/)** on your machine. **Version 16.6 or higher is required!**
+- Install **[Yarn](https://yarnpkg.com/)** on your machine.
 - Clone the repository on your machine.
 - Open your console in the cloned repository.
 - To complete the installation, write the following command in the console:
 ```console
-npm install
+yarn
 ```
 - After installation, you will need to **[configure the bot](#bot-config)**.
+- Build the bot using the following command:
+```console
+yarn build
+```
 - To start the bot, write the following command in the console:
 ```console
-npm run start:dev
+yarn run start:prod
 ```
 
 ___

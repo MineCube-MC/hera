@@ -2,20 +2,20 @@ import { EmbedBuilder } from "discord.js";
 import { createdBy } from "../../assets/locale.json";
 
 export class ExtendedEmbed extends EmbedBuilder {
-    constructor() {
-        super();
-        this.setColor("#ECAF0D");
-        this.setFooter({
-            text: createdBy.text,
-            iconURL: createdBy.icon
-        });
-    }
+  constructor() {
+    super();
+    this.setColor("#ECAF0D");
+    this.setFooter({
+      text: createdBy.text,
+      iconURL: createdBy.icon,
+    });
+  }
 }
 
 export class MusicEmbed extends EmbedBuilder {
-    constructor() {
-        super();
-        this.setAuthor({ name: "Plenus Music System", iconURL: createdBy.icon });
-        this.setColor("#16C36D");
-    }
+  constructor() {
+    super();
+    this.setAuthor({ name: "Plenus Music System", iconURL: createdBy.icon });
+    this.setColor("#16C36D");
+  }
 }

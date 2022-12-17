@@ -1,24 +1,21 @@
 {
-    "compilerOptions": {
-        "lib": ["ES2022"],
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "target": "ES2022",
-        "outDir": "dist",
-        "sourceMap": false,
-        "esModuleInterop": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "allowSyntheticDefaultImports": true,
-        "skipLibCheck": true,
-        "skipDefaultLibCheck": true,
-        "resolveJsonModule": true,
-        "importHelpers": true,
-        "typeRoots": [
-            "node_modules/@types",
-            "src/@types"
-        ],
-    },
-    "include": ["src", "assets", "environment.d.ts"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "outDir": "dist",
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "typeRoots": ["node_modules/@types", "src/@types"]
+  },
+  "include": ["src", "assets", "environment.d.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

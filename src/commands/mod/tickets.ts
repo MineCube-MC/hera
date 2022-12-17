@@ -1,7 +1,6 @@
 import { ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, ChannelType } from 'discord.js'
 import { Command } from '../../structures/Command'
 import guildSchema from '../../models/guildSchema'
-import ticketSchema from '../../models/ticketSchema'
 import { ExtendedEmbed } from '../../structures/Embed'
 
 export default new Command({

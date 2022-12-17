@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ChannelType } from 'discord.js'
+import { ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, ChannelType } from 'discord.js'
 import { Command } from '../../structures/Command'
 import guildSchema from '../../models/guildSchema'
 import ticketSchema from '../../models/ticketSchema'
@@ -59,6 +59,9 @@ export default new Command({
             channelID: 'none',
             categoryID: 'none'
           },
+          leveling: {
+            enabled: true
+          },
           autoRoles: [],
           blacklist: []
         })
@@ -82,6 +85,31 @@ export default new Command({
             categoryID: category.id
           }
         }
+      })
+      // Create the ticket embed
+      const ticketEmbed = new ExtendedEmbed()
+      .setTitle("Ticket")
+      .setDescription(`React with 🎟️ to open a ticket`)
+      .setFooter({
+        text: `Tickets are managed by ${interaction.user.tag}`,
+        iconURL: interaction.user.displayAvatarURL()
+      })
+      // Send the embed
+      const ticketMessage = await (channel as any).send({ embeds: [ticketEmbed] })
+      // Add the message button
+      const ticketButton = new ButtonBuilder()
+      .setStyle(ButtonStyle.Primary)
+      .setCustomId('ticket')
+      .setLabel('Open Ticket')
+      .setEmoji('🎟️')
+      // Add the button to the embed
+      await ticketMessage.edit({
+        components: [
+          {
+            type: 1,
+            components: [ticketButton]
+          }
+        ]
       })
       return interaction.reply({
         ephemeral: true,

@@ -18,6 +18,9 @@ export default mongo.model(
             channelID: { type: String },
             categoryID: { type: String }
         },
+        leveling: {
+            enabled: { type: Boolean }
+        },
         autoRoles: { type: [String] }
     })
 );

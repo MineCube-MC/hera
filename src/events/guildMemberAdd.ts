@@ -21,6 +21,9 @@ export default new Event("guildMemberAdd", async(member) => {
                     enabled: false,
                     channelID: "none"
                 },
+                leveling: {
+                    enabled: true
+                },
                 autoRoles: [],
                 blacklist: []
             });

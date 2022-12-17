@@ -21,6 +21,9 @@ export default new Event("messageDelete", async (message) => {
                     enabled: false,
                     channelID: "none"
                 },
+                leveling: {
+                    enabled: true
+                },
                 autoRoles: [],
                 blacklist: []
             });

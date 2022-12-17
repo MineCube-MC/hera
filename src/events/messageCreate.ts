@@ -38,6 +38,9 @@ export default new Event("messageCreate", async (message) => {
                     enabled: false,
                     channelID: "none"
                 },
+                leveling: {
+                    enabled: true
+                },
                 autoRoles: [],
                 blacklist: []
             });

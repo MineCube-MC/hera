@@ -52,6 +52,9 @@ export default new Command({
                         channelID: 'none',
                         categoryID: 'none'
                     },
+                    leveling: {
+                        enabled: true
+                    },
                     autoRoles: [],
                     blacklist: []
                 });

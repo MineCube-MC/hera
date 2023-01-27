@@ -1,13 +1,12 @@
+import { ApplicationCommandOptionType } from "discord.js";
 import { Command } from "../../structures/Command";
-import { client } from "../..";
-import { QueryType, Queue, QueueRepeatMode } from "discord-player";
 import { MusicEmbed } from "../../structures/Embed";
-import { ApplicationCommandOptionType, ChannelType } from "discord.js";
-import playdl from "play-dl";
+
+// Credit to Kaj on YouTube for the music system code
 
 export default new Command({
   name: "music",
-  description: "Manage the music in your current server",
+  description: "Play music in your voice channel",
   options: [
     {
       name: "play",
@@ -15,357 +14,155 @@ export default new Command({
       type: ApplicationCommandOptionType.Subcommand,
       options: [
         {
-          name: "url",
-          description: "The query/url for the song/playlist",
+          name: "query",
           type: ApplicationCommandOptionType.String,
           required: true,
+          description: "The name or URL of the song",
         },
       ],
-    },
-    {
-      name: "pause",
-      description: "Pause the current song",
-      type: ApplicationCommandOptionType.Subcommand,
-    },
-    {
-      name: "resume",
-      description: "Resume the current song",
-      type: ApplicationCommandOptionType.Subcommand,
-    },
-    {
-      name: "skip",
-      description: "Skip the current song",
-      type: ApplicationCommandOptionType.Subcommand,
-    },
-    {
-      name: "stop",
-      description: "Stop the current song",
-      type: ApplicationCommandOptionType.Subcommand,
     },
     {
       name: "volume",
-      description: "Change the volume of the current song",
+      description: "Change the volume of the music player",
       type: ApplicationCommandOptionType.Subcommand,
       options: [
         {
-          name: "volume",
-          description: "The volume you want to set the song to",
-          type: ApplicationCommandOptionType.Number,
+          name: "percent",
+          description: "The volume percentage without the % (1-100)",
+          type: ApplicationCommandOptionType.Integer,
           required: true,
+          min_value: 1,
+          max_value: 100,
         },
       ],
     },
     {
-      name: "queue",
-      description: "View the current queue",
-      type: ApplicationCommandOptionType.Subcommand,
-    },
-    {
-      name: "nowplaying",
-      description: "View the current song",
-      type: ApplicationCommandOptionType.Subcommand,
-    },
-    {
-      name: "shuffle",
-      description: "Shuffle the current queue",
-      type: ApplicationCommandOptionType.Subcommand,
-    },
-    {
-      name: "bassboost",
-      description: "Have fun with your ears",
-      type: ApplicationCommandOptionType.Subcommand,
-    },
-    {
-      name: "loop",
-      description: "Loop the current song",
+      name: "options",
+      description: "Change the music player options",
       type: ApplicationCommandOptionType.Subcommand,
       options: [
         {
-          name: "queue_mode",
-          description: "The mode you want to set the loop to",
-          type: ApplicationCommandOptionType.Integer,
+          name: "option",
+          description: "The option you want to change",
+          type: ApplicationCommandOptionType.String,
           required: true,
           choices: [
-            {
-              name: "off",
-              value: QueueRepeatMode.OFF,
-            },
-            {
-              name: "track",
-              value: QueueRepeatMode.TRACK,
-            },
-            {
-              name: "queue",
-              value: QueueRepeatMode.QUEUE,
-            },
-            {
-              name: "autoplay",
-              value: QueueRepeatMode.AUTOPLAY,
-            },
+            { name: "loop", value: "loop" },
+            { name: "queue", value: "queue" },
+            { name: "skip", value: "skip" },
+            { name: "pause", value: "pause" },
+            { name: "resume", value: "resume" },
+            { name: "stop", value: "stop" },
           ],
         },
       ],
     },
   ],
-  run: async ({ interaction, args }) => {
-    const query = args.getSubcommand();
-    if (!interaction.member.voice.channel) {
-      return interaction.reply(
-        "You need to be in a voice channel to use this command"
-      );
+  run: async ({ interaction, args, client }) => {
+    const { member, guild, channel } = interaction;
+
+    const subcommand = args.getSubcommand();
+    const query = args.getString("query");
+    const volume = args.getInteger("percent");
+    const option = args.getString("option");
+    const voiceChannel = member.voice.channel;
+
+    const embed = new MusicEmbed();
+
+    if (!voiceChannel) {
+      embed
+        .setColor("Red")
+        .setDescription(
+          "You need to be in a voice channel to use this command"
+        );
+      return interaction.reply({ embeds: [embed], ephemeral: true });
     }
-    if (!interaction.member.voice.channel.joinable) {
-      return interaction.reply(
-        "I don't have permission to join your voice channel"
-      );
-    }
-    /* if (interaction.member?.voice?.channel.id !== interaction.guild.me?.voice?.channelId) {
-            return interaction.reply(
-                "I'm already playing in a different voice channel!"
-            );
-        } */
-    let queue: Queue;
-    let embed: MusicEmbed = new MusicEmbed();
-    switch (query) {
-      case "play":
-        const string: string = args.getString("url", true);
 
-        const guildQueue = client.player.getQueue(interaction.guild.id);
+    /* if (!(member.voice.channelId == guild.members.me.voice.channelId)) {
+      embed
+        .setColor("Red")
+        .setDescription(
+          "You can't use the music player as it is already active in another voice channel"
+        );
+      return interaction.reply({ embeds: [embed], ephemeral: true });
+    } */
 
-        const channel = interaction.member?.voice?.channel;
-
-        if (!channel)
-          return interaction.reply("You have to join a voice channel first.");
-
-        if (channel.type === ChannelType.GuildStageVoice) {
-          return interaction.reply("You can't play music in a stage channel.");
-        }
-
-        if (guildQueue) {
-          if (channel.id !== interaction.guild.members.me?.voice?.channelId)
-            return interaction.reply(
-              "I'm already playing in a different voice channel!"
-            );
-        } else {
-          if (!channel.viewable)
-            return interaction.reply("I need **`VIEW_CHANNEL`** permission.");
-          if (!channel.joinable)
-            return interaction.reply(
-              "I need **`CONNECT_CHANNEL`** permission."
-            );
-          if (!channel.speakable)
-            return interaction.reply("I need **`SPEAK`** permission.");
-          if (channel.full)
-            return interaction.reply("Can't join, the voice channel is full.");
-        }
-
-        let result;
-        try {
-          result = await client.player
-            .search(string, {
-              requestedBy: interaction.user,
-              searchEngine: QueryType.AUTO,
-            })
-            .catch((e) => {
-              console.error(e);
-              return interaction.reply(
-                `No result was found for \`${string}\`.`
-              );
-            });
-          if (!result || !result.tracks.length)
-            return interaction.reply(`No result was found for \`${string}\`.`);
-        } catch (e) {
-          console.error(e);
-          return interaction.reply(`No result was found for \`${string}\`.`);
-        }
-
-        if (guildQueue) {
-          queue = guildQueue;
-          queue.metadata = interaction;
-        } else {
-          queue = client.player.createQueue(interaction.guild, {
-            metadata: interaction,
-            async onBeforeCreateStream(track, source, _queue) {
-              if (source === "youtube")
-                return (
-                  await playdl.stream(track.url, {
-                    discordPlayerCompatibility: true,
-                  })
-                ).stream;
-            },
+    try {
+      switch (subcommand) {
+        case "play":
+          client.distube.play(voiceChannel, query, {
+            textChannel: channel,
+            member: member,
           });
-        }
+          return interaction.reply({
+            content: `🎶 Searching \`${query}\`...`,
+          });
+        case "volume":
+          client.distube.setVolume(voiceChannel, volume);
+          return interaction.reply({
+            content: `🔊 Volume set to ${volume}%`,
+          });
+        case "options":
+          const queue = await client.distube.getQueue(voiceChannel);
 
-        try {
-          if (!queue.connection) await queue.connect(channel);
-        } catch (error) {
-          client.player.deleteQueue(interaction.guild.id);
-          return interaction.reply(
-            `Could not join your voice channel!\n\`${error}\``
-          );
-        }
+          if (!queue) {
+            embed.setColor("Red").setDescription("There is no active queue.");
+            return interaction.reply({ embeds: [embed], ephemeral: true });
+          }
 
-        result.playlist
-          ? queue.addTracks(result.tracks)
-          : queue.addTrack(result.tracks[0]);
-
-        if (!queue.playing) await queue.play();
-
-        break;
-      case "pause":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue)
-          return await interaction.reply("There are no songs in the queue");
-        queue.setPaused(true);
-        embed = new MusicEmbed();
-        await interaction.reply(
-          "Music has been paused! Use `/music resume` to resume the music"
-        );
-        break;
-      case "resume":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue)
-          return await interaction.reply("There are no songs in the queue");
-        queue.setPaused(false);
-        await interaction.reply(
-          "Music has been resumed! Use `/music pause` to pause the music"
-        );
-        break;
-      case "skip":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue)
-          return await interaction.reply("There are no songs in the queue");
-        queue.skip();
-        await interaction.reply("Music has been skipped!");
-        break;
-      case "stop":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue)
-          return await interaction.reply("There are no songs in the queue");
-        try {
-          queue.stop();
-          queue.clear();
-          queue.destroy();
-        } catch (e) {}
-        await interaction.reply("Music has been stopped!");
-        break;
-      case "queue":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue)
-          return await interaction.reply("There are no songs in the queue");
-        embed = new MusicEmbed();
-        if (queue.playing) {
-          embed.addFields([
-            {
-              name: "Now Playing",
-              value: `[${queue.nowPlaying().title}](${queue.nowPlaying().url})`,
-            },
-          ]);
-        }
-        embed
-          .setTitle("Queue")
-          .setFooter({ text: `${queue.tracks.length} songs in the queue` });
-        for (let i = 0; i < 10; i++) {
-          const song = queue.tracks[i];
-          if (!song) break;
-          embed.addFields([
-            {
-              name: `${i + 1}. ${song.title}`,
-              value: `Link: ${
-                song.url
-              }\nRequested by: ${song.requestedBy.toString()}\nDuration: ${
-                song.duration
-              }`,
-            },
-          ]);
-        }
-        await interaction.reply({
-          embeds: [embed],
-        });
-        break;
-      case "nowplaying":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue && !queue.playing)
-          return await interaction.reply("There's no music playing right now!");
-        embed = new MusicEmbed();
-        embed
-          .setTitle("Now Playing")
-          .setTitle(queue.nowPlaying().title)
-          .setURL(queue.nowPlaying().url)
-          .setThumbnail(queue.nowPlaying().thumbnail)
-          .addFields([
-            {
-              name: "Duration",
-              value: queue.nowPlaying().duration,
-            },
-            {
-              name: "Requested by",
-              value: queue.nowPlaying().requestedBy.toString(),
-            },
-          ]);
-        await interaction.reply({
-          embeds: [embed],
-        });
-        break;
-      case "volume":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue)
-          return await interaction.reply("There are no songs in the queue");
-        const volume = args.getNumber("volume");
-        if (volume < 0 || volume > 100)
-          return await interaction.reply("Volume must be between 0 and 100");
-        queue.setVolume(volume);
-        await interaction.reply(`Volume set to ${volume}`);
-        break;
-      case "shuffle":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue)
-          return await interaction.reply("There are no songs in the queue");
-        queue.shuffle();
-        await interaction.reply("Queue shuffled!");
-        break;
-      case "bassboost":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue)
-          return await interaction.reply("There are no songs in the queue");
-        await queue.setFilters({
-          bassboost: !queue.getFiltersEnabled().includes("bassboost"),
-          normalizer2: !queue.getFiltersEnabled().includes("bassboost"), // because we need to toggle it with bass
-        });
-        await interaction.reply(
-          `Bass boost successfully ${
-            queue.getFiltersEnabled().includes("bassboost")
-              ? "enabled"
-              : "disabled"
-          }!`
-        );
-        break;
-      case "loop":
-        queue = client.player.getQueue(interaction.guildId);
-        if (!queue)
-          return await interaction.reply("There are no songs in the queue");
-        let queueMode = args.getInteger("queue_mode");
-        let queueMsg: string;
-        if (queueMode === QueueRepeatMode.OFF) {
-          queue.setRepeatMode(QueueRepeatMode.OFF);
-          queueMsg = "Off";
-        } else if (queueMode === QueueRepeatMode.TRACK) {
-          queue.setRepeatMode(QueueRepeatMode.TRACK);
-          queueMsg = "Track";
-        } else if (queueMode === QueueRepeatMode.QUEUE) {
-          queue.setRepeatMode(QueueRepeatMode.QUEUE);
-          queueMsg = "Queue";
-        } else if (queueMode === QueueRepeatMode.AUTOPLAY) {
-          queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
-          queueMsg = "Autoplay";
-        }
-        interaction.reply({
-          embeds: [
-            new MusicEmbed()
-              .setTitle("Looping")
-              .setDescription(`Looping mode set to **${queueMsg}**!`),
-          ],
-        });
+          switch (option) {
+            case "loop":
+              queue.setRepeatMode();
+              embed
+                .setColor("Purple")
+                .setDescription(
+                  `🔁 Looping has been ${
+                    queue.repeatMode == 1 ? "enabled" : "disabled"
+                  }`
+                );
+              return interaction.reply({ embeds: [embed], ephemeral: true });
+            case "skip":
+              await queue.skip();
+              embed
+                .setColor("Blue")
+                .setDescription("⏩ The song has been skipped.");
+              return interaction.reply({ embeds: [embed], ephemeral: true });
+            case "stop":
+              await queue.stop();
+              embed
+                .setColor("Red")
+                .setDescription("⏹️ The song has been stopped.");
+              return interaction.reply({ embeds: [embed], ephemeral: true });
+            case "pause":
+              queue.pause();
+              embed
+                .setColor("Orange")
+                .setDescription("⏸️ The song has been paused.");
+              return interaction.reply({ embeds: [embed], ephemeral: true });
+            case "resume":
+              queue.resume();
+              embed
+                .setColor("Green")
+                .setDescription("▶️ The song has been resumed.");
+              return interaction.reply({ embeds: [embed], ephemeral: true });
+            case "queue":
+              embed
+                .setColor("Purple")
+                .setDescription(
+                  `${queue.songs.map(
+                    (song, id) =>
+                      `\n**${id + 1}**. ${song.name} - \`${
+                        song.formattedDuration
+                      }\``
+                  )}`
+                );
+              return interaction.reply({ embeds: [embed], ephemeral: true });
+          }
+      }
+    } catch (e) {
+      console.error(e);
+      embed.setColor("Red").setDescription("`⛔ | An error occurred...`");
+      return interaction.reply({ embeds: [embed], ephemeral: true });
     }
   },
 });

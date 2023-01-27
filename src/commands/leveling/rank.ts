@@ -2,12 +2,16 @@ import { AttachmentBuilder, PresenceStatus } from "discord.js";
 import { Command } from "../../structures/Command";
 import Levels from "discord-xp";
 import Canvacord from "canvacord";
+import { isNumberObject } from "util/types";
 
 export default new Command({
   name: "rank",
   description: "Check your level and XP in this guild",
   run: async ({ interaction }) => {
     const user = await Levels.fetch(interaction.user.id, interaction.guild.id);
+
+    if (!isNumberObject(user.level))
+      return interaction.reply("You didn't even type a message here.");
 
     let neededXp = Levels.xpFor(user.level + 1);
     if (typeof neededXp != "number") {

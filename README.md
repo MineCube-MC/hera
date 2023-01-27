@@ -1,11 +1,11 @@
-<img src="https://raw.githubusercontent.com/apexiedev/plenus/main/assets/logo_nobg.png" alt="Plenus Logo" align="right" height="256px">
+<img src="https://raw.githubusercontent.com/apexiedev/hera/main/assets/logo_nobg.png" alt="Hera Logo" align="right" height="256px">
 <div align="center">
-  <h1>Plenus</h1>
+  <h1>Hera</h1>
   <h3>A new multi-purpose Discord Bot made in TypeScript</h3>
 
-![Repository Size](https://img.shields.io/github/repo-size/apexiedev/plenus)
-![Issues](https://img.shields.io/github/issues/apexiedev/plenus)
-![Pull Requests](https://img.shields.io/github/issues-pr/apexiedev/plenus)
+![Repository Size](https://img.shields.io/github/repo-size/apexiedev/hera)
+![Issues](https://img.shields.io/github/issues/apexiedev/hera)
+![Pull Requests](https://img.shields.io/github/issues-pr/apexiedev/hera)
 
 </div>
 
@@ -14,7 +14,7 @@
 ### Online on:
 
 - [Apexie's World](https://dsc.gg/apexie)
-- [Plenus Support](https://discord.gg/CNTz9fDYYJ)
+- [Hera Support](https://discord.gg/CNTz9fDYYJ)
 - Many other servers
 
 ---
@@ -28,20 +28,20 @@
 - To complete the installation, write the following command in the console:
 
 ```console
-yarn
+pnpm install
 ```
 
 - After installation, you will need to **[configure the bot](#bot-config)**.
 - Build the bot using the following command:
 
 ```console
-yarn build
+pnpm run build
 ```
 
 - To start the bot, write the following command in the console:
 
 ```console
-yarn run start:prod
+pnpm run start:prod
 ```
 
 ---
@@ -56,12 +56,11 @@ yarn run start:prod
 - Open the **.env** file using any text editor.
 - This file contains general bot settings in this format:
 
-|  Field name  |           Example value            |                                 Description                                 |
-| :----------: | :--------------------------------: | :-------------------------------------------------------------------------: |
-|   botToken   |                "-"                 |   The token you copied from the Developer Portal, used to login the bot.    |
-|   clientId   |                "-"                 |   The client ID you copied from the Developer Portal, used for the auth.    |
-| clientSecret |                "-"                 | The client secret you copied from the Developer Portal, also used for auth. |
-|   guildId    |        "924159913024958505"        |              This is the guild used in a developer environment              |
-|   mongoUri   | "mongodb://127.0.0.1:27017/plenus" |                The MongoDB server URI, used for the database                |
-| environment  |       "dev", "debug", "prod"       |       Sets the environment of the bot. Useful for guild only commands       |
-|     port     |               "8080"               |           Sets the port used for the bot API (server count, etc)            |
+|  Field name  |          Example value           |                                 Description                                 |
+| :----------: | :------------------------------: | :-------------------------------------------------------------------------: |
+|   botToken   |               "-"                |   The token you copied from the Developer Portal, used to login the bot.    |
+|   clientId   |               "-"                |   The client ID you copied from the Developer Portal, used for the auth.    |
+| clientSecret |               "-"                | The client secret you copied from the Developer Portal, also used for auth. |
+|   guildId    |       "924159913024958505"       |              This is the guild used in a developer environment              |
+|   mongoUri   | "mongodb://127.0.0.1:27017/hera" |                The MongoDB server URI, used for the database                |
+| environment  |      "dev", "debug", "prod"      |       Sets the environment of the bot. Useful for guild only commands       |

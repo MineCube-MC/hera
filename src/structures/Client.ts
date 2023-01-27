@@ -3,6 +3,7 @@ import {
   Client,
   ClientEvents,
   Collection,
+  EmbedBuilder,
 } from "discord.js";
 import { CommandType, ExtendedInteraction } from "../typings/Command";
 import glob from "glob";
@@ -11,13 +12,14 @@ import { RegisterCommandsOptions } from "../typings/client";
 import { Event } from "./Event";
 import Levels from "discord-xp";
 import { GiveawaysManager } from "discord-giveaways";
-import { connect } from "mongoose";
-import { Player } from "discord-player";
+import mongoose, { connect } from "mongoose";
 import { MusicEmbed } from "./Embed";
 import {
   DiscordActivityType,
   DiscordActivityValues,
 } from "../typings/Activity";
+import { DisTube } from "distube";
+import { SpotifyPlugin } from "@distube/spotify";
 import axios from "axios";
 
 const globPromise = promisify(glob);
@@ -27,13 +29,14 @@ export class ExtendedClient extends Client {
   privateCommands: Collection<string, CommandType> = new Collection();
   sweepMessages = this.sweepers.sweepMessages;
   giveaways: GiveawaysManager;
-  player: Player;
+  distube: DisTube;
 
   constructor() {
     super({ intents: 98303 });
   }
 
   async start() {
+    mongoose.set("strictQuery", true);
     await connect(
       process.env.mongoUri,
       {
@@ -50,44 +53,100 @@ export class ExtendedClient extends Client {
 
     this.on("ready", () => {});
 
-    this.player = new Player(this, {
-      ytdlOptions: {
-        quality: "highestaudio",
-        highWaterMark: 1 << 25,
-      },
+    this.distube = new DisTube(this, {
+      emitNewSongOnly: true,
+      leaveOnFinish: true,
+      emitAddSongWhenCreatingQueue: false,
+      plugins: [new SpotifyPlugin()],
     });
 
-    this.player.on("error", (err) => {
-      if (
-        process.env.environment === "dev" ||
-        process.env.environment === "debug"
-      ) {
-        console.error(err);
-      }
-    });
-
-    this.player.on("trackAdd", (queue, track) => {
-      let musicEmbed = new MusicEmbed()
-        .setTitle("Queue updated")
-        .setDescription(
-          `**[${track.title}](${track.url})** has been added to the Queue`
-        )
-        .setThumbnail(track.thumbnail)
-        .setFooter({ text: `Duration: ${track.duration}` });
-      let interaction = queue.metadata as ExtendedInteraction;
-      interaction.reply({ embeds: [musicEmbed] });
-    });
-
-    this.player.on("tracksAdd", (queue, tracks) => {
-      let musicEmbed = new MusicEmbed()
-        .setTitle("Queue updated")
-        .setDescription(
-          `**${tracks.length} songs from [${tracks[0].playlist.title}](${tracks[0].playlist.url})** have been successfully added to the Queue.`
-        )
-        .setThumbnail(tracks[0].playlist.thumbnail);
-      let interaction = queue.metadata as ExtendedInteraction;
-      interaction.reply({ embeds: [musicEmbed] });
-    });
+    const status = (queue) =>
+      `Volume: \`${queue.volume}%\` | Filter: \`${
+        queue.filters.names.join(", ") || "Off"
+      }\` | Loop: \`${
+        queue.repeatMode
+          ? queue.repeatMode === 2
+            ? "All Queue"
+            : "This Song"
+          : "Off"
+      }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
+    this.distube
+      .on("playSong", (queue, song) =>
+        queue.textChannel.send({
+          embeds: [
+            new MusicEmbed()
+              .setColor("Green")
+              .setDescription(
+                `🎶 | Playing \`${song.name}\` - \`${
+                  song.formattedDuration
+                }\`\nRequested by: ${song.user}\n${status(queue)}`
+              )
+              .setThumbnail(song.thumbnail),
+          ],
+        })
+      )
+      .on("addSong", (queue, song) =>
+        queue.textChannel.send({
+          embeds: [
+            new MusicEmbed()
+              .setColor("Green")
+              .setDescription(
+                `🎶 | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
+              )
+              .setThumbnail(song.thumbnail),
+          ],
+        })
+      )
+      .on("addList", (queue, playlist) =>
+        queue.textChannel.send({
+          embeds: [
+            new MusicEmbed()
+              .setColor("Green")
+              .setDescription(
+                `🎶 | Added \`${playlist.name}\` playlist (${
+                  playlist.songs.length
+                } songs) to queue\n${status(queue)}`
+              )
+              .setThumbnail(playlist.thumbnail),
+          ],
+        })
+      )
+      .on("error", (channel, e) => {
+        if (channel)
+          channel.send(
+            `⛔ | An error encountered: ${e.toString().slice(0, 1974)}`
+          );
+        else console.error(e);
+      })
+      .on("empty", (queue) =>
+        queue.textChannel.send({
+          embeds: [
+            new MusicEmbed()
+              .setColor("Red")
+              .setDescription(
+                "⛔ | Voice channel is empty! Leaving the channel..."
+              ),
+          ],
+        })
+      )
+      .on("searchNoResult", (message, query) =>
+        message.channel.send({
+          embeds: [
+            new MusicEmbed()
+              .setColor("Red")
+              .setDescription(`⛔ | No result found for \`${query}\`!`),
+          ],
+        })
+      )
+      .on("finish", (queue) =>
+        queue.textChannel.send({
+          embeds: [
+            new MusicEmbed()
+              .setColor("Green")
+              .setDescription("🏁 | Queue finished!"),
+          ],
+        })
+      );
   }
 
   async createTogetherCode(

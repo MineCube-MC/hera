@@ -1,9 +1,9 @@
 {
-  "title": "Plenus",
-  "description": "Plenus is a multi-purpose Discord bot with plenty of features. Plenus is coded in the TypeScript language using the **discord.js** library, mostly used for JavaScript Discord bots.",
+  "title": "Hera",
+  "description": "Hera is a multi-purpose Discord bot with plenty of features. Hera is coded in the TypeScript language using the **discord.js** library, mostly used for JavaScript Discord bots.",
   "createdBy": {
-    "text": "Created by the Plenus Team",
-    "icon": "https://raw.githubusercontent.com/ApexieCommunity/Plenus/main/assets/logo_nobg.png"
+    "text": "Created by the Hera Team",
+    "icon": "https://raw.githubusercontent.com/apexiedev/hera/main/assets/logo_nobg.png"
   },
   "features": {
     "description": "The bot has the following features:",
@@ -22,7 +22,7 @@
   "links": {
     "server": "[Support Server](https://discord.gg/CNTz9fDYYJ)",
     "bot": "[Bot Invite](https://discord.com/api/oauth2/authorize?client_id=${client.application.id}&permissions=8&scope=bot%20applications.commands)",
-    "github": "[GitHub Repository](https://github.com/ApexieCommunity/Plenus)"
+    "github": "[GitHub Repository](https://github.com/apexiedev/hera)"
   },
   "commands": {
     "activity": {

@@ -100,7 +100,7 @@ export default new Command({
         .setTitle("Ticket")
         .setDescription(`React with 🎟️ to open a ticket`)
         .setFooter({
-          text: `Tickets are managed by ${interaction.user.tag}`,
+          text: `Tickets are managed by Hera`,
           iconURL: interaction.user.displayAvatarURL(),
         });
       // Send the embed

@@ -19,7 +19,7 @@ export default new Command({
       .addFields([
         {
           name: "Features",
-          value: `${features.description}\n${features.commands}\n${features.funCommands}\n${features.giveawayCommands}\n${features.activityCommands}\n${features.configCommands}\n${features.musicCommands}`,
+          value: `${features.description}\n${features.commands}\n${features.funCommands}\n${features.giveawayCommands}\n${features.activityCommands}\n${features.configCommands}\n${features.musicCommands}\n${features.tickets}`,
         },
         {
           name: "Credits",

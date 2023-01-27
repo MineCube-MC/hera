@@ -78,14 +78,19 @@ export default new Command({
       return interaction.reply({ embeds: [embed], ephemeral: true });
     }
 
-    /* if (!(member.voice.channelId == guild.members.me.voice.channelId)) {
-      embed
-        .setColor("Red")
-        .setDescription(
-          "You can't use the music player as it is already active in another voice channel"
-        );
-      return interaction.reply({ embeds: [embed], ephemeral: true });
-    } */
+    if (guild.members.me.voice.channel) {
+      if (guild.members.me.voice.channel.id !== voiceChannel.id) {
+        embed
+          .setColor("Red")
+          .setDescription(
+            "You need to be in the same voice channel as me to use this command"
+          );
+        return interaction.reply({
+          embeds: [embed],
+          ephemeral: true,
+        });
+      }
+    }
 
     try {
       switch (subcommand) {

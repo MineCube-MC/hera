@@ -1,8 +1,11 @@
 import {
+  ButtonBuilder,
+  ButtonStyle,
   ChannelType,
   CommandInteractionOptionResolver,
   GuildMember,
   PermissionResolvable,
+  TextChannel,
 } from "discord.js";
 import { client } from "..";
 import { Event } from "../structures/Event";
@@ -89,7 +92,7 @@ export default new Event("interactionCreate", async (interaction) => {
           ephemeral: true,
         });
       }
-    } else if (interaction.customId.includes("tickets")) {
+    } else if (interaction.customId == "ticket") {
       const serverID = interaction.guildId;
       const guild = client.guilds.cache.get(serverID);
       const member = interaction.member as GuildMember;
@@ -159,7 +162,7 @@ export default new Event("interactionCreate", async (interaction) => {
             ticketChannel.type === ChannelType.GuildText
           ) {
             const ticket = await guild.channels.create({
-              name: `ticket-${member.user.username}`,
+              name: `ticket-${member.user.id}`,
               type: ChannelType.GuildText,
               parent: ticketCategory,
               permissionOverwrites: [
@@ -177,8 +180,16 @@ export default new Event("interactionCreate", async (interaction) => {
                 },
               ],
             });
-            ticket.send({
+            const messageSent = await ticket.send({
               content: `Hello ${member}, welcome to your ticket. Please explain your problem and a staff member will help you as soon as possible.`,
+            });
+            const ticketButton = new ButtonBuilder()
+              .setStyle(ButtonStyle.Primary)
+              .setCustomId("close-ticket")
+              .setLabel("Close Ticket")
+              .setEmoji("🛑");
+            await messageSent.edit({
+              components: [{ type: 1, components: [ticketButton] }],
             });
             interaction.reply({
               content: `Your ticket has been created in ${ticket}`,
@@ -196,6 +207,57 @@ export default new Event("interactionCreate", async (interaction) => {
             ephemeral: true,
           });
         }
+      } else {
+        return interaction.reply({
+          content: `Tickets are disabled in this server, try contacting the server administrator.`,
+          ephemeral: true,
+        });
+      }
+    } else if (interaction.customId == "close-ticket") {
+      const serverID = interaction.guildId;
+      const guild = client.guilds.cache.get(serverID);
+      const member = interaction.member as GuildMember;
+      const channel = interaction.channel as TextChannel;
+      let guildData;
+      try {
+        guildData = await guildSchema.findOne({ serverID: guild.id });
+        if (!guildData) {
+          let guildCollection = new guildSchema({
+            serverID: guild.id,
+            welcome: {
+              enabled: false,
+              channelID: "none",
+              text: ":wave: Hello {member}, welcome to {guild}!",
+            },
+            logs: {
+              enabled: false,
+              channelID: "none",
+            },
+            tickets: {
+              enabled: true,
+              channelID: "none",
+              categoryID: "none",
+            },
+            leveling: {
+              enabled: true,
+            },
+            autoRoles: [],
+            blacklist: [],
+          });
+          await guildCollection.save();
+          guildData = await guildSchema.findOne({ serverID: guild.id });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+      if (guildData.tickets.enabled) {
+        interaction.reply({
+          content: `Closing ticket in 5 seconds...`,
+          ephemeral: true,
+        });
+        setTimeout(() => {
+          channel.delete();
+        }, 5000);
       } else {
         return interaction.reply({
           content: `Tickets are disabled in this server, try contacting the server administrator.`,

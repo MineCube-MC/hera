@@ -12,7 +12,8 @@
     "giveawayCommands": "- **Giveaway commands**, helpful to start a giveaway and manage it easily",
     "activityCommands": "- **Activity commands**, such as YouTube Together and Doodle Crew to entertain yourself and your friends in a voice chat",
     "configCommands": "- **Configuration commands**, which help with things like logging, and so much more...",
-    "musicCommands": "- **Music commands**, which help you to play music in a voice chat"
+    "musicCommands": "- **Music commands**, which help you to play music in a voice chat",
+    "tickets": "- **Tickets**, for those who are still using the legacy ticket system instead of the new Discord threads and forums"
   },
   "credits": {
     "description": "These are the people which deserve credit for their hard work:",

@@ -11,7 +11,10 @@ RUN wget -qO /bin/pnpm "https://github.com/pnpm/pnpm/releases/latest/download/pn
 RUN apk add  --no-cache \
     g++ make py3-pip \
     libpng libpng-dev jpeg-dev \
-    pango-dev cairo-dev giflib-dev
+    pango-dev cairo-dev giflib-dev \
+    terminus-font ttf-inconsolata ttf-dejavu font-bitstream-* font-noto font-noto-cjk ttf-font-awesome font-noto-extra \
+    font-vollkorn font-misc-cyrillic font-mutt-misc font-screen-cyrillic font-winitzki-cyrillic font-cronyx-cyrillic \
+    font-noto-thai font-noto-tibetan font-ipa font-sony-misc font-daewoo-misc font-jis-misc
 
 RUN pnpm install
 

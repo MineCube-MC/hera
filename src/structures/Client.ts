@@ -4,6 +4,7 @@ import {
   ClientEvents,
   Collection,
   EmbedBuilder,
+  TextChannel,
 } from "discord.js";
 import { CommandType, ExtendedInteraction } from "../typings/Command";
 import glob from "glob";
@@ -20,6 +21,8 @@ import {
 } from "../typings/Activity";
 import { DisTube } from "distube";
 import { SpotifyPlugin } from "@distube/spotify";
+import { YtDlpPlugin } from "@distube/yt-dlp";
+import { SoundCloudPlugin } from "@distube/soundcloud";
 import axios from "axios";
 
 const globPromise = promisify(glob);
@@ -57,7 +60,7 @@ export class ExtendedClient extends Client {
       emitNewSongOnly: true,
       leaveOnFinish: true,
       emitAddSongWhenCreatingQueue: false,
-      plugins: [new SpotifyPlugin()],
+      plugins: [new SpotifyPlugin(), new SoundCloudPlugin(), new YtDlpPlugin()],
     });
 
     const status = (queue) =>
@@ -71,82 +74,103 @@ export class ExtendedClient extends Client {
           : "Off"
       }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
     this.distube
-      .on("playSong", (queue, song) =>
-        queue.textChannel.send({
-          embeds: [
-            new MusicEmbed()
-              .setColor("Green")
-              .setDescription(
-                `🎶 | Playing \`${song.name}\` - \`${
-                  song.formattedDuration
-                }\`\nRequested by: ${song.user}\n${status(queue)}`
-              )
-              .setThumbnail(song.thumbnail),
-          ],
-        })
-      )
-      .on("addSong", (queue, song) =>
-        queue.textChannel.send({
-          embeds: [
-            new MusicEmbed()
-              .setColor("Green")
-              .setDescription(
-                `🎶 | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
-              )
-              .setThumbnail(song.thumbnail),
-          ],
-        })
-      )
-      .on("addList", (queue, playlist) =>
-        queue.textChannel.send({
-          embeds: [
-            new MusicEmbed()
-              .setColor("Green")
-              .setDescription(
-                `🎶 | Added \`${playlist.name}\` playlist (${
-                  playlist.songs.length
-                } songs) to queue\n${status(queue)}`
-              )
-              .setThumbnail(playlist.thumbnail),
-          ],
-        })
-      )
+      .on("disconnect", (queue) => {
+        // Check if it's a text channel
+        if (queue.textChannel instanceof TextChannel) {
+          queue.textChannel.send({
+            embeds: [
+              new MusicEmbed()
+                .setColor("Red")
+                .setDescription("❌ | Disconnected from the voice channel!"),
+            ],
+          });
+        }
+        queue.stop();
+      })
+      .on("playSong", (queue, song) => {
+        if (queue.textChannel instanceof TextChannel) {
+          queue.textChannel.send({
+            embeds: [
+              new MusicEmbed()
+                .setColor("Green")
+                .setDescription(
+                  `🎶 | Playing \`${song.name}\` - \`${
+                    song.formattedDuration
+                  }\`\nRequested by: ${song.user}\n${status(queue)}`
+                )
+                .setThumbnail(song.thumbnail),
+            ],
+          });
+        }
+      })
+      .on("addSong", (queue, song) => {
+        if (queue.textChannel instanceof TextChannel) {
+          queue.textChannel.send({
+            embeds: [
+              new MusicEmbed()
+                .setColor("Green")
+                .setDescription(
+                  `🎶 | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
+                )
+                .setThumbnail(song.thumbnail),
+            ],
+          });
+        }
+      })
+      .on("addList", (queue, playlist) => {
+        if (queue.textChannel instanceof TextChannel)
+          queue.textChannel.send({
+            embeds: [
+              new MusicEmbed()
+                .setColor("Green")
+                .setDescription(
+                  `🎶 | Added \`${playlist.name}\` playlist (${
+                    playlist.songs.length
+                  } songs) to queue\n${status(queue)}`
+                )
+                .setThumbnail(playlist.thumbnail),
+            ],
+          });
+      })
       .on("error", (channel, e) => {
-        if (channel)
+        if (channel && channel instanceof TextChannel)
           channel.send(
             `⛔ | An error encountered: ${e.toString().slice(0, 1974)}`
           );
         else console.error(e);
       })
-      .on("empty", (queue) =>
-        queue.textChannel.send({
-          embeds: [
-            new MusicEmbed()
-              .setColor("Red")
-              .setDescription(
-                "⛔ | Voice channel is empty! Leaving the channel..."
-              ),
-          ],
-        })
-      )
-      .on("searchNoResult", (message, query) =>
-        message.channel.send({
-          embeds: [
-            new MusicEmbed()
-              .setColor("Red")
-              .setDescription(`⛔ | No result found for \`${query}\`!`),
-          ],
-        })
-      )
-      .on("finish", (queue) =>
-        queue.textChannel.send({
-          embeds: [
-            new MusicEmbed()
-              .setColor("Green")
-              .setDescription("🏁 | Queue finished!"),
-          ],
-        })
-      );
+      .on("empty", (queue) => {
+        if (queue.textChannel instanceof TextChannel)
+          queue.textChannel.send({
+            embeds: [
+              new MusicEmbed()
+                .setColor("Red")
+                .setDescription(
+                  "⛔ | Voice channel is empty! Leaving the channel..."
+                ),
+            ],
+          });
+      })
+      .on("searchNoResult", (message, query) => {
+        if (message.channel instanceof TextChannel)
+          message.channel.send({
+            embeds: [
+              new MusicEmbed()
+                .setColor("Red")
+                .setDescription(`⛔ | No result found for \`${query}\`!`),
+            ],
+          });
+      })
+      .on("finish", (queue) => {
+        if (queue.textChannel instanceof TextChannel)
+          queue.textChannel.send({
+            embeds: [
+              new MusicEmbed()
+                .setColor("Green")
+                .setDescription("🏁 | Queue finished!"),
+            ],
+          });
+      });
   }
 
   async createTogetherCode(

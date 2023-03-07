@@ -60,12 +60,18 @@ export class ExtendedClient extends Client {
     this.on("ready", () => {});
 
     this.distube = new DisTube(this, {
-      emitNewSongOnly: true,
-      leaveOnFinish: true,
       leaveOnStop: true,
+      emitNewSongOnly: true,
       emitAddSongWhenCreatingQueue: false,
+      emitAddListWhenCreatingQueue: false,
 
-      plugins: [new SpotifyPlugin(), new SoundCloudPlugin(), new YtDlpPlugin()],
+      plugins: [
+        new SpotifyPlugin({
+          emitEventsAfterFetching: true,
+        }),
+        new SoundCloudPlugin(),
+        new YtDlpPlugin(),
+      ],
     });
 
     const status = (queue) =>

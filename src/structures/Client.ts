@@ -74,6 +74,17 @@ export class ExtendedClient extends Client {
       ],
     });
 
+    // On bot disconnect, stop the music
+    this.on("voiceStateUpdate", (oldState, newState) => {
+      if (
+        oldState.member?.id === this.user?.id &&
+        oldState.channel?.members.size === 1
+      ) {
+        const queue = this.distube.getQueue(oldState.guild.id);
+        if (queue) queue.stop();
+      }
+    });
+
     const status = (queue) =>
       `Volume: \`${queue.volume}%\` | Filter: \`${
         queue.filters.names.join(", ") || "Off"
@@ -86,19 +97,6 @@ export class ExtendedClient extends Client {
       }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
     this.distube
       .on("disconnect", (queue) => {
-        // Check if it's a text channel
-        if (
-          queue.textChannel instanceof BaseGuildTextChannel ||
-          queue.textChannel instanceof VoiceChannel
-        ) {
-          queue.textChannel.send({
-            embeds: [
-              new MusicEmbed()
-                .setColor("Red")
-                .setDescription("❌ | Disconnected from the voice channel!"),
-            ],
-          });
-        }
         queue.stop();
       })
       .on("playSong", (queue, song) => {

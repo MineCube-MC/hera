@@ -1,5 +1,6 @@
 import {
   ApplicationCommandDataResolvable,
+  BaseGuildTextChannel,
   Client,
   ClientEvents,
   Collection,
@@ -76,7 +77,7 @@ export class ExtendedClient extends Client {
     this.distube
       .on("disconnect", (queue) => {
         // Check if it's a text channel
-        if (queue.textChannel instanceof TextChannel) {
+        if (queue.textChannel instanceof BaseGuildTextChannel) {
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -88,7 +89,7 @@ export class ExtendedClient extends Client {
         queue.stop();
       })
       .on("playSong", (queue, song) => {
-        if (queue.textChannel instanceof TextChannel) {
+        if (queue.textChannel instanceof BaseGuildTextChannel) {
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -104,7 +105,7 @@ export class ExtendedClient extends Client {
         }
       })
       .on("addSong", (queue, song) => {
-        if (queue.textChannel instanceof TextChannel) {
+        if (queue.textChannel instanceof BaseGuildTextChannel) {
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -118,7 +119,7 @@ export class ExtendedClient extends Client {
         }
       })
       .on("addList", (queue, playlist) => {
-        if (queue.textChannel instanceof TextChannel)
+        if (queue.textChannel instanceof BaseGuildTextChannel)
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -133,14 +134,14 @@ export class ExtendedClient extends Client {
           });
       })
       .on("error", (channel, e) => {
-        if (channel && channel instanceof TextChannel)
+        if (channel && channel instanceof BaseGuildTextChannel)
           channel.send(
             `⛔ | An error encountered: ${e.toString().slice(0, 1974)}`
           );
         else console.error(e);
       })
       .on("empty", (queue) => {
-        if (queue.textChannel instanceof TextChannel)
+        if (queue.textChannel instanceof BaseGuildTextChannel)
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -152,7 +153,7 @@ export class ExtendedClient extends Client {
           });
       })
       .on("searchNoResult", (message, query) => {
-        if (message.channel instanceof TextChannel)
+        if (message.channel instanceof BaseGuildTextChannel)
           message.channel.send({
             embeds: [
               new MusicEmbed()
@@ -162,7 +163,7 @@ export class ExtendedClient extends Client {
           });
       })
       .on("finish", (queue) => {
-        if (queue.textChannel instanceof TextChannel)
+        if (queue.textChannel instanceof BaseGuildTextChannel)
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()

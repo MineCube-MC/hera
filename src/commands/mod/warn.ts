@@ -1,4 +1,9 @@
-import { ApplicationCommandOptionType, GuildMember } from "discord.js";
+import {
+  ApplicationCommandOptionType,
+  BaseGuildTextChannel,
+  GuildMember,
+  TextChannel,
+} from "discord.js";
 import profileSchema from "../../models/profileSchema";
 import { Command } from "../../structures/Command";
 import { ExtendedEmbed } from "../../structures/Embed";
@@ -96,14 +101,15 @@ export default new Command({
           },
         }
       );
-      interaction.channel.send({
-        embeds: [
-          new ExtendedEmbed().setDescription(
-            `You have been warned${reason} by ${interaction.member}.`
-          ),
-        ],
-        content: `${member}`,
-      });
+      if (interaction.channel instanceof BaseGuildTextChannel)
+        interaction.channel.send({
+          embeds: [
+            new ExtendedEmbed().setDescription(
+              `You have been warned${reason} by ${interaction.member}.`
+            ),
+          ],
+          content: `${member}`,
+        });
       return interaction.reply({
         content: `Successfully warned ${member}${reason}.`,
         ephemeral: true,
@@ -125,14 +131,15 @@ export default new Command({
           },
         }
       );
-      interaction.channel.send({
-        embeds: [
-          new ExtendedEmbed().setDescription(
-            `You have been removed a warning by ${interaction.member}.`
-          ),
-        ],
-        content: `${member}`,
-      });
+      if (interaction.channel instanceof BaseGuildTextChannel)
+        interaction.channel.send({
+          embeds: [
+            new ExtendedEmbed().setDescription(
+              `You have been removed a warning by ${interaction.member}.`
+            ),
+          ],
+          content: `${member}`,
+        });
       return interaction.reply({
         content: `Successfully removed warning from ${member}.`,
         ephemeral: true,

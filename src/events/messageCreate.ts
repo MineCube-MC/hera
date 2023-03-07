@@ -2,7 +2,7 @@ import guildSchema from "../models/guildSchema";
 import profileSchema from "../models/profileSchema";
 import { Event } from "../structures/Event";
 import Levels from "discord-xp";
-import { TextChannel } from "discord.js";
+import { BaseGuildTextChannel, TextChannel } from "discord.js";
 
 export default new Event("messageCreate", async (message) => {
   const member = message.member;
@@ -69,8 +69,9 @@ export default new Event("messageCreate", async (message) => {
   );
   if (hasLeveledUp) {
     const user = await Levels.fetch(message.author.id, message.guild.id);
-    message.channel.send(
-      `Congratulations, ${message.author}. You made it to level **${user.level}**`
-    );
+    if (message.channel instanceof BaseGuildTextChannel)
+      message.channel.send(
+        `Congratulations, ${message.author}. You made it to level **${user.level}**`
+      );
   }
 });

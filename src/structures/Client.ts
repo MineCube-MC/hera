@@ -1,11 +1,13 @@
 import {
   ApplicationCommandDataResolvable,
   BaseGuildTextChannel,
+  BaseGuildVoiceChannel,
   Client,
   ClientEvents,
   Collection,
   EmbedBuilder,
   TextChannel,
+  VoiceChannel,
 } from "discord.js";
 import { CommandType, ExtendedInteraction } from "../typings/Command";
 import glob from "glob";
@@ -77,7 +79,10 @@ export class ExtendedClient extends Client {
     this.distube
       .on("disconnect", (queue) => {
         // Check if it's a text channel
-        if (queue.textChannel instanceof BaseGuildTextChannel) {
+        if (
+          queue.textChannel instanceof BaseGuildTextChannel ||
+          queue.textChannel instanceof VoiceChannel
+        ) {
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -89,7 +94,10 @@ export class ExtendedClient extends Client {
         queue.stop();
       })
       .on("playSong", (queue, song) => {
-        if (queue.textChannel instanceof BaseGuildTextChannel) {
+        if (
+          queue.textChannel instanceof BaseGuildTextChannel ||
+          queue.textChannel instanceof VoiceChannel
+        ) {
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -105,7 +113,10 @@ export class ExtendedClient extends Client {
         }
       })
       .on("addSong", (queue, song) => {
-        if (queue.textChannel instanceof BaseGuildTextChannel) {
+        if (
+          queue.textChannel instanceof BaseGuildTextChannel ||
+          queue.textChannel instanceof VoiceChannel
+        ) {
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -119,7 +130,10 @@ export class ExtendedClient extends Client {
         }
       })
       .on("addList", (queue, playlist) => {
-        if (queue.textChannel instanceof BaseGuildTextChannel)
+        if (
+          queue.textChannel instanceof BaseGuildTextChannel ||
+          queue.textChannel instanceof VoiceChannel
+        )
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -141,7 +155,10 @@ export class ExtendedClient extends Client {
         else console.error(e);
       })
       .on("empty", (queue) => {
-        if (queue.textChannel instanceof BaseGuildTextChannel)
+        if (
+          queue.textChannel instanceof BaseGuildTextChannel ||
+          queue.textChannel instanceof VoiceChannel
+        )
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()
@@ -163,7 +180,10 @@ export class ExtendedClient extends Client {
           });
       })
       .on("finish", (queue) => {
-        if (queue.textChannel instanceof BaseGuildTextChannel)
+        if (
+          queue.textChannel instanceof BaseGuildTextChannel ||
+          queue.textChannel instanceof VoiceChannel
+        )
           queue.textChannel.send({
             embeds: [
               new MusicEmbed()

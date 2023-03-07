@@ -24,7 +24,6 @@ import {
 } from "../typings/Activity";
 import { DisTube } from "distube";
 import { SpotifyPlugin } from "@distube/spotify";
-import { YtDlpPlugin } from "@distube/yt-dlp";
 import { SoundCloudPlugin } from "@distube/soundcloud";
 import axios from "axios";
 
@@ -70,7 +69,6 @@ export class ExtendedClient extends Client {
           emitEventsAfterFetching: true,
         }),
         new SoundCloudPlugin(),
-        new YtDlpPlugin(),
       ],
     });
 

@@ -25,6 +25,7 @@ import {
 import { DisTube } from "distube";
 import { SpotifyPlugin } from "@distube/spotify";
 import { SoundCloudPlugin } from "@distube/soundcloud";
+import { YtDlpPlugin } from "@distube/yt-dlp";
 import axios from "axios";
 
 const globPromise = promisify(glob);
@@ -63,12 +64,12 @@ export class ExtendedClient extends Client {
       emitNewSongOnly: true,
       emitAddSongWhenCreatingQueue: false,
       emitAddListWhenCreatingQueue: false,
-
       plugins: [
         new SpotifyPlugin({
           emitEventsAfterFetching: true,
         }),
         new SoundCloudPlugin(),
+        new YtDlpPlugin(),
       ],
     });
 

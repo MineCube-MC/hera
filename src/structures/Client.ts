@@ -153,7 +153,11 @@ export class ExtendedClient extends Client {
           });
       })
       .on("error", (channel, e) => {
-        if (channel && channel instanceof BaseGuildTextChannel)
+        if (
+          channel &&
+          (channel instanceof BaseGuildTextChannel ||
+            channel instanceof VoiceChannel)
+        )
           channel.send(
             `⛔ | An error encountered: ${e.toString().slice(0, 1974)}`
           );
@@ -175,7 +179,10 @@ export class ExtendedClient extends Client {
           });
       })
       .on("searchNoResult", (message, query) => {
-        if (message.channel instanceof BaseGuildTextChannel)
+        if (
+          message.channel instanceof BaseGuildTextChannel ||
+          message.channel instanceof VoiceChannel
+        )
           message.channel.send({
             embeds: [
               new MusicEmbed()

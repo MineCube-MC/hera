@@ -16,7 +16,6 @@ import { MusicEmbed } from "./Embed";
 import { DisTube } from "distube";
 import { SpotifyPlugin } from "@distube/spotify";
 import { SoundCloudPlugin } from "@distube/soundcloud";
-import { YtDlpPlugin } from "@distube/yt-dlp";
 
 const globPromise = promisify(glob);
 
@@ -47,7 +46,6 @@ export class ExtendedClient extends Client {
           emitEventsAfterFetching: true,
         }),
         new SoundCloudPlugin(),
-        new YtDlpPlugin(),
       ],
     });
 

@@ -7,8 +7,6 @@ import {
   VoiceChannel,
 } from "discord.js";
 import { CommandType } from "../typings/Command";
-import glob from "glob";
-import { promisify } from "util";
 import { RegisterCommandsOptions } from "../typings/client";
 import { Event } from "./Event";
 import { GiveawaysManager } from "discord-giveaways";
@@ -16,8 +14,7 @@ import { MusicEmbed } from "./Embed";
 import { DisTube } from "distube";
 import { SpotifyPlugin } from "@distube/spotify";
 import { SoundCloudPlugin } from "@distube/soundcloud";
-
-const globPromise = promisify(glob);
+import globPromise from "glob-promise";
 
 export class ExtendedClient extends Client {
   commands: Collection<string, CommandType> = new Collection();

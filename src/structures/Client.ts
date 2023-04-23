@@ -1,32 +1,23 @@
 import {
   ApplicationCommandDataResolvable,
   BaseGuildTextChannel,
-  BaseGuildVoiceChannel,
   Client,
   ClientEvents,
   Collection,
-  EmbedBuilder,
-  TextChannel,
   VoiceChannel,
 } from "discord.js";
-import { CommandType, ExtendedInteraction } from "../typings/Command";
+import { CommandType } from "../typings/Command";
 import glob from "glob";
 import { promisify } from "util";
 import { RegisterCommandsOptions } from "../typings/client";
 import { Event } from "./Event";
 import Levels from "discord-xp";
 import { GiveawaysManager } from "discord-giveaways";
-import mongoose, { connect } from "mongoose";
 import { MusicEmbed } from "./Embed";
-import {
-  DiscordActivityType,
-  DiscordActivityValues,
-} from "../typings/Activity";
 import { DisTube } from "distube";
 import { SpotifyPlugin } from "@distube/spotify";
 import { SoundCloudPlugin } from "@distube/soundcloud";
 import { YtDlpPlugin } from "@distube/yt-dlp";
-import axios from "axios";
 
 const globPromise = promisify(glob);
 
@@ -42,18 +33,6 @@ export class ExtendedClient extends Client {
   }
 
   async start() {
-    mongoose.set("strictQuery", true);
-    await connect(
-      process.env.mongoUri,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      },
-      () => {
-        console.log("Database connected");
-      }
-    );
-
     this.registerModules();
     this.login(process.env.botToken);
 
@@ -204,54 +183,6 @@ export class ExtendedClient extends Client {
             ],
           });
       });
-  }
-
-  async createTogetherCode(
-    voiceChannelId: string,
-    option: DiscordActivityType
-  ) {
-    /**
-     * @param {string} code The invite link (only use the blue link)
-     */
-    let returnData = {
-      code: "none",
-    };
-    if (option && DiscordActivityValues[option.toLowerCase()]) {
-      let applicationID = DiscordActivityValues[option.toLowerCase()];
-      try {
-        const response = await axios.post(
-          `https://discord.com/api/v10/channels/${voiceChannelId}/invites`,
-          JSON.stringify({
-            max_age: 86400,
-            max_uses: 0,
-            target_application_id: applicationID,
-            target_type: 2,
-            temporary: false,
-            validate: null,
-          }),
-          {
-            headers: {
-              Authorization: `Bot ${this.token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (response.data.error || !response.data.code)
-          throw new Error("An error occured while retrieving data!");
-        if (Number(response.data.code) === 50013)
-          console.warn(
-            "The bot lacks permissions to generate the activity code."
-          );
-        returnData.code = response.data.code;
-      } catch (err) {
-        throw new Error(
-          "An error occured while starting the Discord Activity!"
-        );
-      }
-      return returnData;
-    } else {
-      throw new SyntaxError("Invalid option!");
-    }
   }
 
   async importFile(filePath: string) {

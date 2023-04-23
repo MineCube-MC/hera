@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/apexiedev/hera/main/assets/logo_nobg.png" alt="Hera Logo" align="right" height="256px">
 <div align="center">
   <h1>Hera</h1>
-  <h3>A new multi-purpose Discord Bot made in TypeScript</h3>
+  <h3>A new entertaining Discord Bot made in TypeScript</h3>
 
 ![Repository Size](https://img.shields.io/github/repo-size/apexiedev/hera)
 ![Issues](https://img.shields.io/github/issues/apexiedev/hera)
@@ -21,8 +21,13 @@
 
 ### Installation and launching:
 
-- Install **[Node.js](https://nodejs.org/)** on your machine. **Version 16.6 or higher is required!**
-- Install **[Yarn](https://yarnpkg.com/)** on your machine.
+- Install **[pnpm](https://pnpm.io/)** on your machine.
+- Install the latest **[Node.js](https://nodejs.org/)** version using pnpm:
+
+```console
+pnpm env use --global latest
+```
+
 - Clone the repository on your machine.
 - Open your console in the cloned repository.
 - To complete the installation, write the following command in the console:
@@ -56,11 +61,10 @@ pnpm run start:prod
 - Open the **.env** file using any text editor.
 - This file contains general bot settings in this format:
 
-|  Field name  |          Example value           |                                 Description                                 |
-| :----------: | :------------------------------: | :-------------------------------------------------------------------------: |
-|   botToken   |               "-"                |   The token you copied from the Developer Portal, used to login the bot.    |
-|   clientId   |               "-"                |   The client ID you copied from the Developer Portal, used for the auth.    |
-| clientSecret |               "-"                | The client secret you copied from the Developer Portal, also used for auth. |
-|   guildId    |       "924159913024958505"       |              This is the guild used in a developer environment              |
-|   mongoUri   | "mongodb://127.0.0.1:27017/hera" |                The MongoDB server URI, used for the database                |
-| environment  |      "dev", "debug", "prod"      |       Sets the environment of the bot. Useful for guild only commands       |
+|  Field name  |     Example value      |                                 Description                                 |
+| :----------: | :--------------------: | :-------------------------------------------------------------------------: |
+|   botToken   |          "-"           |   The token you copied from the Developer Portal, used to login the bot.    |
+|   clientId   |          "-"           |   The client ID you copied from the Developer Portal, used for the auth.    |
+| clientSecret |          "-"           | The client secret you copied from the Developer Portal, also used for auth. |
+|   guildId    |  "924159913024958505"  |              This is the guild used in a developer environment              |
+| environment  | "dev", "debug", "prod" |       Sets the environment of the bot. Useful for guild only commands       |

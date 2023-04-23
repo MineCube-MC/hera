@@ -11,7 +11,6 @@ import glob from "glob";
 import { promisify } from "util";
 import { RegisterCommandsOptions } from "../typings/client";
 import { Event } from "./Event";
-import Levels from "discord-xp";
 import { GiveawaysManager } from "discord-giveaways";
 import { MusicEmbed } from "./Embed";
 import { DisTube } from "distube";
@@ -250,9 +249,6 @@ export class ExtendedClient extends Client {
       const event: Event<keyof ClientEvents> = await this.importFile(filePath);
       this.on(event.event, event.run);
     });
-
-    // Leveling
-    Levels.setURL(process.env.mongoUri);
 
     // Giveaways
     this.giveaways = new GiveawaysManager(this, {

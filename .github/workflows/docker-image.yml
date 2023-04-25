@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  x86_64:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,3 +17,17 @@ jobs:
         run: docker login -u imlightymc -p ${{ secrets.DOCKER_KEY }}
       - name: Push the Docker image
         run: docker push imlightymc/hera:latest
+
+  arm64:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_TARGET_PLATFORM: linux/arm64
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag imlightymc/hera
+      - name: Login to docker.io
+        run: docker login -u imlightymc -p ${{ secrets.DOCKER_KEY }}
+      - name: Push the Docker image
+        run: docker push imlightymc/hera:arm64

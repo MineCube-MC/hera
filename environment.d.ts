@@ -5,11 +5,7 @@ declare global {
       clientId: string;
       clientSecret: string;
       guildId: string;
-      mongoUri: string;
       environment: "dev" | "prod" | "debug";
-      port: string;
-      socketPort: string;
-      socketKey: string;
     }
   }
 }

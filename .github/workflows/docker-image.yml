@@ -29,6 +29,8 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Build the Docker image
         run: docker build . --file Dockerfile.arm64 --tag imlightymc/hera
+      - name: Tag the Docker image
+        run: docker tag imlightymc/hera imlightymc/hera:arm64
       - name: Login to docker.io
         run: docker login -u imlightymc -p ${{ secrets.DOCKER_KEY }}
       - name: Push the Docker image

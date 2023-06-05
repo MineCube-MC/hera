@@ -1,17 +1,19 @@
-FROM arm64v8/node:latest
+ARG BUN_VERSION=v0.6.7
 
-WORKDIR /app
+FROM --platform=linux/arm64 debian:stable-slim AS get
+ARG BUN_VERSION
 
-COPY package.json .
+WORKDIR /tmp/
+RUN apt-get update && apt-get install -y wget unzip
+RUN wget -q https://github.com/oven-sh/bun/releases/download/bun-${BUN_VERSION}/bun-linux-aarch64.zip \
+ && unzip bun-linux-aarch64.zip && mv ./bun-linux-aarch64/bun /tmp/bun
 
+FROM --platform=linux/arm64 debian:stable-slim
+COPY --from=get /tmp/bun /usr/local/bin
+
+WORKDIR /opt/app
 COPY . .
 
-RUN wget -qO /bin/pnpm "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linux-arm64" && chmod +x /bin/pnpm
+RUN bun install
 
-RUN apt update && apt install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-
-RUN pnpm install
-
-RUN pnpm run build
-
-CMD ["node", "dist/src/index.js"]
+CMD ["bun", "run", "src/index.ts"]

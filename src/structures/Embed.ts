@@ -1,13 +1,13 @@
 import { EmbedBuilder } from "discord.js";
-import { createdBy } from "../../assets/locale.json";
+import locale from "../../assets/locale.json";
 
 export class ExtendedEmbed extends EmbedBuilder {
   constructor() {
     super();
     this.setColor("#ECAF0D");
     this.setFooter({
-      text: createdBy.text,
-      iconURL: createdBy.icon,
+      text: locale.createdBy.text,
+      iconURL: locale.createdBy.icon,
     });
   }
 }
@@ -15,7 +15,7 @@ export class ExtendedEmbed extends EmbedBuilder {
 export class MusicEmbed extends EmbedBuilder {
   constructor() {
     super();
-    this.setAuthor({ name: "Plenus Music System", iconURL: createdBy.icon });
+    this.setAuthor({ name: "Hera Music System", iconURL: locale.createdBy.icon });
     this.setColor("#16C36D");
   }
 }

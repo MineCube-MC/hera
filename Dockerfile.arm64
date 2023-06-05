@@ -1,11 +1,8 @@
-ARG BUN_VERSION=v0.6.7
-
 FROM --platform=linux/arm64 debian:stable-slim AS get
-ARG BUN_VERSION
 
 WORKDIR /tmp/
 RUN apt-get update && apt-get install -y wget unzip build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-RUN wget -q https://github.com/oven-sh/bun/releases/download/bun-${BUN_VERSION}/bun-linux-aarch64.zip \
+RUN wget -q https://github.com/oven-sh/bun/releases/latest/download/bun-linux-aarch64.zip \
  && unzip bun-linux-aarch64.zip && mv ./bun-linux-aarch64/bun /tmp/bun
 
 FROM --platform=linux/arm64 debian:stable-slim

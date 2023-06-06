@@ -1,16 +1,11 @@
-FROM --platform=linux/arm64 debian:stable-slim AS get
-
-WORKDIR /tmp/
-RUN apt-get update && apt-get install -y wget unzip build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-RUN wget -q https://github.com/oven-sh/bun/releases/latest/download/bun-linux-aarch64.zip \
- && unzip bun-linux-aarch64.zip && mv ./bun-linux-aarch64/bun /tmp/bun
-
 FROM --platform=linux/arm64 debian:stable-slim
-COPY --from=get /tmp/bun /usr/local/bin
 
-WORKDIR /opt/app
+RUN apt update && apt install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
+RUN curl https://bun.sh/install | bash
+
 COPY . .
 
-RUN bun install
+RUN bun install --production
 
 CMD ["bun", "run", "src/index.ts"]

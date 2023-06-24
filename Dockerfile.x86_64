@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-RUN apt update && apt install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev curl
+RUN apt update && apt install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev curl unzip
 
 RUN curl https://bun.sh/install | bash
 

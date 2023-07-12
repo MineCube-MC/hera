@@ -5,6 +5,9 @@
   "scripts": {
     "lint": "eslint --fix",
     "start": "bun run src/index.ts",
+    "start:node": "ts-node src/index.ts",
+    "start:node_dev": "ts-node-dev src/index.ts",
+    "start:node_prod": "node dist/src/index.js",
     "ncu": "ncu -u"
   },
   "keywords": [],

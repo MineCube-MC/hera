@@ -7,6 +7,7 @@
     "start": "bun run src/index.ts",
     "start:node": "ts-node src/index.ts",
     "start:node_dev": "ts-node-dev src/index.ts",
+    "build": "tsc",
     "start:node_prod": "node dist/src/index.js",
     "ncu": "ncu -u"
   },

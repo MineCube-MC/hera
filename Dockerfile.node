@@ -1,0 +1,11 @@
+FROM node:lts
+
+WORKDIR /opt/app
+
+COPY . .
+
+RUN npm install --save-dev
+
+RUN npm run build
+
+CMD ["npm", "run", "start:node_prod"]

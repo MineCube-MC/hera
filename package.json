@@ -21,7 +21,7 @@
     "@discordjs/voice": "^0.16.0",
     "@distube/soundcloud": "^1.3.3",
     "@distube/spotify": "^1.5.1",
-    "@distube/ytdl-core": "^4.11.10",
+    "@distube/ytdl-core": "^4.11.11",
     "axios": "^1.4.0",
     "cors": "^2.8.5",
     "discord-giveaways": "^6.0.1",

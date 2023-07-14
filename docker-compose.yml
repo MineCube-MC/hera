@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   bot:
-    image: imlighty/hera:latest
+    image: imlightymc/hera:latest
     environment:
       - botToken=<your bot token>
       - clientId=<your application client id>
@@ -14,7 +14,7 @@ services:
     depends_on:
       - lavalink
   lavalink:
-    image: ghcr.io/lavalink-devs/lavalink:4
+    image: ghcr.io/lavalink-devs/lavalink:v4
     restart: unless-stopped
     environment:
       - _JAVA_OPTIONS=-Xmx1G

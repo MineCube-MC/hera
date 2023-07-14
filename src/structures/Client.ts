@@ -36,7 +36,7 @@ export class ExtendedClient extends Client {
     })
 
     this.moon = new MoonlinkManager(
-      [{ host: "localhost", port: 2333, password: "youshallnotpass" }],
+      [{ host: process.env.lavalinkHost, port: 2333, password: "youshallnotpass" }],
       {
 
       },

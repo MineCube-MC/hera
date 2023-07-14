@@ -48,6 +48,10 @@ export class ExtendedClient extends Client {
     this.moon.on('nodeCreate', () => {
       console.log(`Lavalink node was connected`)
     })
+
+    this.moon.on('nodeError', (node, err) => {
+      console.error(err)
+    })
   }
 
   async importFile(filePath: string) {

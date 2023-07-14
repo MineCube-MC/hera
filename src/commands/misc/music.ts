@@ -127,10 +127,11 @@ export default new Command({
             }
           } else {
             let formattedDuration: string
-            let seconds = roundToInt(res.tracks[0].duration / 1000)
-            let minutes = roundToInt(seconds / 60)
-            if (seconds / 60 > 0) {
-              formattedDuration = `${separateDigits(minutes).length === 1 ? "0" : ""}${minutes}:${separateDigits(seconds).length === 1 ? "0" : ""}${seconds}`
+            let seconds = toInt32(res.tracks[0].duration / 1000)
+            let minutes = toInt32(seconds / 60)
+            let secondsFormatted = toInt32(seconds % 60)
+            if (minutes > 0) {
+              formattedDuration = `${separateDigits(minutes).length === 1 ? "0" : ""}${minutes}:${separateDigits(secondsFormatted).length === 1 ? "0" : ""}${secondsFormatted}`
             } else {
               formattedDuration = seconds + seconds > 1 ? " seconds" : " second"
             }
@@ -184,10 +185,11 @@ export default new Command({
           }
           player.skip()
           let formattedDuration: string
-          let seconds = roundToInt(player.current.duration / 1000)
-          let minutes = roundToInt(seconds / 60)
-          if (seconds / 60 > 0) {
-            formattedDuration = `${separateDigits(minutes).length === 1 ? "0" : ""}${minutes}:${separateDigits(seconds).length === 1 ? "0" : ""}${seconds}`
+          let seconds = toInt32(player.current.duration / 1000)
+          let minutes = toInt32(seconds / 60)
+          let secondsFormatted = toInt32(seconds % 60)
+          if (minutes > 0) {
+            formattedDuration = `${separateDigits(minutes).length === 1 ? "0" : ""}${minutes}:${separateDigits(secondsFormatted).length === 1 ? "0" : ""}${secondsFormatted}`
           } else {
             formattedDuration = seconds + seconds > 1 ? " seconds" : " second"
           }
@@ -258,8 +260,6 @@ export default new Command({
 })
 
 type Int = number & { __int__: void }
-
-const roundToInt = (num: number): Int => Math.round(num) as Int
 
 function separateDigits(num: number): number[] {
   let arr: number[] = []

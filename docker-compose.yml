@@ -9,11 +9,13 @@ services:
       - clientSecret=<your application client secret>
       - environment=prod
       - guildId=<the bot's support guild id>
+      - lavalinkHost=hera-lavalink
     networks:
       - lavalink
     depends_on:
       - lavalink
   lavalink:
+    container_name: hera-lavalink
     image: ghcr.io/lavalink-devs/lavalink:v4
     restart: unless-stopped
     environment:

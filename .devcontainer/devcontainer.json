@@ -37,39 +37,9 @@
         "scm.defaultViewMode": "tree",
         "debug.internalConsoleOptions": "neverOpen",
 
-        "eslint.validate": ["javascript", "typescript"],
-        "eslint.workingDirectories": [
-          {
-            "directory": "./test-project",
-            "changeProcessCWD": true
-          }
-        ],
         "liveServer.settings.NoBrowser": true,
         "liveServer.settings.port": 5000
-      },
-      "extensions": [
-        "humao.rest-client",
-        "github.vscode-pull-request-github",
-
-        "visualstudioexptteam.vscodeintellicode",
-        "visualstudiotxptteam.vscodeintellicode-completions",
-
-        "ms-azuretools.vscode-docker",
-
-        "dbaeumer.vscode-eslint",
-        "christian-kohler.npm-intellisense",
-        "eg2.vscode-npm-script",
-
-        "ritwickdey.liveserver",
-        "ritwickdey.live-sass",
-
-        "ms-vscode.wordcount",
-        "editorconfig.editorconfig",
-        "streetsidesoftware.code-spell-checker",
-        "redhat.fabric8-analytics",
-        "redhat.vscode-yaml",
-        "bierner.github-markdown-preview"
-      ]
+      }
     }
   },
 

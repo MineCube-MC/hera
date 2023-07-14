@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  bot:
+    image: imlighty/hera:latest
+    environment:
+      - botToken=<your bot token>
+      - clientId=<your application client id>
+      - clientSecret=<your application client secret>
+      - environment=prod
+      - guildId=<the bot's support guild id>
+    networks:
+      - lavalink
+    depends_on:
+      - lavalink
+  lavalink:
+    image: ghcr.io/lavalink-devs/lavalink:4
+    restart: unless-stopped
+    environment:
+      - _JAVA_OPTIONS=-Xmx1G
+      - SERVER_PORT=2333
+      - LAVALINK_SERVER_PASSWORD=youshallnotpass
+    volumes:
+      - ./application.yml:/opt/Lavalink/application.yml
+      - ./plugins/:/opt/Lavalink/plugins/
+    networks:
+      - lavalink
+
+networks:
+  lavalink:
+    name: lavalink

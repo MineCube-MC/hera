@@ -1,5 +1,5 @@
 # [Choice] Debian OS version: bullseye, buster
-FROM --platform=linux/amd64 mcr.microsoft.com/vscode/devcontainers/base:dev-bullseye
+FROM --platform=linux/amd64 mcr.microsoft.com/vscode/devcontainers/base:dev-bookworm
 
 ARG USERNAME=vscode
 ARG USER_UID=1000

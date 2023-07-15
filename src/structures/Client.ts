@@ -37,9 +37,7 @@ export class ExtendedClient extends Client {
 
     this.moon = new MoonlinkManager(
       [{ host: process.env.lavalinkHost, port: 2333, password: "youshallnotpass" }],
-      {
-
-      },
+      {},
       (guild, sPayload) => {
         this.guilds.cache.get(guild).shard.send(JSON.parse(sPayload))
       }

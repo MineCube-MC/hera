@@ -106,6 +106,7 @@ export default new Command({
             setMute: false
           })
           let res = await client.moon.search(query)
+          client.moon.spotify.check(query)
           if (res.loadType === 'error') {
             return interaction.reply({
               content: `⛔ | Load failed.`
@@ -209,16 +210,14 @@ export default new Command({
 
           switch (option) {
             case "loop":
-              if (player.loop == 0)
-                player.setLoop(1)
-              else
+              embed.setColor("Purple")
+              if (player.loop == 1) {
                 player.setLoop(0)
-              embed
-                .setColor("Purple")
-                .setDescription(
-                  `🔁 Looping has been ${player.loop == 1 ? "enabled" : "disabled"
-                  }`
-                )
+                embed.setDescription(`🔁 Looping has been disabled`)
+              } else {
+                player.setLoop(1)
+                embed.setDescription(`🔁 Looping has been enabled`)
+              }
               return interaction.reply({ embeds: [embed], ephemeral: true })
             case "pause":
               if (player.paused) return interaction.reply({

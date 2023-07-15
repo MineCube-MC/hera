@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/apexiedev/hera/main/assets/logo_nobg.png" alt="Hera Logo" align="right" height="256px">
+<img src="assets/logo_nobg.png" alt="Hera Logo" align="right" height="256px">
 <div align="center">
   <h1>Hera</h1>
   <h3>A new entertaining Discord Bot made in TypeScript</h3>
@@ -11,47 +11,44 @@
 
 ---
 
-### Online on:
+## Online in:
 
 - [Apexie's World](https://dsc.gg/apexie)
-- [Hera Support](https://discord.gg/CNTz9fDYYJ)
 - Many other servers
 
 ---
 
-### Installation and launching:
+## Installation and launching:
 
-- Install **[pnpm](https://pnpm.io/)** on your machine.
-- Install the latest **[Node.js](https://nodejs.org/)** version using pnpm:
+### Docker
+
+The Docker installation is pretty straight-forward. You can look at our [**docker-compose.yml**](docker-compose.yml) file to see an example of deployment of the bot. After doing your changes to the file, write the following command in the console (assuming you have Docker and the Docker Compose plugin installed):
 
 ```console
-pnpm env use --global latest
+docker compose up -d
 ```
 
+### Manual
+
+- Install **[bun](https://bun.sh/)** on your machine.
 - Clone the repository on your machine.
 - Open your console in the cloned repository.
 - To complete the installation, write the following command in the console:
 
 ```console
-pnpm install
+bun install
 ```
 
 - After installation, you will need to **[configure the bot](#bot-config)**.
-- Build the bot using the following command:
-
-```console
-pnpm run build
-```
-
 - To start the bot, write the following command in the console:
 
 ```console
-pnpm run start:prod
+bun run start
 ```
 
 ---
 
-### Bot config:
+## Bot config:
 
 **DISCLAIMER: We won't help you rebranding the bot for any other server. If you really want to do that, then you need to figure it out yourself.**
 
@@ -68,3 +65,4 @@ pnpm run start:prod
 | clientSecret |          "-"           | The client secret you copied from the Developer Portal, also used for auth. |
 |   guildId    |  "924159913024958505"  |              This is the guild used in a developer environment              |
 | environment  | "dev", "debug", "prod" |       Sets the environment of the bot. Useful for guild only commands       |
+| lavalinkHost |          "-"           |          The Lavalink host used for playing music in voice channels         |
